@@ -1,24 +1,33 @@
-# crud-adminfaces
+# Plataforma para Avaliação de Desempenho Logístico
 
-<p> VersÃ£o final do curso Web disponibilizado gratuitamente atravÃ©s do Youtube</p>
+<p> O projeto está vinculado ao Mestrado em Desenvolvimento de Tecnologia do Instituos LACTEC e o Programa CEDI (Centro de Desenvolvimento em Informática) do Instituto Federal do Paraná - Campus Paranavaí </p>
 
-## Objetivo
+## Objetivos
 
-Aprenda a desenvolver um crud RESPONSIVO, utilizando: Java, Bootstrap, Primefaces, AdminLTE, JSF, Hibernate e MySql.
+
 
 ## Tecnologias
 
 * Java
 * Bootstrap
 * Primefaces
-* AdminLTE
 * JSF
 * Hibernate
 * MySql
 * Eclipse
 * Tomcat
+* JasperReports
+* CDI
+* Arquitetura REST com Java: JAX-RS
+* Spring Security
+* C3P0
+* Java Mail
 
 ## Link
+http://www.institutoslactec.org.br/
+http://paranavai.ifpr.edu.br/
 
-[Acesso vÃ­deos aulas](https://www.youtube.com/watch?v=P0uVDm9yZ7o&list=PL2OfKBFhHB0JrRd1YErlWh5epD6zDrCXU)
+## Contato
+frank.willian@ifpr.edu.br
+
 
