@@ -1,6 +1,6 @@
 # Plataforma para Avaliação de Desempenho Logístico
 
-<p> O projeto está vinculado ao Mestrado em Desenvolvimento de Tecnologia do Instituos LACTEC e o Programa CEDI (Centro de Desenvolvimento em Informática) do Instituto Federal do Paraná - Campus Paranavaí </p>
+<p> O projeto está vinculado ao Mestrado em Desenvolvimento de Tecnologia do Institutos LACTEC e o Programa CEDI (Centro de Desenvolvimento em Informática) do Instituto Federal do Paraná - Campus Paranavaí </p>
 
 ## Objetivos
 
@@ -24,8 +24,8 @@
 * Java Mail
 
 ## Link
-http://www.institutoslactec.org.br/
-http://paranavai.ifpr.edu.br/
+* http://www.institutoslactec.org.br/
+* http://paranavai.ifpr.edu.br/
 
 ## Contato
 frank.willian@ifpr.edu.br
