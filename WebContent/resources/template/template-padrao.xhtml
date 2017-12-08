@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta charset="utf-8"></meta>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+	<title>ADL</title>
+	<meta
+		content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+		name="viewport"></meta>
+
+	<link rel="shortcut icon"
+		href="#{request.contextPath}/resources/img/favicon.png" />
+
+
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources/bootstrap/css/bootstrap.min.css" />
+
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources/dist/css/AdminLTE.min.css" />
+
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources/dist/css/skins/skin-blue.min.css" />
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" />
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
+
+
+	<style>
+.bs-docs-header {
+	position: relative;
+	margin-top: 15%;
+	padding: 10px 10px 10px 10px;
+	text-align: center;
+}
+
+body {
+	background: url('#{request.contextPath}/resources/img/fundo.png');
+}
+</style>
+
+</h:head>
+<h:body class="hold-transition skin-blue sidebar-mini">
+
+
+	<header class="main-header">
+		<a href="#{request.contextPath}/index.jsf" class="logo"> <span
+			class="logo-mini"><b>C</b></span> <span class="logo-lg"><b>ADL</b></span>
+		</a>
+		<nav class="navbar navbar-static-top" role="navigation">
+			<div class="navbar-custom-menu">
+				<ul class="nav navbar-nav">
+					<li><a href="#" data-toggle="control-sidebar">Avaliação de Desempenho Logístico</a></li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+
+	<div id="mensagem">
+		<ui:insert name="mensagem">
+		</ui:insert>
+	</div>
+
+	<ui:insert name="conteudo">
+
+	</ui:insert>
+	<div class="control-sidebar-bg"></div>
+
+
+	<script type="text/javascript"
+		src="#{request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
+
+	<script type="text/javascript"
+		src="#{request.contextPath}/resources/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+
+	<script type="text/javascript"
+		src="#{request.contextPath}/resources/plugins/fastclick/fastclick.js"></script>
+
+	<script type="text/javascript"
+		src="#{request.contextPath}/resources/dist/js/app.min.js"></script>
+
+	<script type="text/javascript"
+		src="#{request.contextPath}/resources/dist/js/demo.js"></script>
+</h:body>
+</html>

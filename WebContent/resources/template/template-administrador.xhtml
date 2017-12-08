@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta charset="utf-8"></meta>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+	<title>ADL</title>
+	<meta
+		content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+		name="viewport"></meta>
+
+	<link rel="shortcut icon"
+		href="#{request.contextPath}/resources/img/favicon.png" />
+
+
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources/bootstrap/css/bootstrap.min.css" />
+
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources/dist/css/AdminLTE.min.css" />
+
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources/dist/css/skins/skin-blue.min.css" />
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" />
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" />
+	<style>
+.ui-dialog-content {
+	max-height: 500px !important;
+}
+</style>
+</h:head>
+<h:body class="hold-transition skin-blue sidebar-mini">
+
+	<div class="wrapper">
+
+		<header class="main-header">
+
+			<a href="../servidor/inicio.jsf" class="logo"> <span
+				class="logo-mini"><b>C</b></span> <span class="logo-lg"><b>ADL</b></span>
+			</a>
+
+			<nav class="navbar navbar-static-top">
+
+				<a href="#" class="sidebar-toggle" data-toggle="offcanvas"
+					role="button"> <span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+				</a>
+
+				<div class="navbar-custom-menu">
+					<ul class="nav navbar-nav">
+						<li class="dropdown user user-menu"><a href="#"
+							class="dropdown-toggle" data-toggle="dropdown"> <span
+								class="hidden-xs"><i class="fa fa-user"
+									aria-hidden="true"></i> <h:outputText
+										value="#{usuarioSessaoMB.pessoa.usuario}" /> </span>
+										 
+						</a></li>
+						<li><a href="../../j_spring_security_logout"> <i
+								class="fa fa-power-off" aria-hidden="true"></i> Sair
+						</a></li>
+
+					</ul>
+				</div>
+			</nav>
+		</header>
+		<aside class="main-sidebar">
+
+			<section class="sidebar">
+
+				<ul class="sidebar-menu">
+
+					<li><a href="../servidor/tipo.jsf"><i
+							class="fa fa-user-secret" aria-hidden="true"></i> <span>Tipo
+								Servidor</span></a></li>
+					
+				</ul>
+			</section>
+		</aside>
+
+		<div class="content-wrapper">
+			<section class="content">
+				<div id="mensagem">
+					<ui:insert name="mensagem">
+					</ui:insert>
+				</div>
+				<div id="conteudo">
+					<ui:insert name="conteudo">
+					</ui:insert>
+				</div>
+				<div id="modal-confirmacao">
+					<ui:insert name="modal-confirmacao">
+					</ui:insert>
+				</div>
+			</section>
+		</div>
+		<div class="control-sidebar-bg"></div>
+	</div>
+
+	<script type="text/javascript"
+		src="#{request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
+
+	<script type="text/javascript"
+		src="#{request.contextPath}/resources/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+
+	<script type="text/javascript"
+		src="#{request.contextPath}/resources/plugins/fastclick/fastclick.js"></script>
+
+	<script type="text/javascript"
+		src="#{request.contextPath}/resources/dist/js/app.min.js"></script>
+
+	<script type="text/javascript"
+		src="#{request.contextPath}/resources/dist/js/demo.js"></script>
+</h:body>
+</html>

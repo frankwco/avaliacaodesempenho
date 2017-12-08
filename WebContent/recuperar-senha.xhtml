@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="resources/template/template-padrao.xhtml">
+
+	<ui:define name="mensagem">
+		<ui:include src="/componentes/mensagem.xhtml" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<div class="container-fluid">
+			<div style="margin-top: 50px;"
+				class="col-md-4 col-md-offset-4 col-sm-10 col-sm-offset-2">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<div class="panel-title">Cronos - Recuperar senha</div>
+					</div>
+					<div style="padding-top: 30px" class="panel-body">
+						<h:outputText value="Usuário ou senha incorreto"
+							rendered="#{param.error==true}" />
+
+						<h:panelGrid columns="1" styleClass="col-md-12">
+							<h:form>
+								<h:outputText value="#{recuperSenhaLoginMB.mensagem}"
+									id="mensagem" />
+								<div style="padding-top: 10px">
+									<label>E-mail</label>
+									<p:inputText required="true" id="email" styleClass="col-md-12"
+										type="email" value="#{recuperSenhaLoginMB.email}" />
+								</div>
+								<br />
+								<div style="padding-top: 20px">
+									<h:commandButton value="Recuperar"
+										styleClass="ui-priority-primary btn btn-block"
+										update=":dlgInformacao :mensagem"
+										actionListener="#{recuperSenhaLoginMB.recuperarSenhaLogin()}" />
+								</div>
+							</h:form>
+						</h:panelGrid>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

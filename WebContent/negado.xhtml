@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="resources/template/template-padrao.xhtml">
+	<ui:define name="conteudo">
+		<div class="bs-docs-header">
+			<div class="row">
+				<div class="col-md-12">
+					<img alt="Acesso negado" title="Acesso negado"
+						src="#{request.contextPath}/resources/img/acesso-negado.png" />
+
+					<div class="alert alert-danger">
+						<h4>ACESSO NEGADO</h4>
+
+						<a href="../../index.jsf"> <i class="fa fa-home"
+							aria-hidden="true"></i> Voltar à página inicial
+						</a> <a href="../../j_spring_security_logout"> <i
+							class="fa fa-power-off" aria-hidden="true"></i> Sair
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>
