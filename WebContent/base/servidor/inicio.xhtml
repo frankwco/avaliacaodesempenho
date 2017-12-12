@@ -7,12 +7,21 @@
 		<ui:define name="mensagem">
 			<ui:include src="../../componentes/mensagem.xhtml" />
 		</ui:define>
-		<ui:define name="conteudo">
-			<ui:include src="../paginas/inicio/inicio.xhtml" />
-		</ui:define>
 		<ui:define name="modal-confirmacao">
 			<ui:include src="../../componentes/dialog-confirmacao.xhtml" />
 		</ui:define>
+		
+		<ui:define name="conteudo">
+			<!-- TITULO -->
+	<div class="row">
+		<div class="col-md-12">
+			<h1 class="page-header">
+				<i class="fa fa-hourglass-half" aria-hidden="true"></i> Seja bem-vindo
+			</h1>
+		</div>
+	</div>
+	<!-- FIM TITULO -->
+	</ui:define>
 	</ui:composition>
 </h:body>
 </html>

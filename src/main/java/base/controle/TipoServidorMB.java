@@ -28,10 +28,7 @@ public class TipoServidorMB implements Serializable{
 	private Tipo tipoServidor;
 	private List<Tipo> tipoServidorBusca;
 	private List<Tipo> listTipoServidor;
-	
-
-
-	
+		
 	@Inject
 	private GenericDAO<Tipo> daoTipo; //faz as buscas
 	
