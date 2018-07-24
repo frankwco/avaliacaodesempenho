@@ -38,6 +38,25 @@
 	max-height: 500px !important;
 }
 </style>
+
+
+
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/css/default.css" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/css/syntaxhighlighter.css" />
+
+	<style type="text/css">
+.ui-layout-north {
+	z-index: 20 !important;
+	overflow: visible !important;;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+	overflow: visible !important;
+}
+</style>
+
 </h:head>
 <h:body class="hold-transition skin-blue sidebar-mini">
 
@@ -46,7 +65,8 @@
 		<header class="main-header">
 
 			<a href="../servidor/inicio.jsf" class="logo"> <span
-				class="logo-mini"><b>C</b></span> <span class="logo-lg"><b>ADL</b></span>
+				class="logo-mini"><b>C</b></span> <span class="logo-lg"><b>ADL
+						- Home</b></span>
 			</a>
 
 			<nav class="navbar navbar-static-top">
@@ -64,7 +84,7 @@
 								class="hidden-xs"><i class="fa fa-user"
 									aria-hidden="true"></i> <h:outputText
 										value="#{usuarioSessaoMB.pessoa.usuario}" /> </span>
-										 
+
 						</a></li>
 						<li><a href="../../j_spring_security_logout"> <i
 								class="fa fa-power-off" aria-hidden="true"></i> Sair
@@ -80,10 +100,49 @@
 
 				<ul class="sidebar-menu">
 
-					<li><a href="../servidor/tipo.jsf"><i
-							class="fa fa-user-secret" aria-hidden="true"></i> <span>Tipo
-								Servidor</span></a></li>
-					
+					<!-- 					<li><a href="../servidor/tipo.jsf"><i -->
+					<!-- 							class="fa fa-user-secret" aria-hidden="true"></i> <span>Tipo -->
+					<!-- 								Servidor</span></a></li> -->
+
+					<li><a href="../servidor/categoriaIndicador.jsf"><i
+							class="fa fa-user-secret" aria-hidden="true"></i> <span>Categoria
+								Indicador</span></a></li>
+
+					<li><a href="../servidor/indicador.jsf"><i
+							class="fa fa-user-secret" aria-hidden="true"></i> <span>
+								Indicador</span></a></li>
+
+					<li><a href="../servidor/processo.jsf"><i
+							class="fa fa-user-secret" aria-hidden="true"></i> <span>
+								Processo</span></a></li>
+
+					<li><a href="../servidor/selecionarProcessosIndicadores.jsf"><i
+							class="fa fa-user-secret" aria-hidden="true"></i> <span>
+								Selecionar Processos x Grupo de <br/>Indicadores</span></a></li>
+
+					<li><a href="../servidor/selecionarIndicadores.jsf"><i
+							class="fa fa-user-secret" aria-hidden="true"></i> <span>
+								Selecionar Indicadores</span></a></li>
+
+				</ul>
+			</section>
+			<hr />
+			<section class="sidebar">
+
+				<ul class="sidebar-menu">
+
+					<li><a href="../servidor/atividade.jsf"><i
+							class="fa fa-user-secret" aria-hidden="true"></i> <span>
+								Atividade</span></a></li>
+
+					<li><a href="../servidor/lancamento.jsf"><i
+							class="fa fa-user-secret" aria-hidden="true"></i> <span>
+								Movimentação dos Indicadores</span></a></li>
+
+					<li><a href="../servidor/graficos.jsf"><i
+							class="fa fa-user-secret" aria-hidden="true"></i> <span>
+								Gráficos</span></a></li>
+
 				</ul>
 			</section>
 		</aside>

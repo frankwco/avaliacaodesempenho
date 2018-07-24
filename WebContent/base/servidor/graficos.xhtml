@@ -22,7 +22,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<h1 class="page-header">
-				<i class="fa fa-hourglass-half" aria-hidden="true"></i> Seja bem-vindo
+				<i class="fa fa-chart-line" aria-hidden="true"></i> Gráficos
 			</h1>
 			
 		</div>
@@ -32,7 +32,11 @@
 	<div class="row">
 		<div class="col-md-12">
 		<h:form>
-			
+			<p:commandButton value="Últimos 24 Meses" styleClass="ui-priority-primary"  actionListener="#{chartView.chamarGraficos(24)}" update="@form"/> &nbsp;&nbsp;&nbsp;&nbsp;
+			<p:commandButton value="Últimos 12 Meses" styleClass="ui-priority-primary" actionListener="#{chartView.chamarGraficos(12)}" update="@form"/> &nbsp;&nbsp;&nbsp;&nbsp;
+ 			<p:commandButton value="Últimos 3 Meses" styleClass="ui-priority-primary" actionListener="#{chartView.chamarGraficos(3)}" update="@form"/> &nbsp;&nbsp;&nbsp;&nbsp;
+ 			
+		
 			<p:chart type="line" model="#{chartView.lineModel2}" style="height:300px;" widgetVar="chart"/>
 			<p:commandButton type="button" value="Remover o Zoom" icon="ui-icon-cancel" onclick="PF('chart').resetZoom()"/>
 		</h:form>	

@@ -1,6 +1,7 @@
 package base.modelo;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,12 +9,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "tab_tipo")
-public class Tipo implements Serializable {
+@Table(name = "descricaodespesa")
+public class DescricaoDespesa implements Serializable {
 
-	public Tipo() {
+	public DescricaoDespesa() {
 		super();
 	}
 
@@ -24,7 +27,6 @@ public class Tipo implements Serializable {
 
 	private String descricao;
 	
-
 	private Boolean status;
 
 	
@@ -61,5 +63,31 @@ public class Tipo implements Serializable {
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DescricaoDespesa other = (DescricaoDespesa) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
 
 }

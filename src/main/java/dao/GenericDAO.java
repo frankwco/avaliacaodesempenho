@@ -73,17 +73,17 @@ public class GenericDAO<T> implements Serializable{
 		return query.getResultList();
 	}
 
-	
-	
-	
-	public void update(String alteracao) {
-		String sql = "";
-		
-			sql = ("update " + alteracao);
-			int update = manager.createQuery(sql).executeUpdate();
-			
-		
-	}
+//	
+//	
+//	
+//	public void update(String alteracao) {
+//		String sql = "";
+//		
+//			sql = ("update " + alteracao);
+//			int update = manager.createQuery(sql).executeUpdate();
+//			
+//		
+//	}
 	
 	
 	public void updateSenha(String senha, String email) {

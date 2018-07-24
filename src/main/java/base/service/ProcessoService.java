@@ -4,32 +4,29 @@ import java.io.Serializable;
 
 import javax.inject.Inject;
 
-
+import base.modelo.CategoriaIndicador;
+import base.modelo.Processo;
 import base.modelo.Tipo;
 import dao.GenericDAO;
 import util.Transacional;
 
-public class TipoService implements Serializable{
+public class ProcessoService implements Serializable{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	@Inject
-	private GenericDAO<Tipo> daoTipo;
+	private GenericDAO<Processo> dao;
 	
 	@Transacional
-	public void inserirAlterar(Tipo tipo){
+	public void inserirAlterar(Processo tipo){
 		if(tipo.getId()==null){
-			daoTipo.inserir(tipo);
+			dao.inserir(tipo);
 		}else{
-			daoTipo.alterar(tipo);
+			dao.alterar(tipo);
 		}
 	}
-	
-//	@Transacional
-//	public void update(String valor){
-//		daoTipo.update(valor);
-//	}
+
 
 }

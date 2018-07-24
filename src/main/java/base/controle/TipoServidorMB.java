@@ -9,7 +9,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-
 import base.modelo.Tipo;
 import base.service.TipoService;
 import util.ExibirMensagem;
@@ -17,34 +16,31 @@ import util.FecharDialog;
 import util.Mensagem;
 import dao.GenericDAO;
 
-
 @ViewScoped
 @Named("tipoServidorMB")
-public class TipoServidorMB implements Serializable{
-	
-	private static final long serialVersionUID = 1L;
+public class TipoServidorMB implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 
 	private Tipo tipoServidor;
 	private List<Tipo> tipoServidorBusca;
 	private List<Tipo> listTipoServidor;
-		
+
 	@Inject
-	private GenericDAO<Tipo> daoTipo; //faz as buscas
-	
+	private GenericDAO<Tipo> daoTipo; // faz as buscas
+
 	@Inject
 	private TipoService tipoService; // inserir no banco
-	
-	
+
 	@PostConstruct
 	public void inicializar() {
-	
+
 		tipoServidor = new Tipo();
-	
+
 		listTipoServidor = new ArrayList<>();
 		listTipoServidor = daoTipo.listaComStatus(Tipo.class);
 		tipoServidorBusca = new ArrayList<>();
-		
+
 	}
 
 	public void preencherListaTipoServidor(Tipo t) {
@@ -53,7 +49,10 @@ public class TipoServidorMB implements Serializable{
 	}
 
 	public void inativarTipoServidor(Tipo t) {
-		tipoService.update(" Tipo set status = false where id = " + t.getId());
+		t.setStatus(false);
+		tipoService.inserirAlterar(t);
+		// tipoService.update(" Tipo set status = false where id = " +
+		// t.getId());
 		criarNovoObjeto();
 		ExibirMensagem.exibirMensagem(Mensagem.SUCESSO);
 		carregarLista();
@@ -62,23 +61,20 @@ public class TipoServidorMB implements Serializable{
 	public void salvar() {
 
 		try {
-			
-			
+			if (tipoServidor.getId() == null) {
+				tipoServidor.setStatus(true);
+				tipoService.inserirAlterar(tipoServidor);
 
-				if (tipoServidor.getId() == null) {
-					tipoServidor.setStatus(true);
-					tipoService.inserirAlterar(tipoServidor);
+			} else {
+				tipoServidor.setStatus(true);
+				tipoService.inserirAlterar(tipoServidor);
+			}
 
-				} else {
-					tipoServidor.setStatus(true);
-					tipoService.inserirAlterar(tipoServidor);
-				}
+			criarNovoObjeto();
+			ExibirMensagem.exibirMensagem(Mensagem.SUCESSO);
+			FecharDialog.fecharDialogTipoServidor();
+			carregarLista();
 
-				criarNovoObjeto();
-				ExibirMensagem.exibirMensagem(Mensagem.SUCESSO);
-				FecharDialog.fecharDialogTipoServidor();
-				carregarLista();
-			
 		} catch (Exception e) {
 			ExibirMensagem.exibirMensagem(Mensagem.ERRO);
 			e.printStackTrace();
@@ -95,9 +91,6 @@ public class TipoServidorMB implements Serializable{
 	}
 
 	public List<Tipo> getListTipoServidor() {
-
-		//listTipoServidor = daoTipo.listaComStatus(Tipo.class);
-
 		return listTipoServidor;
 	}
 
@@ -121,4 +114,3 @@ public class TipoServidorMB implements Serializable{
 		this.tipoServidorBusca = tipoServidorBusca;
 	}
 }
-

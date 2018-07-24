@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:body>
+	<ui:composition
+		template="../../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">Indicador</h1>
+
+				</div>
+			</div>
+			<!-- FIM TITULO -->
+
+			<!-- BOTAO CADASTRAR -->
+			<div class="row container-fluid">
+				<div class="col-md-12">
+					<ol class="breadcrumb">
+						<h:form id="frmCadastrar">
+							<p:commandButton value="Cadastrar" update=":frmModalSalvar"
+								actionListener="#{indicadorMB.criarNovoObjeto()}"
+								onclick="PF('dlgIndicador').show(); PF('dlgIndicador').content.scrollTop('0')"
+								title="Cadastrar" />
+						</h:form>
+					</ol>
+				</div>
+			</div>
+			<!-- FIM DO BOTAO CADASTRAR -->
+			<!-- TABELA-->
+			<div class="col-md-12">
+				<h:form id="frmTabela">
+					<p:dataTable id="tabela"
+						value="#{indicadorMB.listIndicador}"
+						resizableColumns="true" reflow="true" var="list" rows="10"
+						paginator="true" paginatorPosition="bottom"
+						emptyMessage="Nenhum administrador cadastrado"
+						rowsPerPageTemplate="5,10,15,30,50,100">
+
+						<p:column headerText="Descrição" filterBy="#{list.descricao}"
+							sortBy="#{list.observacao}" filterMatchMode="contains">
+							<h:outputText value="#{list.descricao}" />
+						</p:column>
+
+						<p:column headerText="Categoria"
+							filterBy="#{list.categoriaIndicador.descricao}"
+							sortBy="#{list.categoriaIndicador.descricao}"
+							filterMatchMode="contains">
+							<h:outputText
+								value="#{list.categoriaIndicador.descricao}" />
+						</p:column>
+						
+								<p:column headerText="Processo"
+							filterBy="#{list.processo.descricao}"
+							sortBy="#{list.processo.descricao}"
+							filterMatchMode="contains">
+							<h:outputText
+								value="#{list.processo.descricao}" />
+						</p:column>
+
+						<p:column headerText="Observação" filterBy="#{list.observacao}"
+							sortBy="#{list.observacao}" filterMatchMode="contains">
+							<h:outputText value="#{list.observacao}" />
+						</p:column>
+
+						<p:column headerText="Alterar" style="width:68px">
+							<p:commandButton disabled="false" alt="Alterar"
+								icon="ui-icon-pencil" update=":frmModalSalvar" title="Alterar"
+								styleClass="btn btn-block"
+								oncomplete="PF('dlgIndicador').show();"
+								actionListener="#{indicadorMB.preencherLista(list)}">
+
+							</p:commandButton>
+						</p:column>
+
+
+
+
+					</p:dataTable>
+				</h:form>
+
+			</div>
+			<!--FIM DA TABELA-->
+
+			<!-- DIALOG SALVAR -->
+			<p:dialog header="Tipo Servidor" widgetVar="dlgIndicador"
+				modal="true" responsive="true" width="60%" id="dlgIndicador"
+				closable="true" closeOnEscape="true" resizable="false"
+				draggable="false">
+				<h:form id="frmModalSalvar">
+					<div class="ui-fluid">
+
+						<div class="col-md-12">
+							<label>Categoria: *</label>
+							<p:autoComplete dropdown="true"
+								value="#{indicadorMB.indicador.categoriaIndicador}"
+								scrollHeight="170"
+								completeMethod="#{categoriaIndicadorMB.completarCategoriaIndicador}"
+								forceSelection="true" converter="#{converterCategoriaIndicador}"
+								var="cur" itemLabel="#{cur.descricao}" itemValue="#{cur}"
+								required="true" requiredMessage="Campo Obrigatório!!" />
+						</div>
+
+						<div class="col-md-12">
+							<label>Descrição: *</label>
+							<p:inputText title="Descrição"
+								value="#{indicadorMB.indicador.descricao}" />
+						</div>
+
+						<div class="col-md-12">
+							<label>Justificativa: *</label>
+							<p:inputText title="Justificativa"
+								value="#{indicadorMB.indicador.justificativa}" />
+						</div>
+
+						<div class="col-md-12">
+							<label>Parâmetros: * --></label> &nbsp;&nbsp;&nbsp;
+							<p:commandLink
+								onclick="PF('dlgInstrucoes').show(); PF('dlgInstrucoes').content.scrollTop('0')"
+								style="color: red; font-weight: bold;"
+								value="Base de Cálculo do
+								Indicador - Clique aqui para obter Instruções" />
+							<p:inputText id="cmpParametro" title="Parâmetros"
+								value="#{indicadorMB.indicador.parametros}" />
+							<p:commandButton
+								value="Selecionar Outros Indicadores para Base de Cálculo"
+								update=":frmModalEscolherIndicador"
+								onclick="PF('dlgEscolherIndicador').show(); PF('dlgEscolherIndicador').content.scrollTop('0')"
+								title="Cadastrar" />
+						</div>
+
+
+						<div class="col-md-12">
+							<label>Processo: *</label>
+							<p:autoComplete dropdown="true"
+								value="#{indicadorMB.indicador.processo}" scrollHeight="170"
+								completeMethod="#{processoMB.completarProcesso}"
+								forceSelection="true" converter="#{converterProcesso}" var="cur"
+								itemLabel="#{cur.descricao}" itemValue="#{cur}" required="true"
+								requiredMessage="Campo Obrigatório!!" />
+						</div>
+
+						<div class="col-md-12">
+							<label>Observação: </label>
+							<p:inputText title="Nome"
+								value="#{indicadorMB.indicador.observacao}" />
+						</div>
+
+
+						<small>Campos obrigatórios *</small>
+					</div>
+					<div class="modal-footer">
+						<p:commandButton value="Salvar"
+							actionListener="#{indicadorMB.salvar()}"
+							styleClass="ui-priority-primary"
+							update=":dlgInformacao :frmTabela" />
+
+						<p:commandButton value="Cancelar"
+							onclick="PF('dlgIndicador').hide();" alt="Cancelar" />
+					</div>
+				</h:form>
+			</p:dialog>
+			<!-- FIM DO DIALOG SALVAR -->
+
+			<!-- DIALOG ESCOLHER INDICADOR -->
+			<p:dialog header="Escolher Indicador"
+				widgetVar="dlgEscolherIndicador" modal="true" responsive="true"
+				width="60%" id="dlgEscolherIndicador" closable="true"
+				closeOnEscape="true" resizable="false" draggable="false">
+				<h:form id="frmModalEscolherIndicador">
+					<div class="ui-fluid">
+
+						<div class="col-md-12">
+							<label>Indicador: *</label>
+							<p:autoComplete dropdown="true"
+								value="#{indicadorMB.indicadorSelecionadoExpressao}"
+								scrollHeight="170"
+								completeMethod="#{indicadorMB.completarIndicador}"
+								forceSelection="true" converter="#{converterIndicador}"
+								var="cur" itemLabel="#{cur.descricao}" itemValue="#{cur}"
+								required="true" requiredMessage="Campo Obrigatório!!">
+								<p:ajax event="itemSelect"
+									listener="#{indicadorMB.selecionarIndicador()}" />
+							</p:autoComplete>
+						</div>
+
+
+						<small>Campos obrigatórios *</small>
+					</div>
+					<div class="modal-footer">
+						<p:commandButton value="Selecionar"
+							actionListener="#{indicadorMB.selecionarIndicador()}"
+							styleClass="ui-priority-primary"
+							oncomplete="PF('dlgEscolherIndicador').hide();"
+							update=":dlgInformacao :frmModalSalvar:cmpParametro"
+							process="@this,:frmModalSalvar:cmpParametro" />
+
+						<p:commandButton value="Cancelar"
+							onclick="PF('dlgEscolherIndicador').hide();" alt="Cancelar" />
+					</div>
+				</h:form>
+			</p:dialog>
+			<!-- FIM DO DIALOG ESCOLHER INDICADOR -->
+
+			<!-- DIALOG INSTRUÇÕES PARÂMETROS -->
+			<p:dialog header="Instruções" widgetVar="dlgInstrucoes" modal="true"
+				responsive="true" width="60%" id="dlgInstrucoes" closable="true"
+				closeOnEscape="true" resizable="false" draggable="false">
+				<h:form id="frmModalInstrucoes">
+					<div class="ui-fluid">
+
+						<div class="col-md-12">
+							<p>Caso o valor do indicador for somente somado a outros,
+								mantenha o operador "+"</p>
+						</div>
+
+						<div class="col-md-12">
+							<p>
+								Se o indicador for obtido a partir do valor de outros
+								indicadores utilize o botão "Selecionar Outros Indicadores para
+								Base de Cálculo" e escolha o necessário. Se necessário, pode-se
+								montar uma expressão no campo, ficando da seguinte maneira: <b>($1:@Valor
+									com Pedágio;+$2:@Gastos com Combustível;+3)/2. Nesse caso, é o
+									indicador Valor com Pedágio somado Gastos com combustível com o
+									valor 3 e dividido tudo por 2</b>
+							</p>
+						</div>
+
+
+
+					</div>
+					<div class="modal-footer">
+						<p:commandButton value="Fechar"
+							onclick="PF('dlgInstrucoes').hide();" alt="Cancelar" />
+					</div>
+				</h:form>
+			</p:dialog>
+			<!-- FIM DO DIALOG INSTRUÇÕES PARÂMETROS -->
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>
+

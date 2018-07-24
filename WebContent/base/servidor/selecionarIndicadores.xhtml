@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:body>
+	<ui:composition
+		template="../../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">Agora, vamos selecionar os Indicadores a serem
+						utilizados para avaliar os Processos escolhidos. Para isso, utilizaremos a metodologia S.M.A.R.T</h1>
+
+				</div>
+				
+			</div>
+			<!-- FIM TITULO -->
+
+
+
+			<!-- 			INÍCIO DA MOVIMENTAÇÃO -->
+			<h:form id="frmTabela">
+				<div class="ui-fluid">
+
+					<!-- TABELA-->
+					<div class="col-md-12">
+
+						<center><h:graphicImage value="/resources/img/smart.png"/></center>
+						
+					
+
+					</div>
+					<!--FIM DA TABELA-->
+
+				</div>
+
+
+			</h:form>
+
+			<!-- BOTAO DOS BOTÕES -->
+			<div class="row container-fluid">
+				<div class="col-md-12">
+					<ol class="breadcrumb">
+						<h:form id="frmCadastrar">
+
+							<br />
+							<p:commandButton
+								value="Começar"
+								styleClass="ui-priority-primary" style="height:50px; width:100%"
+								action="iniciarSelecaoIndicadores"
+								ajax="false"
+								title="Cadastrar" />
+
+						</h:form>
+					</ol>
+				</div>
+			</div>
+			<!-- FIM DOS BOTÕES -->
+
+
+
+
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>
+

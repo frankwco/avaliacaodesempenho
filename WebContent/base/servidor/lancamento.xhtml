@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:body>
+	<ui:composition
+		template="../../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">Movimentação dos Indicadores</h1>
+
+				</div>
+			</div>
+			<!-- FIM TITULO -->
+
+			<!-- BOTAO DOS BOTÕES -->
+			<div class="row container-fluid">
+				<div class="col-md-12">
+					<ol class="breadcrumb">
+						<h:form id="frmCadastrar">
+							<p:commandButton value="Cadastrar" update=":frmModalSalvar"
+								actionListener="#{lancamentoMB.criarNovoObjeto()}"
+								onclick="PF('dlgLancamento').show(); PF('dlgLancamento').content.scrollTop('0')"
+								title="Cadastrar" /> &nbsp;&nbsp;&nbsp;&nbsp;
+
+							<p:commandButton value="Pesquisar" update=":frmModalPesquisar"
+								onclick="PF('dlgPesquisarLancamento').show(); PF('dlgPesquisarLancamento').content.scrollTop('0')"
+								title="Pesquisar" />
+						</h:form>
+					</ol>
+				</div>
+			</div>
+			<!-- FIM DOS BOTÕES -->
+
+			<!-- 			INÍCIO DA MOVIMENTAÇÃO -->
+			<h:form id="frmTabela">
+				<div class="ui-fluid">
+					<div class="col-md-12">
+						<label>Data: *</label>
+						<p:calendar value="#{lancamentoMB.lancamento.dataLancamento}"
+							pattern="dd/MM/yyyy" />
+					</div>
+					
+					<div class="col-md-12">
+						<label>Atividade: *</label>
+						<p:autoComplete dropdown="true"
+							value="#{lancamentoMB.lancamento.atividade}" scrollHeight="170"
+							completeMethod="#{atividadeMB.completarAtividade}"
+							forceSelection="true" converter="#{converterAtividade}" var="cur"
+							itemLabel="#{cur.descricao}" itemValue="#{cur}" required="true"
+							requiredMessage="Campo Obrigatório!!">		
+							<p:ajax event="itemSelect"
+								listener="#{lancamentoMB.buscarIndicadores}" update="@form" />					
+						</p:autoComplete>
+					</div>
+
+					<div class="col-md-12">
+						<label>Grupo de Indicadores: *</label>
+						<p:autoComplete dropdown="true"
+							value="#{lancamentoMB.lancamento.categoriaIndicador}"
+							scrollHeight="170"
+							completeMethod="#{categoriaIndicadorMB.completarCategoriaIndicador}"
+							forceSelection="true" converter="#{converterCategoriaIndicador}"
+							var="cur" itemLabel="#{cur.descricao}" itemValue="#{cur}"
+							required="true" requiredMessage="Campo Obrigatório!!">
+							<p:ajax event="itemSelect"
+								listener="#{lancamentoMB.buscarIndicadores}" update="@form" />
+						</p:autoComplete>
+					</div>
+
+					<div class="col-md-12">
+						<label>Processo: *</label>
+						<p:autoComplete dropdown="true"
+							value="#{lancamentoMB.lancamento.processo}" scrollHeight="170"
+							completeMethod="#{processoMB.completarProcesso}"
+							forceSelection="true" converter="#{converterProcesso}" var="cur"
+							itemLabel="#{cur.descricao}" itemValue="#{cur}" required="true"
+							requiredMessage="Campo Obrigatório!!">
+							<p:ajax event="itemSelect"
+								listener="#{lancamentoMB.buscarIndicadores}" update="@form" />
+						</p:autoComplete>
+					</div>
+					
+					
+
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>Campos
+						obrigatórios *</small>
+				</div>
+				<!-- 				<div class="modal-footer"> -->
+				<!-- 					<p:commandButton value="Continuar" -->
+				<!-- 						actionListener="{lancamentoMB.buscarIndicadores()}" -->
+				<!-- 						styleClass="ui-priority-primary" update="@form" /> -->
+				<!-- 				</div> -->
+
+				<hr />
+				<!-- TABELA-->
+				<div class="col-md-12">
+					<small>Para editar o campo valor, clique na célula
+						desejada!!</small>
+					<p:dataTable id="tabela"
+						value="#{lancamentoMB.listItensLancamento}"
+						resizableColumns="true" reflow="true" var="list" rows="10"
+						paginator="true" paginatorPosition="bottom"
+						emptyMessage="Nenhum Objeto Cadastrado!!"
+						rowsPerPageTemplate="5,10,15,30,50,100" editable="true"
+						editMode="cell">
+
+						<p:column headerText="Descrição"
+							filterBy="#{list.indicador.descricao}"
+							sortBy="#{list.indicador.descricao}" filterMatchMode="contains">
+							<h:outputText value="#{list.indicador.descricao}" />
+						</p:column>
+
+						<p:column headerText="Valor">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{list.valor}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{list.valor}" style="width:96%" >
+										<p:ajax event="blur" update="tabela" listener="#{lancamentoMB.calcularIndicadores()}"/>
+									</p:inputText>
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<!-- 						<p:column headerText="Alterar" style="width:68px"> -->
+						<!-- 							<p:commandButton alt="Alterar" icon="ui-icon-pencil" -->
+						<!-- 								title="Alterar" -->
+						<!-- 								styleClass="btn btn-block" -->
+						<!-- 								oncomplete="PF('dlgLancamento').show();" -->
+						<!-- 								actionListener="#{lancamentoMB.preencherLista(list)}"> -->
+
+						<!-- 							</p:commandButton> -->
+						<!-- 						</p:column> -->
+						<!-- 						<p:column headerText="Excluir" style="width:68px"> -->
+						<!-- 							<p:commandButton actionListener="#{lancamentoMB.inativar(list)}" -->
+						<!-- 								icon="ui-icon-trash" title="Excluir" styleClass="btn btn-block" -->
+						<!-- 								update=":frmTabela :dlgInformacao" alt="Excluir"> -->
+						<!-- 								<p:confirm header="Confirmação" message="Deseja excluir?" /> -->
+						<!-- 							</p:commandButton> -->
+						<!-- 						</p:column> -->
+
+
+
+					</p:dataTable>
+
+
+				</div>
+
+				<div class="modal-footer">
+
+					<p:commandButton value="Finalizar Lançamento"
+						styleClass="ui-priority-primary" update=":dlgInformacao"
+						actionListener="#{lancamentoMB.finalizarLancamentos()}">
+						<p:confirm header="Confirmação"
+							message="Deseja Finalizar a Edição??" icon="ui-icon-alert" />
+					</p:commandButton>
+
+
+				</div>
+			</h:form>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Yes" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+
+			<!--FIM DA TABELA-->
+
+			<!-- 			FIM DA MOVIMENTAÇÃO -->
+
+			<!-- DIALOG SALVAR -->
+			<p:dialog header="Processo" widgetVar="dlgLancamento" modal="true"
+				responsive="true" width="60%" id="dlgLancamento" closable="true"
+				closeOnEscape="true" resizable="false" draggable="false">
+				<h:form id="frmModalSalvar">
+					<div class="ui-fluid">
+						<div class="col-md-12">
+							<label>Descrição: *</label>
+							<p:inputText title="Nome" value="#" />
+						</div>
+
+						<div class="col-md-12">
+							<label>Observação: </label>
+							<p:inputText title="Nome" value="#" />
+						</div>
+
+
+						<small>Campos obrigatórios *</small>
+					</div>
+					<div class="modal-footer">
+						<p:commandButton value="Salvar"
+							actionListener="#{lancamentoMB.salvar()}"
+							styleClass="ui-priority-primary"
+							update=":dlgInformacao :frmTabela" />
+
+						<p:commandButton value="Cancelar"
+							onclick="PF('dlgLancamento').hide();" alt="Cancelar" />
+					</div>
+				</h:form>
+			</p:dialog>
+			<!-- FIM DO DIALOG SALVAR -->
+
+			<!-- DIALOG PESQUISAR -->
+			<p:dialog header="Pesquisar Movimentações"
+				widgetVar="dlgPesquisarLancamento" modal="true" responsive="true"
+				width="60%" id="dlgPesquisarLancamento" closable="true"
+				closeOnEscape="true" resizable="false" draggable="false">
+				<h:form id="frmModalPesquisar">
+					<div class="ui-fluid">
+						<small>Para editar o campo valor, clique na célula
+							desejada!!</small>
+						<p:dataTable id="tabela" value="#{lancamentoMB.listLancamento}"
+							resizableColumns="true" reflow="true" var="list" rows="10"
+							paginator="true" paginatorPosition="bottom"
+							emptyMessage="Nenhum Objeto Cadastrado!!"
+							rowsPerPageTemplate="5,10,15,30,50,100" editable="true"
+							editMode="cell">
+
+							<p:column headerText="Descrição"
+								filterBy="#{list.dataLancamento}"
+								sortBy="#{list.dataLancamento}" filterMatchMode="contains">
+								<h:outputText value="#{list.dataLancamento}" />
+							</p:column>
+
+							<p:column headerText="Descrição"
+								filterBy="#{list.categoriaIndicador.descricao}"
+								sortBy="#{list.categoriaIndicador.descricao}"
+								filterMatchMode="contains">
+								<h:outputText value="#{list.categoriaIndicador.descricao}" />
+							</p:column>
+
+							<p:column headerText="Processo"
+								filterBy="#{list.processo.descricao}"
+								sortBy="#{list.processo.descricao}"
+								filterMatchMode="contains">
+								<h:outputText value="#{list.processo.descricao}" />
+							</p:column>
+
+							<p:column headerText="Carregar" style="width:68px">
+								<p:commandButton alt="Carregar" icon="ui-icon-pencil"
+									title="Alterar" styleClass="btn btn-block"
+									oncomplete="PF('dlgPesquisarLancamento').hide();"
+									actionListener="#{lancamentoMB.preencherLista(list)}"
+									update=":dlgInformacao :frmTabela"
+									>
+
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+
+					</div>
+				</h:form>
+			</p:dialog>
+			<!-- FIM DO DIALOG PESQUISAR -->
+
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>
+

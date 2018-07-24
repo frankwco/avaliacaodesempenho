@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:body>
+	<ui:composition
+		template="../../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">Atividade</h1>
+
+				</div>
+			</div>
+			<!-- FIM TITULO -->
+
+			<!-- BOTAO CADASTRAR -->
+			<div class="row container-fluid">
+				<div class="col-md-12">
+					<ol class="breadcrumb">
+						<h:form id="frmCadastrar">
+							<p:commandButton value="Cadastrar" update=":frmModalSalvar"
+								actionListener="#{atividadeMB.criarNovoObjeto()}"
+								onclick="PF('dlgAtividade').show(); PF('dlgAtividade').content.scrollTop('0')"
+								title="Cadastrar" />
+						</h:form>
+					</ol>
+				</div>
+			</div>
+			<!-- FIM DO BOTAO CADASTRAR -->
+			<!-- TABELA-->
+			<div class="col-md-12">
+				<h:form id="frmTabela">
+					<p:dataTable id="tabela" value="#{atividadeMB.listAtividade}"
+						resizableColumns="true" reflow="true" var="list" rows="10"
+						paginator="true" paginatorPosition="bottom"
+						emptyMessage="Nenhum Objeto Cadastrado!!"
+						rowsPerPageTemplate="5,10,15,30,50,100">
+
+						<p:column headerText="Descrição" filterBy="#{list.descricao}"
+							sortBy="#{list.descricao}" filterMatchMode="contains">
+							<h:outputText value="#{list.descricao}" />
+						</p:column>
+
+						<p:column headerText="Observação" filterBy="#{list.observacao}"
+							sortBy="#{list.observacao}" filterMatchMode="contains">
+							<h:outputText value="#{list.observacao}" />
+						</p:column>
+
+						<p:column width="190" headerText="Opções" >
+							<p:commandButton alt="Alterar" icon="ui-icon-pencil"
+								update=":frmModalSalvar" title="Alterar"
+								
+								oncomplete="PF('dlgAtividade').show();"
+								actionListener="#{atividadeMB.preencherLista(list)}">
+
+							</p:commandButton> &nbsp;&nbsp;
+
+							<p:commandButton actionListener="#{atividadeMB.inativar(list)}"
+								icon="ui-icon-trash" title="Excluir" 
+								update=":frmTabela :dlgInformacao" alt="Excluir">
+								<p:confirm header="Confirmação" message="Deseja excluir?" />
+							</p:commandButton>&nbsp;&nbsp;
+
+							<p:commandButton value="Consolidar" title="Consolidar"
+								 alt="Consolidar">
+							</p:commandButton>
+						</p:column>
+
+
+
+					</p:dataTable>
+				</h:form>
+
+			</div>
+			<!--FIM DA TABELA-->
+
+			<!-- DIALOG SALVAR -->
+			<p:dialog header="Processo" widgetVar="dlgAtividade" modal="true"
+				responsive="true" width="60%" id="dlgAtividade" closable="true"
+				closeOnEscape="true" resizable="false" draggable="false">
+				<h:form id="frmModalSalvar">
+					<div class="ui-fluid">
+						<div class="col-md-12">
+							<label>Descrição: *</label>
+							<p:inputText title="Nome"
+								value="#{atividadeMB.atividade.descricao}" />
+						</div>
+
+						<div class="col-md-12">
+							<label>Data do Início: *</label>
+							<p:calendar value="#{atividadeMB.atividade.dataInicio}"
+								pattern="dd/MM/yyyy" />
+						</div>
+
+						<div class="col-md-12">
+							<label>Data di Término: *</label>
+							<p:calendar value="#{atividadeMB.atividade.dataTermino}"
+								pattern="dd/MM/yyyy" />
+						</div>
+
+						<div class="col-md-12">
+							<label>Observação: </label>
+							<p:inputText title="Nome"
+								value="#{atividadeMB.atividade.observacao}" />
+						</div>
+
+
+						<small>Campos obrigatórios *</small>
+					</div>
+					<div class="modal-footer">
+						<p:commandButton value="Salvar"
+							actionListener="#{atividadeMB.salvar()}"
+							styleClass="ui-priority-primary"
+							update=":dlgInformacao :frmTabela" />
+
+						<p:commandButton value="Cancelar"
+							onclick="PF('dlgAtividade').hide();" alt="Cancelar" />
+					</div>
+				</h:form>
+			</p:dialog>
+			<!-- FIM DO DIALOG SALVAR -->
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>
+

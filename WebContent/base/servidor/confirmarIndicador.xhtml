@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core">
+     
+    <h:head>
+        <title>Cars</title>
+        <style type="text/css">
+            .ui-widget {
+                font-size: 90%;
+            }
+        </style>
+    </h:head>
+     
+    <h:body>
+<h:form id="frmDlgIncluirIndicador">
+				
+				<h1>#{indicadorMB.naoEe}</h1>
+				<br/>
+					<div class="ui-fluid">
+						<div class="col-md-12">
+							<label>Temporizável!! É executável em um prazo
+								determinado?? *</label>
+							<p:selectOneButton value="#{indicadorMB.smart.temporizavel}">
+								<f:selectItem itemLabel="Sim" itemValue="true" />
+								<f:selectItem itemLabel="Não" itemValue="false" />
+							</p:selectOneButton>
+						</div>
+						<div class="col-md-12">
+							<label></label>
+						</div>
+
+					</div>
+
+
+					<div class="modal-footer">
+						<p:commandButton value="&#60;&#60; Anterior"
+							onclick="PF('dlgDefinirIndicador').hide();"
+							styleClass="ui-priority-primary"  />
+
+						<p:commandButton value="Concluir"
+							onclick="PF('dlgDefinirIndicador').hide();"
+							/>
+
+						<p:commandButton value="Próximo &#62;&#62;"
+							onclick="PF('dlgDefinirIndicador').hide();"
+							styleClass="ui-priority-primary"  />
+
+
+					</div>
+				</h:form>
+    </h:body>
+     
+</html>

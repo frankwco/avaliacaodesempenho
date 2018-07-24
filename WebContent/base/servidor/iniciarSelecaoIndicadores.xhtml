@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:body>
+	<ui:composition
+		template="../../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+			<!-- TITULO -->
+			 <p:growl id="growl" autoUpdate="true" life="3000" showDetail="true" sticky="false" />  
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">Para iniciar o processo de escolha dos
+						indicadores utilizaremos a metodologia S.M.A.R.T, clique no botão
+						"Analisar" para iniciar</h1>
+
+				</div>
+
+			</div>
+			<!-- FIM TITULO -->
+
+			<!-- TABELA-->
+			<div class="col-md-12">
+
+				<!-- 			INÍCIO DA TABELA COM SUBTABELA -->
+				<h:form id="formTabelaProcessoSub">
+					<p:dataTable var="processo" value="#{indicadorMB.listProcesso}">
+						<f:facet name="header">
+           				 Indicadores Cadastrados na Base de Dados
+        			</f:facet>
+						<p:subTable var="indicador" value="#{processo.indicadores}">
+							<f:facet name="header">
+								<h:outputText style="font-size: 16px; font-weight:bold;"
+									value="#{processo.descricao}" />
+							</f:facet>
+							<p:columnGroup type="header">
+								<p:row>
+									<p:column headerText="Grupo de Indicadores" />
+									<p:column headerText="Descrição" />
+									<p:column headerText="Selecionado para Avaliação?" />
+									<p:column headerText="Opções" width="150" />
+								</p:row>
+							</p:columnGroup>
+							<p:column>
+								<h:outputText value="#{indicador.categoriaIndicador.descricao}" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{indicador.descricao}" />
+							</p:column>
+							<p:column>
+								<center>
+									<h:graphicImage width="25px"
+										rendered="#{indicador.utilizarAnalise == true}"
+										value="/resources/img/certo.png">
+									</h:graphicImage>
+
+									<h:graphicImage width="25px"
+										rendered="#{indicador.utilizarAnalise == false}"
+										value="/resources/img/errado.png">
+									</h:graphicImage>
+								</center>
+								<!-- 								<h:outputText rendered="#{indicador.utilizarAnalise == false}" -->
+								<!-- 									value="Não" /> -->
+								<!-- 								<h:outputText rendered="#{indicador.utilizarAnalise == true}" -->
+								<!-- 									value="Sim" /> -->
+							</p:column>
+							<p:column width="150">
+								<h:outputText value="Saiba Mais" /> &nbsp;&nbsp;&nbsp;&nbsp;
+								<p:commandLink rendered="#{indicador.utilizarAnalise == false}"
+									value="Analisar" update="frmDlgDefinirIndicador"
+									onclick="PF('dlgDefinirIndicador').show();">
+									<f:setPropertyActionListener value="#{indicador}"
+										target="#{indicadorMB.indicador}" />
+								</p:commandLink>
+
+								<p:commandButton rendered="#{indicador.utilizarAnalise == true}"
+									value="Cancelar" update="@form"
+									actionListener="#{indicadorMB.removerIndicador(indicador)}">
+									<f:setPropertyActionListener value="#{indicador}"
+										target="#{indicadorMB.indicador}" />
+									<p:confirm header="Confirmação"
+										message="Deseja Remover o Indicador da Avaliação?"
+										icon="ui-icon-alert" />
+								</p:commandButton>
+							</p:column>
+						</p:subTable>
+					</p:dataTable>
+				</h:form>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Sim" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+				<!-- 	FIM DA TABELA COM SUBTABELA -->
+
+			</div>
+			<!--FIM DA TABELA-->
+			<br />
+
+			<!-- BOTAO DOS BOTÕES -->
+			<div class="row container-fluid">
+				<div class="col-md-12">
+					<ol class="breadcrumb">
+						<h:form id="frmCadastrar">
+
+							<br />
+							<p:commandButton value="Resumo dos Indicadores Selecionados"
+								styleClass="ui-priority-primary" style="height:50px; width:100%"
+								actionListener="#{lancamentoMB.criarNovoObjeto()}"
+								onclick="PF('dlgLancamento').show(); PF('dlgLancamento').content.scrollTop('0')"
+								title="Cadastrar" />
+
+						</h:form>
+					</ol>
+				</div>
+			</div>
+			<!-- FIM DOS BOTÕES -->
+
+
+			<!-- DIALOG ESCOLHER INDICADOR -->
+			<p:dialog header="Indicador" widgetVar="dlgDefinirIndicador"
+				modal="true" responsive="true" width="60%" id="dlgDefinirIndicador"
+				closable="true" closeOnEscape="true" resizable="true"
+				draggable="true">
+
+
+				<h:form id="frmDlgDefinirIndicador">
+					<h2>
+						<b>#{indicadorMB.indicador.categoriaIndicador.descricao} de
+							#{indicadorMB.indicador.processo.descricao}</b>
+					</h2>
+					<h1>
+						<b><u>#{indicadorMB.indicador.descricao}</u></b>
+					</h1>
+					<br />
+					<div class="ui-fluid">
+						<div class="col-md-12">
+							<label>Específico!! É claro? Não deixa dúvidas do que se
+								trata?? *</label>
+							<p:selectOneButton value="#{indicadorMB.smart.especifico}">
+								<f:selectItem itemLabel="Sim" itemValue="true" />
+								<f:selectItem itemLabel="Não" itemValue="false" />
+							</p:selectOneButton>
+						</div>
+						<div class="col-md-12">
+							<label></label>
+						</div>
+						<div class="col-md-12">
+							<label>Mensurável!! Pode ser medido de alguma forma?? *</label>
+							<p:selectOneButton value="#{indicadorMB.smart.mensuravel}">
+								<f:selectItem itemLabel="Sim" itemValue="true" />
+								<f:selectItem itemLabel="Não" itemValue="false" />
+							</p:selectOneButton>
+						</div>
+						<div class="col-md-12">
+							<label></label>
+						</div>
+
+						<div class="col-md-12">
+							<label>Atingível!! É possível atingir/medir com os
+								recursos disponíveis?? *</label>
+							<p:selectOneButton value="#{indicadorMB.smart.atingivel}">
+								<f:selectItem itemLabel="Sim" itemValue="true" />
+								<f:selectItem itemLabel="Não" itemValue="false" />
+							</p:selectOneButton>
+						</div>
+						<div class="col-md-12">
+							<label></label>
+						</div>
+
+						<div class="col-md-12">
+							<label>Relevante!! Ira impactar nas decisões da
+								organização?? *</label>
+							<p:selectOneButton value="#{indicadorMB.smart.relevante}">
+								<f:selectItem itemLabel="Sim" itemValue="true" />
+								<f:selectItem itemLabel="Não" itemValue="false" />
+							</p:selectOneButton>
+						</div>
+						<div class="col-md-12">
+							<label></label>
+						</div>
+
+						<div class="col-md-12">
+							<label>Temporizável!! É executável em um prazo
+								determinado?? *</label>
+							<p:selectOneButton value="#{indicadorMB.smart.temporizavel}">
+								<f:selectItem itemLabel="Sim" itemValue="true" />
+								<f:selectItem itemLabel="Não" itemValue="false" />
+							</p:selectOneButton>
+						</div>
+						<div class="col-md-12">
+							<label></label>
+						</div>
+
+					</div>
+
+
+					<div class="modal-footer">
+						<!-- 						<p:commandButton value="&#60;&#60; Anterior" -->
+						<!-- 							onclick="PF('dlgDefinirIndicador').hide();" -->
+						<!-- 							styleClass="ui-priority-primary" update=":dlgDefinirIndicador" /> -->
+
+						<p:commandButton value="Finalizar" update="frmDlgIncluirIndicador"
+							actionListener="#{indicadorMB.verificarSmart()}" />
+
+						<!-- 						<p:commandButton value="Próximo &#62;&#62;" -->
+						<!-- 							onclick="PF('dlgDefinirIndicador').hide();" -->
+						<!-- 							styleClass="ui-priority-primary" update=":dlgDefinirIndicador" /> -->
+
+
+					</div>
+				</h:form>
+			</p:dialog>
+			<!-- FIM DO DIALOG ESCOLHER INDICADOR-->
+
+			<!-- DIALOG INCLUIR INDICADOR  -->
+			<p:dialog header="Indicador" widgetVar="dlgIncluirIndicador"
+				modal="true" responsive="true" width="60%" id="dlgIncluirIndicador"
+				closable="true" closeOnEscape="true" resizable="false"
+				draggable="false">
+				<h:form id="frmDlgIncluirIndicador">
+					<h1>
+						O Indicador <b>#{indicadorMB.indicador.descricao}</b>
+					</h1>
+					<h2>
+						<h:outputText escape="false" value="#{indicadorMB.naoEe}" />
+					</h2>
+					<h1>
+						<h:outputText escape="false" value="#{indicadorMB.mensagemNaoEe}" />
+					</h1>
+					<br />
+
+					<div class="modal-footer">
+						<p:commandButton value="Incluir"
+							onclick="PF('dlgDefinirIndicador').hide(); PF('dlgIncluirIndicador').hide();"
+							actionListener="#{indicadorMB.confirmarInclusaoIndicador('sim')}"
+							styleClass="ui-priority-primary" update=":formTabelaProcessoSub" />
+
+
+						<p:commandButton value="Não Incluir"
+							onclick="PF('dlgDefinirIndicador').hide(); PF('dlgIncluirIndicador').hide();"
+							styleClass="ui-priority-primary" />
+
+
+					</div>
+				</h:form>
+			</p:dialog>
+			<!-- FIM DO DIALOG INCLUIR INDICADOR-->
+
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>
+

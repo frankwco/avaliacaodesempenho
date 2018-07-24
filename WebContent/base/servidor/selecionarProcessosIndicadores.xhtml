@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:body>
+	<ui:composition
+		template="../../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">Selecionar os Processos que serão
+						avaliados e os seus respectivos Grupos de Indicadores</h1>
+
+				</div>
+			</div>
+			<!-- FIM TITULO -->
+
+
+
+			<!-- 			INÍCIO DA MOVIMENTAÇÃO -->
+			<h:form id="frmTabela">
+				<div class="ui-fluid">
+
+					<!-- TABELA-->
+					<div class="col-md-12">
+
+						<p:dataTable
+							value="#{processosIndicadoresMB.listaProcessoIndicador}"
+							resizableColumns="true" reflow="true" var="list"
+							paginator="false" emptyMessage="Nenhum Objeto Cadastrado!!">
+
+							<p:column headerText="Processos x Grupo de Indicadores">
+								<b><h:outputText value="#{list.processo.descricao}" /></b>
+							</p:column>
+
+							<p:column headerText="Custo">
+
+								<p:selectBooleanButton onLabel="Sim" offLabel="Não"
+									onIcon="ui-icon-check" offIcon="ui-icon-close">
+
+								</p:selectBooleanButton>
+							</p:column>
+							<p:column headerText="Produtividade">
+								<p:selectBooleanButton onLabel="Sim" offLabel="Não"
+									onIcon="ui-icon-check" offIcon="ui-icon-close"
+									style="width:100%">
+								</p:selectBooleanButton>
+							</p:column>
+							<p:column headerText="Qualidade">
+								<p:selectBooleanButton onLabel="Sim" offLabel="Não"
+									onIcon="ui-icon-check" offIcon="ui-icon-close"
+									style="width:100%">
+								</p:selectBooleanButton>
+							</p:column>
+							<p:column headerText="Tempo">
+								<p:selectBooleanButton onLabel="Sim" offLabel="Não"
+									onIcon="ui-icon-check" offIcon="ui-icon-close"
+									style="width:100%">
+								</p:selectBooleanButton>
+							</p:column>
+
+
+
+
+
+
+						</p:dataTable>
+
+
+					</div>
+					<!--FIM DA TABELA-->
+
+				</div>
+
+
+			</h:form>
+
+			<!-- BOTAO DOS BOTÕES -->
+			<div class="row container-fluid">
+				<div class="col-md-12">
+					<ol class="breadcrumb">
+						<h:form id="frmCadastrar">
+
+							<br />
+							<p:commandButton
+								value="Gravar Processos x Indicadores Selecionados"
+								styleClass="ui-priority-primary" style="height:50px; width:100%"
+								actionListener="#{lancamentoMB.criarNovoObjeto()}"
+								onclick="PF('dlgLancamento').show(); PF('dlgLancamento').content.scrollTop('0')"
+								title="Cadastrar" />
+
+						</h:form>
+					</ol>
+				</div>
+			</div>
+			<!-- FIM DOS BOTÕES -->
+
+
+
+
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>
+
