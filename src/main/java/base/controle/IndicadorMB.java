@@ -182,12 +182,12 @@ public class IndicadorMB implements Serializable {
 	}
 
 	public void salvar() {
-		String expre = "";
-		for (Indicador ii : indicadoresExpressao) {
-			expre += ii.getDescricao();
-		}
-		System.out.println("expressão: " + expre);
-/*
+		////String expre = "";
+		//for (Indicador ii : indicadoresExpressao) {
+		//	expre += ii.getDescricao();
+		//}
+		//System.out.println("expressão: " + expre);
+
 		if (indicador.getParametros().trim().equals("")) {
 			indicador.setParametros("+");
 		}
@@ -210,7 +210,7 @@ public class IndicadorMB implements Serializable {
 			ExibirMensagem.exibirMensagem(Mensagem.ERRO);
 			e.printStackTrace();
 		}
-*/
+
 	}
 
 	public List<Indicador> completarIndicador(String str) {

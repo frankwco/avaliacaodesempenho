@@ -31,6 +31,10 @@ public class FecharDialog {
 	public static void fecharDialogCategoriaIndicador() {
 		RequestContext.getCurrentInstance().execute("PF('dlgCategoriaIndicador').hide();");
 	}
+
+	public static void fecharDialogGrupoLancamento() {
+		RequestContext.getCurrentInstance().execute("PF('dlgGrupoLancamento').hide();");
+	}
 	
 	public static void fecharDialogIndicador() {
 		RequestContext.getCurrentInstance().execute("PF('dlgIndicador').hide();");

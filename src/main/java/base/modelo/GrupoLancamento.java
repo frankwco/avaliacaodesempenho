@@ -7,15 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "indicador")
-public class Indicador implements Serializable {
+@Table(name = "tipolancamento")
+public class GrupoLancamento implements Serializable {
 
-	public Indicador() {
+	public GrupoLancamento() {
 		super();
 	}
 
@@ -25,64 +23,12 @@ public class Indicador implements Serializable {
 	private Long id;
 
 	private String descricao;
+	
 
 	private Boolean status;
 
-	private String observacao;
 	
-	private boolean utilizarAnalise = true;
-
-	@ManyToOne
-	@JoinColumn(name = "idCategoriaIndicador")
-	private CategoriaIndicador categoriaIndicador;
-
-	@ManyToOne
-	@JoinColumn(name = "idProcesso")
-	private Processo processo;
-
-	private String justificativa;
-
-	private String parametros;	
-
-	public boolean isUtilizarAnalise() {
-		return utilizarAnalise;
-	}
-
-	public void setUtilizarAnalise(boolean utilizarAnalise) {
-		this.utilizarAnalise = utilizarAnalise;
-	}
-
-	public String getJustificativa() {
-		return justificativa;
-	}
-
-	public void setJustificativa(String justificativa) {
-		this.justificativa = justificativa;
-	}
-
-	public String getParametros() {
-		return parametros;
-	}
-
-	public void setParametros(String parametros) {
-		this.parametros = parametros;
-	}
-
-	public Processo getProcesso() {
-		return processo;
-	}
-
-	public void setProcesso(Processo processo) {
-		this.processo = processo;
-	}
-
-	public CategoriaIndicador getCategoriaIndicador() {
-		return categoriaIndicador;
-	}
-
-	public void setCategoriaIndicador(CategoriaIndicador categoriaIndicador) {
-		this.categoriaIndicador = categoriaIndicador;
-	}
+	private String observacao;
 
 	public Long getId() {
 		return id;
@@ -132,7 +78,7 @@ public class Indicador implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Indicador other = (Indicador) obj;
+		GrupoLancamento other = (GrupoLancamento) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -140,5 +86,7 @@ public class Indicador implements Serializable {
 			return false;
 		return true;
 	}
+	
+	
 
 }

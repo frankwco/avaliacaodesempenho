@@ -19,7 +19,7 @@
 			<!-- TITULO -->
 			<div class="row">
 				<div class="col-md-12">
-					<h1 class="page-header">Atividade</h1>
+					<h1 class="page-header">Grupos dos Lançamentos</h1>
 
 				</div>
 			</div>
@@ -31,8 +31,8 @@
 					<ol class="breadcrumb">
 						<h:form id="frmCadastrar">
 							<p:commandButton value="Cadastrar" update=":frmModalSalvar"
-								actionListener="#{atividadeMB.criarNovoObjeto()}"
-								onclick="PF('dlgAtividade').show(); PF('dlgAtividade').content.scrollTop('0')"
+								actionListener="#{grupoLancamentoMB.criarNovoObjeto()}"
+								onclick="PF('dlgGrupoLancamento').show(); PF('dlgGrupoLancamento').content.scrollTop('0')"
 								title="Cadastrar" />
 						</h:form>
 					</ol>
@@ -42,10 +42,11 @@
 			<!-- TABELA-->
 			<div class="col-md-12" style="min-height: 700px">
 				<h:form id="frmTabela">
-					<p:dataTable id="tabela" value="#{atividadeMB.listAtividade}"
+					<p:dataTable id="tabela"
+						value="#{grupoLancamentoMB.listGrupoLancamento}"
 						resizableColumns="true" reflow="true" var="list" rows="10"
 						paginator="true" paginatorPosition="bottom"
-						emptyMessage="Nenhum Objeto Cadastrado!!"
+						emptyMessage="Nenhum objeto cadastrado"
 						rowsPerPageTemplate="5,10,15,30,50,100">
 
 						<p:column headerText="Descrição" filterBy="#{list.descricao}"
@@ -58,24 +59,22 @@
 							<h:outputText value="#{list.observacao}" />
 						</p:column>
 
-						<p:column width="190" headerText="Opções" >
-							<p:commandButton alt="Alterar" icon="ui-icon-pencil"
-								update=":frmModalSalvar" title="Alterar"
-								
-								oncomplete="PF('dlgAtividade').show();"
-								actionListener="#{atividadeMB.preencherLista(list)}">
+						<p:column headerText="Opções">
+							<p:panelGrid columns="2" styleClass="ui-noborder">
+								<p:commandButton  alt="Alterar"
+									icon="ui-icon-pencil" update=":frmModalSalvar" title="Alterar"
+									styleClass="btn btn-block"
+									oncomplete="PF('dlgGrupoLancamento').show();"
+									actionListener="#{grupoLancamentoMB.preencherLista(list)}">
 
-							</p:commandButton> &nbsp;&nbsp;
-
-							<p:commandButton actionListener="#{atividadeMB.inativar(list)}"
-								icon="ui-icon-trash" title="Excluir" 
-								update=":frmTabela :dlgInformacao" alt="Excluir">
-								<p:confirm header="Confirmação" message="Deseja excluir?" />
-							</p:commandButton>&nbsp;&nbsp;
-
-							<p:commandButton value="Consolidar" title="Consolidar"
-								 alt="Consolidar">
-							</p:commandButton>
+								</p:commandButton>
+								<p:commandButton 
+									actionListener="#{grupoLancamentoMB.inativar(list)}"
+									icon="ui-icon-trash" title="Excluir" styleClass="btn btn-block"
+									update=":frmTabela :dlgInformacao" alt="Excluir">
+									<p:confirm header="Confirmação" message="Deseja excluir?" />
+								</p:commandButton>
+							</p:panelGrid>
 						</p:column>
 
 
@@ -87,33 +86,22 @@
 			<!--FIM DA TABELA-->
 
 			<!-- DIALOG SALVAR -->
-			<p:dialog header="Processo" widgetVar="dlgAtividade" modal="true"
-				responsive="true" width="60%" id="dlgAtividade" closable="true"
-				closeOnEscape="true" resizable="false" draggable="false">
+			<p:dialog header="Grupo dos Lançamentos" widgetVar="dlgGrupoLancamento"
+				modal="true" responsive="true" width="60%"
+				id="dlgGrupoLancamento" closable="true" closeOnEscape="true"
+				resizable="false" draggable="false">
 				<h:form id="frmModalSalvar">
 					<div class="ui-fluid">
 						<div class="col-md-12">
-							<label>Descrição: *</label>
+							<label>Tipo: *</label>
 							<p:inputText title="Nome"
-								value="#{atividadeMB.atividade.descricao}" />
-						</div>
-
-						<div class="col-md-12">
-							<label>Data do Início: *</label>
-							<p:calendar value="#{atividadeMB.atividade.dataInicio}"
-								pattern="dd/MM/yyyy" />
-						</div>
-
-						<div class="col-md-12">
-							<label>Data di Término: *</label>
-							<p:calendar value="#{atividadeMB.atividade.dataTermino}"
-								pattern="dd/MM/yyyy" />
+								value="#{grupoLancamentoMB.grupoLancamento.descricao}" />
 						</div>
 
 						<div class="col-md-12">
 							<label>Observação: </label>
 							<p:inputText title="Nome"
-								value="#{atividadeMB.atividade.observacao}" />
+								value="#{grupoLancamentoMB.grupoLancamento.observacao}" />
 						</div>
 
 
@@ -121,12 +109,12 @@
 					</div>
 					<div class="modal-footer">
 						<p:commandButton value="Salvar"
-							actionListener="#{atividadeMB.salvar()}"
+							actionListener="#{grupoLancamentoMB.salvar()}"
 							styleClass="ui-priority-primary"
 							update=":dlgInformacao :frmTabela" />
 
 						<p:commandButton value="Cancelar"
-							onclick="PF('dlgAtividade').hide();" alt="Cancelar" />
+							onclick="PF('dlgGrupoLancamento').hide();" alt="Cancelar" />
 					</div>
 				</h:form>
 			</p:dialog>
