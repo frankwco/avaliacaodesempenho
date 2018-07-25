@@ -35,7 +35,7 @@ public class Teste {
 	}
 
 	public static void main(String[] args) {
-		String expressao = "($1:@Valor com Ped·gio;+$2:@Gastos com CombustÌvel;+3)/2";
+		String expressao = "($1:@Valor com Ped√°gio;+$2:@Gastos com Combust√≠vel;+3)/2";
 		expressao = limpar(expressao);
 		List<String> textos = new ArrayList<>();
 
@@ -62,7 +62,7 @@ public class Teste {
 //			System.out.println("Here: " + expressao);
 		}
 		try {
-			System.out.println(new ScriptEngineManager().getEngineByName("JavaScript").eval(expressao));
+			System.out.println("Here: "+new ScriptEngineManager().getEngineByName("JavaScript").eval(expressao));
 		} catch (ScriptException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -43,6 +43,10 @@ public class IndicadorMB implements Serializable {
 	private Indicador indicadorSelecionadoExpressao;
 	String naoEe = "";
 	String mensagemNaoEe = "";
+	
+	private String expressao;
+
+	private List<Indicador> indicadoresExpressao = new ArrayList<>();
 
 	private Smart smart = new Smart();
 
@@ -70,9 +74,16 @@ public class IndicadorMB implements Serializable {
 		listProcesso = new ArrayList<>();
 		listProcesso = daoProcesso.listaComStatus(Processo.class);
 	}
+	
+    public void onSelect() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        Map map = context.getExternalContext().getRequestParameterMap();
+        String selectedText = (String) map.get("selectedText");
+        System.out.println("Texto selecionado: "+selectedText);
+    }
 
 	public void selecionarIndicador() {
-		// ($1:@Valor com Ped·gio;+$2:@Gastos com CombustÌvel;+3)/2
+		// ($1:@Valor com PedÔøΩgio;+$2:@Gastos com CombustÔøΩvel;+3)/2
 		if (indicador.getParametros().trim().equals("+")) {
 			indicador.setParametros("");
 		}
@@ -91,37 +102,37 @@ public class IndicadorMB implements Serializable {
 		naoEe = "<ol>";
 		mensagemNaoEe = "";
 		if (!smart.isAtingivel()) {
-			naoEe += " <li> N„o È AtingÌvel </li>";
+			naoEe += " <li> N√£o √© Ating√≠vel </li>";
 		}
 		if (!smart.isEspecifico()) {
-			naoEe += " <li> N„o È EspecÌfico </li>";
+			naoEe += " <li> N√£o √© Espec√≠fico </li>";
 		}
 		if (!smart.isMensuravel()) {
-			naoEe += " <li> N„o È Mensur·vel </li>";
+			naoEe += " <li> N√£o √© Mensur√°vel </li>";
 		}
 		if (!smart.isRelevante()) {
-			naoEe += " <li> N„o È Relevante </li>";
+			naoEe += " <li> N√£o √© Relevante </li>";
 		}
 		if (!smart.isTemporizavel()) {
-			naoEe += " <li> N„o È Temporiz·vel </li>";
+			naoEe += " <li> N√£o e Temporiz√°vel </li>";
 		}
 		naoEe += " </ol>";
 		// naoEe = naoEe.trim().replace(" ", "<br/>");
 
 		if (naoEe.length() < 15) {
-			mensagemNaoEe = "Recomendamos fortemente incluÌ-lo na AvaliaÁ„o de Desempenho, o que vocÍ acha??";
+			mensagemNaoEe = "Recomendamos fortemente inclu√≠-lo na Avalia√ß√£o de Desempenho, o que voc√¢ acha??";
 			naoEe = "<ol>";
-			naoEe += " <li> … AtingÌvel </li>";
-			naoEe += " <li> … EspecÌfico </li>";
-			naoEe += " <li> … Mensur·vel </li>";
-			naoEe += " <li> … Relevante </li>";
-			naoEe += " <li> … Temporiz·vel </li>";
+			naoEe += " <li> √â Ating√çvel </li>";
+			naoEe += " <li> √â Espec√≠fico </li>";
+			naoEe += " <li> √â Mensur√°vel </li>";
+			naoEe += " <li> √â Relevante </li>";
+			naoEe += " <li> √â Temporiz√°vel </li>";
 			naoEe += " </ol>";
 		} else {
-			mensagemNaoEe = "Recomendamos <b>N√O</b> incluÌ-lo na AvaliaÁ„o de Desempenho, o que vocÍ acha??";
+			mensagemNaoEe = "Recomendamos <b>N√ÉO</b> inclu√≠-lo na Avalia√ß√£o de Desempenho, o que voc√™ acha??";
 		}
-		// O indicador ** foi classificado como naoE, deseja incluÌ-lo na
-		// avaliaÁ„o de desempenho??
+		// O indicador ** foi classificado como naoE, deseja incluÔøΩ-lo na
+		// avaliaÔøΩÔøΩo de desempenho??
 		// RequestContext.getCurrentInstance().update("frmDlgIncluirIndicador");
 		// RequestContext.getCurrentInstance().execute("PF('dlgIncluirIndicador').show();");
 		// RequestContext.getCurrentInstance().update("frmDlgIncluirIndicador");
@@ -145,8 +156,8 @@ public class IndicadorMB implements Serializable {
 		if (confirmar.equals("sim")) {
 			indicador.setUtilizarAnalise(true);
 			indicadorService.inserirAlterar(indicador);
-			FacesContext context = FacesContext.getCurrentInstance();	         
-	        context.addMessage(null, new FacesMessage("Pronto",  "Indicador Selecionado para An·lise!!") );
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage("Pronto", "Indicador Selecionado para An√°lise!!"));
 		}
 	}
 
@@ -155,8 +166,8 @@ public class IndicadorMB implements Serializable {
 		indicador.setUtilizarAnalise(false);
 		indicadorService.inserirAlterar(indicador);
 		criarNovoObjeto();
-		FacesContext context = FacesContext.getCurrentInstance();	         
-        context.addMessage(null, new FacesMessage("Pronto",  "Indicador Removido da An·lise!!") );
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage(null, new FacesMessage("Pronto", "Indicador Removido da An√°lise!!"));
 	}
 
 	public void inativar(Indicador t) {
@@ -171,6 +182,12 @@ public class IndicadorMB implements Serializable {
 	}
 
 	public void salvar() {
+		String expre = "";
+		for (Indicador ii : indicadoresExpressao) {
+			expre += ii.getDescricao();
+		}
+		System.out.println("express√£o: " + expre);
+/*
 		if (indicador.getParametros().trim().equals("")) {
 			indicador.setParametros("+");
 		}
@@ -193,7 +210,7 @@ public class IndicadorMB implements Serializable {
 			ExibirMensagem.exibirMensagem(Mensagem.ERRO);
 			e.printStackTrace();
 		}
-
+*/
 	}
 
 	public List<Indicador> completarIndicador(String str) {
@@ -213,9 +230,9 @@ public class IndicadorMB implements Serializable {
 
 	public void carregarLista() {
 		listIndicador = daoIndicador.listaComStatus(Indicador.class);
-		listIndicadorTransferencia = daoIndicador.listar(Indicador.class, "processo.descricao='TransferÍncia'");
+		listIndicadorTransferencia = daoIndicador.listar(Indicador.class, "processo.descricao='Transfer√™ncia'");
 		listIndicadorArmazenagem = daoIndicador.listar(Indicador.class, "processo.descricao='Armazenagem'");
-		listIndicadorManutencao = daoIndicador.listar(Indicador.class, "processo.descricao='ManutenÁ„o'");
+		listIndicadorManutencao = daoIndicador.listar(Indicador.class, "processo.descricao='Manuten√ß√£o'");
 		listIndicadorColeta = daoIndicador.listar(Indicador.class, "processo.descricao='Coleta'");
 
 	}
@@ -315,5 +332,22 @@ public class IndicadorMB implements Serializable {
 	public void setMensagemNaoEe(String mensagemNaoEe) {
 		this.mensagemNaoEe = mensagemNaoEe;
 	}
+
+	public List<Indicador> getIndicadoresExpressao() {
+		return indicadoresExpressao;
+	}
+
+	public void setIndicadoresExpressao(List<Indicador> indicadoresExpressao) {
+		this.indicadoresExpressao = indicadoresExpressao;
+	}
+
+	public String getExpressao() {
+		return expressao;
+	}
+
+	public void setExpressao(String expressao) {
+		this.expressao = expressao;
+	}
+	
 
 }

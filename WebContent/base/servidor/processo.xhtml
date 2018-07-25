@@ -40,7 +40,7 @@
 			</div>
 			<!-- FIM DO BOTAO CADASTRAR -->
 			<!-- TABELA-->
-			<div class="col-md-12">
+			<div class="col-md-12" style="min-height: 700px">
 				<h:form id="frmTabela">
 					<p:dataTable id="tabela" value="#{processoMB.listProcesso}"
 						resizableColumns="true" reflow="true" var="list" rows="10"
@@ -58,21 +58,23 @@
 							<h:outputText value="#{list.observacao}" />
 						</p:column>
 
-						<p:column headerText="Alterar" style="width:68px">
-							<p:commandButton alt="Alterar" icon="ui-icon-pencil"
-								update=":frmModalSalvar" title="Alterar"
-								styleClass="btn btn-block"
-								oncomplete="PF('dlgProcesso').show();"
-								actionListener="#{processoMB.preencherLista(list)}">
 
-							</p:commandButton>
-						</p:column>
-						<p:column headerText="Excluir" style="width:68px">
-							<p:commandButton actionListener="#{processoMB.inativar(list)}"
-								icon="ui-icon-trash" title="Excluir" styleClass="btn btn-block"
-								update=":frmTabela :dlgInformacao" alt="Excluir">
-								<p:confirm header="Confirmação" message="Deseja excluir?" />
-							</p:commandButton>
+						<p:column headerText="Opções">
+							<p:panelGrid columns="2" styleClass="ui-noborder">
+								<p:commandButton alt="Alterar" icon="ui-icon-pencil"
+									update=":frmModalSalvar" title="Alterar"
+									styleClass="btn btn-block"
+									oncomplete="PF('dlgProcesso').show();"
+									actionListener="#{processoMB.preencherLista(list)}">
+
+								</p:commandButton>
+								<p:commandButton actionListener="#{processoMB.inativar(list)}"
+									icon="ui-icon-trash" title="Excluir" styleClass="btn btn-block"
+									update=":frmTabela :dlgInformacao" alt="Excluir">
+									<p:confirm header="Confirmação" message="Deseja excluir?" />
+								</p:commandButton>
+
+							</p:panelGrid>
 						</p:column>
 
 
@@ -83,7 +85,7 @@
 			</div>
 			<!--FIM DA TABELA-->
 
-	
+
 
 			<!-- DIALOG SALVAR -->
 			<p:dialog header="Processo" widgetVar="dlgProcesso" modal="true"

@@ -6,114 +6,121 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
 <h:body>
-	<ui:composition template="../../resources/template/template-administrador.xhtml">
+	<ui:composition
+		template="../../resources/template/template-administrador.xhtml">
 		<ui:define name="mensagem">
 			<ui:include src="../../componentes/mensagem.xhtml" />
 		</ui:define>
 		<ui:define name="modal-confirmacao">
 			<ui:include src="../../componentes/dialog-confirmacao.xhtml" />
 		</ui:define>
-	
-	<ui:define name="conteudo">	
-		<!-- TITULO -->
-	<div class="row">
-		<div class="col-md-12">
-			<h1 class="page-header">Categoria Indicador</h1>
 
-		</div>
-	</div>
-	<!-- FIM TITULO -->
+		<ui:define name="conteudo">
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">Categoria Indicador</h1>
 
-	<!-- BOTAO CADASTRAR -->
-	<div class="row container-fluid">
-		<div class="col-md-12">
-			<ol class="breadcrumb">
-				<h:form id="frmCadastrar">
-					<p:commandButton 
-						value="Cadastrar" update=":frmModalSalvar" actionListener="#{categoriaIndicadorMB.criarNovoObjeto()}"
-						onclick="PF('dlgCategoriaIndicador').show(); PF('dlgCategoriaIndicador').content.scrollTop('0')"
-						title="Cadastrar" />
+				</div>
+			</div>
+			<!-- FIM TITULO -->
+
+			<!-- BOTAO CADASTRAR -->
+			<div class="row container-fluid">
+				<div class="col-md-12">
+					<ol class="breadcrumb">
+						<h:form id="frmCadastrar">
+							<p:commandButton value="Cadastrar" update=":frmModalSalvar"
+								actionListener="#{categoriaIndicadorMB.criarNovoObjeto()}"
+								onclick="PF('dlgCategoriaIndicador').show(); PF('dlgCategoriaIndicador').content.scrollTop('0')"
+								title="Cadastrar" />
+						</h:form>
+					</ol>
+				</div>
+			</div>
+			<!-- FIM DO BOTAO CADASTRAR -->
+			<!-- TABELA-->
+			<div class="col-md-12" style="min-height: 700px">
+				<h:form id="frmTabela">
+					<p:dataTable id="tabela"
+						value="#{categoriaIndicadorMB.listCategoriaIndicador}"
+						resizableColumns="true" reflow="true" var="list" rows="10"
+						paginator="true" paginatorPosition="bottom"
+						emptyMessage="Nenhum administrador cadastrado"
+						rowsPerPageTemplate="5,10,15,30,50,100">
+
+						<p:column headerText="Descrição" filterBy="#{list.descricao}"
+							sortBy="#{list.descricao}" filterMatchMode="contains">
+							<h:outputText value="#{list.descricao}" />
+						</p:column>
+
+						<p:column headerText="Observação" filterBy="#{list.observacao}"
+							sortBy="#{list.observacao}" filterMatchMode="contains">
+							<h:outputText value="#{list.observacao}" />
+						</p:column>
+
+						<p:column headerText="Opções">
+							<p:panelGrid columns="2" styleClass="ui-noborder">
+								<p:commandButton  alt="Alterar"
+									icon="ui-icon-pencil" update=":frmModalSalvar" title="Alterar"
+									styleClass="btn btn-block"
+									oncomplete="PF('dlgCategoriaIndicador').show();"
+									actionListener="#{categoriaIndicadorMB.preencherLista(list)}">
+
+								</p:commandButton>
+								<p:commandButton 
+									actionListener="#{categoriaIndicadorMB.inativar(list)}"
+									icon="ui-icon-trash" title="Excluir" styleClass="btn btn-block"
+									update=":frmTabela :dlgInformacao" alt="Excluir">
+									<p:confirm header="Confirmação" message="Deseja excluir?" />
+								</p:commandButton>
+							</p:panelGrid>
+						</p:column>
+
+
+
+					</p:dataTable>
 				</h:form>
-			</ol>
-		</div>
-	</div>
-	<!-- FIM DO BOTAO CADASTRAR -->
-	<!-- TABELA-->
-	<div class="col-md-12">
-		<h:form id="frmTabela">
-			<p:dataTable id="tabela" value="#{categoriaIndicadorMB.listCategoriaIndicador}"
-				resizableColumns="true" reflow="true" var="list" rows="10"
-				paginator="true" paginatorPosition="bottom"
-				emptyMessage="Nenhum administrador cadastrado"
-				rowsPerPageTemplate="5,10,15,30,50,100">
-				
-				<p:column headerText="Descrição" filterBy="#{list.descricao}"
-					sortBy="#{list.descricao}" filterMatchMode="contains">
-					<h:outputText value="#{list.descricao}" />
-				</p:column>
-				
-				<p:column headerText="Observação" filterBy="#{list.observacao}"
-					sortBy="#{list.observacao}" filterMatchMode="contains">
-					<h:outputText value="#{list.observacao}" />
-				</p:column>
-				
-				<p:column headerText="Alterar" style="width:68px">
-					<p:commandButton disabled="true" alt="Alterar" icon="ui-icon-pencil"
-						update=":frmModalSalvar" title="Alterar"
-						styleClass="btn btn-block" oncomplete="PF('dlgCategoriaIndicador').show();"
-						actionListener="#{categoriaIndicadorMB.preencherLista(list)}">
 
-					</p:commandButton>
-				</p:column>
-				<p:column headerText="Excluir" style="width:68px">
-					<p:commandButton disabled="true"
-						actionListener="#{categoriaIndicadorMB.inativar(list)}"
-						icon="ui-icon-trash" title="Excluir" styleClass="btn btn-block"
-						update=":frmTabela :dlgInformacao" alt="Excluir">
-						<p:confirm header="Confirmação" message="Deseja excluir?" />
-					</p:commandButton>
-				</p:column>
-				
-				
-				
-			</p:dataTable>
-		</h:form>
-
-	</div>
-	<!--FIM DA TABELA-->
-
-	<!-- DIALOG SALVAR -->
-	<p:dialog header="Tipo Servidor" widgetVar="dlgCategoriaIndicador"
-		modal="true" responsive="true" width="60%" id="dlgCategoriaIndicador"
-		closable="true" closeOnEscape="true" resizable="false"
-		draggable="false">
-		<h:form id="frmModalSalvar">
-			<div class="ui-fluid">
-				<div class="col-md-12">
-					<label>Tipo: *</label>
-					<p:inputText title="Nome" value="#{categoriaIndicadorMB.categoriaIndicador.descricao}" />
-				</div>
-				
-				<div class="col-md-12">
-					<label>Observação: </label>
-					<p:inputText title="Nome" value="#{categoriaIndicadorMB.categoriaIndicador.observacao}"/>
-				</div>
-				
-			
-				<small>Campos obrigatórios *</small>
 			</div>
-			<div class="modal-footer">
-				<p:commandButton value="Salvar" actionListener="#{categoriaIndicadorMB.salvar()}" styleClass="ui-priority-primary"
-					 update=":dlgInformacao :frmTabela" />
+			<!--FIM DA TABELA-->
 
-				<p:commandButton value="Cancelar"
-					onclick="PF('dlgCategoriaIndicador').hide();" alt="Cancelar" />
-			</div>
-		</h:form>
-	</p:dialog>
-	<!-- FIM DO DIALOG SALVAR -->
+			<!-- DIALOG SALVAR -->
+			<p:dialog header="Tipo Servidor" widgetVar="dlgCategoriaIndicador"
+				modal="true" responsive="true" width="60%"
+				id="dlgCategoriaIndicador" closable="true" closeOnEscape="true"
+				resizable="false" draggable="false">
+				<h:form id="frmModalSalvar">
+					<div class="ui-fluid">
+						<div class="col-md-12">
+							<label>Tipo: *</label>
+							<p:inputText title="Nome"
+								value="#{categoriaIndicadorMB.categoriaIndicador.descricao}" />
+						</div>
+
+						<div class="col-md-12">
+							<label>Observação: </label>
+							<p:inputText title="Nome"
+								value="#{categoriaIndicadorMB.categoriaIndicador.observacao}" />
+						</div>
+
+
+						<small>Campos obrigatórios *</small>
+					</div>
+					<div class="modal-footer">
+						<p:commandButton value="Salvar"
+							actionListener="#{categoriaIndicadorMB.salvar()}"
+							styleClass="ui-priority-primary"
+							update=":dlgInformacao :frmTabela" />
+
+						<p:commandButton value="Cancelar"
+							onclick="PF('dlgCategoriaIndicador').hide();" alt="Cancelar" />
+					</div>
+				</h:form>
+			</p:dialog>
+			<!-- FIM DO DIALOG SALVAR -->
 		</ui:define>
-		
+
 	</ui:composition>
 </h:body>
 </html>

@@ -1,6 +1,5 @@
 package base.converter;
 
-import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -23,7 +22,7 @@ public class ConverterIndicador implements Converter{
 	public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
 		if (value != null && value.trim().length() > 0) {
 			try {
-				
+				//System.out.println("IDD: "+value);
 			 return dao.buscarPorId(Indicador.class, Long.parseLong(value));
 			 
 			} catch (Exception e) {

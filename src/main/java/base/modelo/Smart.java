@@ -2,11 +2,11 @@ package base.modelo;
 
 public class Smart {
 
-	private boolean especifico = true;
-	private boolean mensuravel = true;
-	private boolean atingivel = true;
-	private boolean relevante = true;
-	private boolean temporizavel = true;
+	private boolean especifico ;
+	private boolean mensuravel ;
+	private boolean atingivel ;
+	private boolean relevante ;
+	private boolean temporizavel ;
 
 	public boolean isEspecifico() {
 		return especifico;

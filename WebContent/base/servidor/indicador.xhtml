@@ -40,10 +40,9 @@
 			</div>
 			<!-- FIM DO BOTAO CADASTRAR -->
 			<!-- TABELA-->
-			<div class="col-md-12">
+			<div class="col-md-12" style="min-height: 700px">
 				<h:form id="frmTabela">
-					<p:dataTable id="tabela"
-						value="#{indicadorMB.listIndicador}"
+					<p:dataTable id="tabela" value="#{indicadorMB.listIndicador}"
 						resizableColumns="true" reflow="true" var="list" rows="10"
 						paginator="true" paginatorPosition="bottom"
 						emptyMessage="Nenhum administrador cadastrado"
@@ -58,16 +57,13 @@
 							filterBy="#{list.categoriaIndicador.descricao}"
 							sortBy="#{list.categoriaIndicador.descricao}"
 							filterMatchMode="contains">
-							<h:outputText
-								value="#{list.categoriaIndicador.descricao}" />
+							<h:outputText value="#{list.categoriaIndicador.descricao}" />
 						</p:column>
-						
-								<p:column headerText="Processo"
+
+						<p:column headerText="Processo"
 							filterBy="#{list.processo.descricao}"
-							sortBy="#{list.processo.descricao}"
-							filterMatchMode="contains">
-							<h:outputText
-								value="#{list.processo.descricao}" />
+							sortBy="#{list.processo.descricao}" filterMatchMode="contains">
+							<h:outputText value="#{list.processo.descricao}" />
 						</p:column>
 
 						<p:column headerText="Observação" filterBy="#{list.observacao}"
@@ -75,14 +71,22 @@
 							<h:outputText value="#{list.observacao}" />
 						</p:column>
 
-						<p:column headerText="Alterar" style="width:68px">
-							<p:commandButton disabled="false" alt="Alterar"
-								icon="ui-icon-pencil" update=":frmModalSalvar" title="Alterar"
-								styleClass="btn btn-block"
-								oncomplete="PF('dlgIndicador').show();"
-								actionListener="#{indicadorMB.preencherLista(list)}">
+						<p:column headerText="Opções">
+							<p:panelGrid columns="2" styleClass="ui-noborder">
+								<p:commandButton disabled="false" alt="Alterar"
+									icon="ui-icon-pencil" update=":frmModalSalvar" title="Alterar"
+									styleClass="btn btn-block"
+									oncomplete="PF('dlgIndicador').show();"
+									actionListener="#{indicadorMB.preencherLista(list)}">
+								</p:commandButton>
 
-							</p:commandButton>
+								<p:commandButton actionListener="#{indicadorMB.inativar(list)}"
+									icon="ui-icon-trash" title="Excluir" styleClass="btn btn-block"
+									update=":frmTabela :dlgInformacao" alt="Excluir">
+									<p:confirm header="Confirmação" message="Deseja excluir?" />
+								</p:commandButton>
+
+							</p:panelGrid>
 						</p:column>
 
 
@@ -133,7 +137,23 @@
 								value="Base de Cálculo do
 								Indicador - Clique aqui para obter Instruções" />
 							<p:inputText id="cmpParametro" title="Parâmetros"
-								value="#{indicadorMB.indicador.parametros}" />
+								value="#{indicadorMB.indicador.parametros}" onselect="processSelection();"/>
+								<p:remoteCommand name="sendSelection" actionListener="#{indicadorMB.onSelect}" process="@this" />
+
+							<p:autoComplete id="themes" multiple="true"
+								value="#{indicadorMB.indicadoresExpressao}"
+								completeMethod="#{indicadorMB.completarIndicador}" var="theme"
+								itemLabel="#{theme.descricao}" itemValue="#{theme}"
+								forceSelection="true" converter="#{converterIndicador}">
+								<p:column style="width:10%">
+									<h:outputText styleClass="ui-theme ui-theme" />
+								</p:column>
+								<p:column>
+									<h:outputText value="#{theme.descricao}" />
+								</p:column>
+							</p:autoComplete>
+
+
 							<p:commandButton
 								value="Selecionar Outros Indicadores para Base de Cálculo"
 								update=":frmModalEscolherIndicador"
@@ -171,10 +191,18 @@
 							onclick="PF('dlgIndicador').hide();" alt="Cancelar" />
 					</div>
 				</h:form>
+				<script>
+    function processSelection() {
+        var selectedText = (!!document.getSelection) ? document.getSelection() :
+                (!!window.getSelection) ? window.getSelection() :
+                document.selection.createRange().text;
+        sendSelection([{name: 'selectedText', value: selectedText}]);
+    }
+</script>
 			</p:dialog>
 			<!-- FIM DO DIALOG SALVAR -->
 
-			<!-- DIALOG ESCOLHER INDICADOR -->
+			<!-- DIALOG ESCOLHER INDICADOR - NÃO PRECISARÁ MAIS-->
 			<p:dialog header="Escolher Indicador"
 				widgetVar="dlgEscolherIndicador" modal="true" responsive="true"
 				width="60%" id="dlgEscolherIndicador" closable="true"

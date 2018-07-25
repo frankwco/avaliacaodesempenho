@@ -70,11 +70,11 @@ public class ChartView implements Serializable {
 		yAxis.setMax(10);
 
 		lineModel2 = initCategoryModel();
-		lineModel2.setTitle("Gráfico Comparativo dos Indicadores - Últimos 3 meses");
+		lineModel2.setTitle("GrÃ¡fico Comparativo dos Indicadores - Ãºltimos 3 meses");
 		lineModel2.setZoom(true);
 		lineModel2.setLegendPosition("e");
 		lineModel2.setShowPointLabels(true);
-		lineModel2.getAxes().put(AxisType.X, new CategoryAxis("Mês/Ano"));
+		lineModel2.getAxes().put(AxisType.X, new CategoryAxis("MÃªs/Ano"));
 		yAxis = lineModel2.getAxis(AxisType.Y);
 		yAxis.setLabel("R$");
 		//yAxis.setMin(0);
