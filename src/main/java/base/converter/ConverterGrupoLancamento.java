@@ -13,8 +13,8 @@ import dao.GenericDAO;
 import base.modelo.GrupoLancamento; 
 import util.Mensagem;
 
-@Named("converterTipoLancamento")
-public class ConverterTipoLancamento implements Converter{
+@Named("converterGrupoLancamento")
+public class ConverterGrupoLancamento implements Converter{
 
 	@Inject
 	private GenericDAO<GrupoLancamento> dao;

@@ -92,6 +92,17 @@ public class GrupoLancamentoMB implements Serializable {
 		}
 		return matrizSelecionados;
 	}
+	
+	public List<GrupoLancamento> completarGrupoLancamentoParenteses(String str) {
+		List<GrupoLancamento> listIndic = daoGrupoLancamento.listaComStatus(GrupoLancamento.class);
+		List<GrupoLancamento> matrizSelecionados = new ArrayList<>();
+		for (GrupoLancamento cur : listIndic) {
+			if (cur.getDescricao().toLowerCase().startsWith(str)) {
+				matrizSelecionados.add(cur);
+			}
+		}
+		return matrizSelecionados;
+	}
 
 	public void criarNovoObjeto() {
 		grupoLancamento = new GrupoLancamento();

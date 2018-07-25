@@ -9,7 +9,8 @@ import java.util.regex.Pattern;
 public class Teste2 {
 
 	public static void main(String[] args) {
-		String expressao = "((soma(31)+soma(2))/2+contar(33999)+soma(2))*2-soma(44)";
+		//String expressao = "((soma(31)+soma(2))/2+contar(33999)+soma(2))*2-soma(44)";
+		String expressao = "(soma(1)+6soma(6))/4";
 		List<String> resultado = new ArrayList<String>();
 		// Matcher m = Pattern.compile(":([^:\\) ]+)").matcher(
 		// "(:TEXTOQUALQUER NADA DO FOI :TEXTOQQDENOVO SERÁ DE NOVO :TEXTOQQMAIS DO

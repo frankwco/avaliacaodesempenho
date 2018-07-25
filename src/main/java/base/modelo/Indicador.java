@@ -43,6 +43,16 @@ public class Indicador implements Serializable {
 	private String justificativa;
 
 	private String parametros;	
+	
+	private String formulaGrupoLancamento="";	
+
+	public String getFormulaGrupoLancamento() {
+		return formulaGrupoLancamento;
+	}
+
+	public void setFormulaGrupoLancamento(String formulaGrupoLancamento) {
+		this.formulaGrupoLancamento = formulaGrupoLancamento;
+	}
 
 	public boolean isUtilizarAnalise() {
 		return utilizarAnalise;

@@ -18,6 +18,7 @@ import org.primefaces.context.PrimeFacesContext;
 import org.primefaces.context.RequestContext;
 
 import base.modelo.Despesa;
+import base.modelo.GrupoLancamento;
 import base.modelo.Indicador;
 import base.modelo.Processo;
 import base.modelo.Smart;
@@ -40,10 +41,11 @@ public class IndicadorMB implements Serializable {
 	private List<Indicador> listIndicadorArmazenagem;
 	private List<Indicador> listIndicadorColeta;
 	private List<Indicador> listIndicadorManutencao;
+	private GrupoLancamento grupoLancamentoFormula;
 	private Indicador indicadorSelecionadoExpressao;
 	String naoEe = "";
 	String mensagemNaoEe = "";
-	
+
 	private String expressao;
 
 	private List<Indicador> indicadoresExpressao = new ArrayList<>();
@@ -57,6 +59,8 @@ public class IndicadorMB implements Serializable {
 	private IndicadorService indicadorService; // inserir no banco
 
 	private List<Processo> listProcesso;
+
+	private int posicaoInserirFormula = 0;
 
 	@Inject
 	private GenericDAO<Processo> daoProcesso; // faz as buscas
@@ -74,21 +78,38 @@ public class IndicadorMB implements Serializable {
 		listProcesso = new ArrayList<>();
 		listProcesso = daoProcesso.listaComStatus(Processo.class);
 	}
-	
-    public void onSelect() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        Map map = context.getExternalContext().getRequestParameterMap();
-        String selectedText = (String) map.get("selectedText");
-        System.out.println("Texto selecionado: "+selectedText);
-    }
+
+	public void onSelect() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		Map map = context.getExternalContext().getRequestParameterMap();
+		String selectedText = (String) map.get("selectedText");
+		System.out.println("Texto selecionado: " + selectedText);
+	}
+
+	public void onCursorSelecionado() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		Map map = context.getExternalContext().getRequestParameterMap();
+		String selecionado = (String) map.get("posicaoCursor");
+		posicaoInserirFormula = Integer.parseInt(((String)map.get("posicaoCursor")).trim());
+	}
 
 	public void selecionarIndicador() {
-		// ($1:@Valor com Ped�gio;+$2:@Gastos com Combust�vel;+3)/2
+
 		if (indicador.getParametros().trim().equals("+")) {
 			indicador.setParametros("");
 		}
 		indicador.setParametros(indicador.getParametros() + "$" + indicadorSelecionadoExpressao.getId() + ":@"
 				+ indicadorSelecionadoExpressao.getDescricao() + ";");
+
+		RequestContext.getCurrentInstance().update("frmModalSalvar");
+	}
+
+	public void selecionarGrupoLancamento() {
+
+		StringBuilder stringBuilder = new StringBuilder(indicador.getFormulaGrupoLancamento());
+		stringBuilder.insert(posicaoInserirFormula, "" + grupoLancamentoFormula.getId());
+
+		indicador.setFormulaGrupoLancamento(stringBuilder.toString());
 
 		RequestContext.getCurrentInstance().update("frmModalSalvar");
 	}
@@ -182,11 +203,11 @@ public class IndicadorMB implements Serializable {
 	}
 
 	public void salvar() {
-		////String expre = "";
-		//for (Indicador ii : indicadoresExpressao) {
-		//	expre += ii.getDescricao();
-		//}
-		//System.out.println("expressão: " + expre);
+		//// String expre = "";
+		// for (Indicador ii : indicadoresExpressao) {
+		// expre += ii.getDescricao();
+		// }
+		// System.out.println("expressão: " + expre);
 
 		if (indicador.getParametros().trim().equals("")) {
 			indicador.setParametros("+");
@@ -348,6 +369,13 @@ public class IndicadorMB implements Serializable {
 	public void setExpressao(String expressao) {
 		this.expressao = expressao;
 	}
-	
+
+	public GrupoLancamento getGrupoLancamentoFormula() {
+		return grupoLancamentoFormula;
+	}
+
+	public void setGrupoLancamentoFormula(GrupoLancamento grupoLancamentoFormula) {
+		this.grupoLancamentoFormula = grupoLancamentoFormula;
+	}
 
 }

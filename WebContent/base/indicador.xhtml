@@ -130,15 +130,44 @@
 						</div>
 
 						<div class="col-md-12">
-							<label>Fórmula de Cálculo - Lançamentos: * --></label> &nbsp;&nbsp;&nbsp;
+							<label>Fórmula de Cálculo - Grupo Lançamento: * --></label>
+							&nbsp;&nbsp;&nbsp;
+							<p:commandLink
+								onclick="PF('dlgInstrucoes').show(); PF('dlgInstrucoes').content.scrollTop('0')"
+								style="color: red; font-weight: bold;"
+								value="Clique aqui para obter Instruções" />
+							<p:inputText id="cmpParametroGL"
+								title="Fórmula Cálculo Grupo Lançamentos"
+								value="#{indicadorMB.indicador.formulaGrupoLancamento}"
+								onselect="processSelection();">
+								<p:ajax event="blur" oncomplete="textbox()" />
+							</p:inputText>
+							<p:remoteCommand name="sendCursorSelection" actionListener="#{indicadorMB.onCursorSelecionado}" process="@this" />
+							<p:remoteCommand name="selectionGrupoLancamento"
+								actionListener="#{indicadorMB.onSelect}" process="@this" />
+
+							<p:commandButton
+								value="Selecionar Outros Grupo de Lançamentos para a Fórmula"
+								update=":frmModalEscolherGrupoLancamento"
+								onclick="PF('dlgEscolherGrupoLancamento').show(); PF('dlgEscolherGrupoLancamento').content.scrollTop('0')"
+								title="Selecionar Outros Grupo de Lançamentos para a Fórmula" />
+						</div>
+
+
+						<div class="col-md-12">
+							<label>Fórmula de Cálculo - Indicador: * --></label>
+							&nbsp;&nbsp;&nbsp;
 							<p:commandLink
 								onclick="PF('dlgInstrucoes').show(); PF('dlgInstrucoes').content.scrollTop('0')"
 								style="color: red; font-weight: bold;"
 								value="Base de Cálculo do
 								Indicador - Clique aqui para obter Instruções" />
 							<p:inputText id="cmpParametro" title="Parâmetros"
-								value="#{indicadorMB.indicador.parametros}" onselect="processSelection();"/>
-								<p:remoteCommand name="sendSelection" actionListener="#{indicadorMB.onSelect}" process="@this" />
+								value="#{indicadorMB.indicador.parametros}"
+								onselect="processSelection();" />
+							<p:remoteCommand name="sendSelection"
+								actionListener="#{indicadorMB.onSelect}" process="@this" />
+
 
 							<p:autoComplete id="themes" multiple="true"
 								value="#{indicadorMB.indicadoresExpressao}"
@@ -198,6 +227,17 @@
                 document.selection.createRange().text;
         sendSelection([{name: 'selectedText', value: selectedText}]);
     }
+    function textbox() {
+        console.log("asddsa");
+        var ctl = document.getElementById('frmModalSalvar:cmpParametroGL');
+        if(ctl!=null){
+            console.log("no IFF");
+        var startPos = ctl.selectionStart;
+        //var endPos = ctl.selectionEnd;
+        sendCursorSelection([{name: 'posicaoCursor', value: startPos}]);
+        console.log(startPos);
+        }
+    }
 </script>
 			</p:dialog>
 			<!-- FIM DO DIALOG SALVAR -->
@@ -241,6 +281,46 @@
 				</h:form>
 			</p:dialog>
 			<!-- FIM DO DIALOG ESCOLHER INDICADOR -->
+
+			<!-- DIALOG ESCOLHER GRUPO LANÇAMENTO-->
+			<p:dialog header="Escolher Grupo Lançamento"
+				widgetVar="dlgEscolherGrupoLancamento" modal="true"
+				responsive="true" width="60%" id="dlgEscolherGrupoLancamento"
+				closable="true" closeOnEscape="true" resizable="false"
+				draggable="false">
+				<h:form id="frmModalEscolherGrupoLancamento">
+					<div class="ui-fluid">
+
+						<div class="col-md-12">
+							<label>Indicador: *</label>
+							<p:autoComplete dropdown="true"
+								value="#{indicadorMB.grupoLancamentoFormula}" scrollHeight="170"
+								completeMethod="#{grupoLancamentoMB.completarGrupoLancamento}"
+								forceSelection="true" converter="#{converterGrupoLancamento}"
+								var="cur" itemLabel="#{cur.descricao}" itemValue="#{cur}"
+								required="true" requiredMessage="Campo Obrigatório!!">
+								<p:ajax event="itemSelect"
+									listener="#{indicadorMB.selecionarGrupoLancamento()}" />
+							</p:autoComplete>
+						</div>
+
+
+						<small>Campos obrigatórios *</small>
+					</div>
+					<div class="modal-footer">
+						<p:commandButton value="Selecionar"
+							actionListener="#{indicadorMB.selecionarGrupoLancamento()}"
+							styleClass="ui-priority-primary"
+							oncomplete="PF('dlgEscolherGrupoLancamento').hide();"
+							update=":dlgInformacao :frmModalSalvar:cmpParametroGL"
+							process="@this,:frmModalSalvar:cmpParametroGL" />
+
+						<p:commandButton value="Cancelar"
+							onclick="PF('dlgEscolherGrupoLancamento').hide();" alt="Cancelar" />
+					</div>
+				</h:form>
+			</p:dialog>
+			<!-- FIM DO DIALOG ESCOLHER GRUPO LANÇAMENTO -->
 
 			<!-- DIALOG INSTRUÇÕES PARÂMETROS -->
 			<p:dialog header="Instruções" widgetVar="dlgInstrucoes" modal="true"
