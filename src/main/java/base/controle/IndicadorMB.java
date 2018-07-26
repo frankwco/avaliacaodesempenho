@@ -42,7 +42,7 @@ public class IndicadorMB implements Serializable {
 	private List<Indicador> listIndicadorColeta;
 	private List<Indicador> listIndicadorManutencao;
 	private GrupoLancamento grupoLancamentoFormula;
-	private Indicador indicadorSelecionadoExpressao;
+	private Indicador indicadorFormula;
 	String naoEe = "";
 	String mensagemNaoEe = "";
 
@@ -60,7 +60,8 @@ public class IndicadorMB implements Serializable {
 
 	private List<Processo> listProcesso;
 
-	private int posicaoInserirFormula = 0;
+	private int posicaoInserirFormulaGrupoLancamento = 0;
+	private int posicaoInserirFormulaIndicador = 0;
 
 	@Inject
 	private GenericDAO<Processo> daoProcesso; // faz as buscas
@@ -89,28 +90,44 @@ public class IndicadorMB implements Serializable {
 	public void onCursorSelecionado() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		Map map = context.getExternalContext().getRequestParameterMap();
-		String selecionado = (String) map.get("posicaoCursor");
-		posicaoInserirFormula = Integer.parseInt(((String)map.get("posicaoCursor")).trim());
+		if (map.containsKey("posicaoCursorGrupoLancamento")) {
+			posicaoInserirFormulaGrupoLancamento = Integer
+					.parseInt(((String) map.get("posicaoCursorGrupoLancamento")).trim());
+			posicaoInserirFormulaIndicador = 0;
+		}
+		if (map.containsKey("posicaoCursorIndicador")) {
+			posicaoInserirFormulaIndicador = Integer.parseInt(((String) map.get("posicaoCursorIndicador")).trim());
+			posicaoInserirFormulaGrupoLancamento = 0;
+		}
 	}
 
 	public void selecionarIndicador() {
+		if (indicadorFormula != null) {
+			if (posicaoInserirFormulaIndicador == 0) {
+				posicaoInserirFormulaIndicador = indicador.getFormulaIndicador().length();
+				System.out.println(posicaoInserirFormulaIndicador);
+			}
 
-		if (indicador.getParametros().trim().equals("+")) {
-			indicador.setParametros("");
+			StringBuilder stringBuilder = new StringBuilder(indicador.getFormulaIndicador());
+			stringBuilder.insert(posicaoInserirFormulaIndicador, "" + indicadorFormula.getId());
+
+			indicador.setFormulaIndicador(stringBuilder.toString());
 		}
-		indicador.setParametros(indicador.getParametros() + "$" + indicadorSelecionadoExpressao.getId() + ":@"
-				+ indicadorSelecionadoExpressao.getDescricao() + ";");
 
 		RequestContext.getCurrentInstance().update("frmModalSalvar");
 	}
 
 	public void selecionarGrupoLancamento() {
+		if (grupoLancamentoFormula != null) {
+			if (posicaoInserirFormulaGrupoLancamento == 0) {
+				posicaoInserirFormulaGrupoLancamento = indicador.getFormulaGrupoLancamento().length();
+			}
 
-		StringBuilder stringBuilder = new StringBuilder(indicador.getFormulaGrupoLancamento());
-		stringBuilder.insert(posicaoInserirFormula, "" + grupoLancamentoFormula.getId());
+			StringBuilder stringBuilder = new StringBuilder(indicador.getFormulaGrupoLancamento());
+			stringBuilder.insert(posicaoInserirFormulaGrupoLancamento, "" + grupoLancamentoFormula.getId());
 
-		indicador.setFormulaGrupoLancamento(stringBuilder.toString());
-
+			indicador.setFormulaGrupoLancamento(stringBuilder.toString());
+		}
 		RequestContext.getCurrentInstance().update("frmModalSalvar");
 	}
 
@@ -282,12 +299,12 @@ public class IndicadorMB implements Serializable {
 		this.listIndicador = listIndicador;
 	}
 
-	public Indicador getIndicadorSelecionadoExpressao() {
-		return indicadorSelecionadoExpressao;
+	public Indicador getIndicadorFormula() {
+		return indicadorFormula;
 	}
 
-	public void setIndicadorSelecionadoExpressao(Indicador indicadorSelecionadoExpressao) {
-		this.indicadorSelecionadoExpressao = indicadorSelecionadoExpressao;
+	public void setIndicadorFormula(Indicador indicadorFormula) {
+		this.indicadorFormula = indicadorFormula;
 	}
 
 	public List<Indicador> getListIndicadorTransferencia() {

@@ -29,7 +29,7 @@ public class Indicador implements Serializable {
 	private Boolean status;
 
 	private String observacao;
-	
+
 	private boolean utilizarAnalise = true;
 
 	@ManyToOne
@@ -42,9 +42,18 @@ public class Indicador implements Serializable {
 
 	private String justificativa;
 
-	private String parametros;	
-	
-	private String formulaGrupoLancamento="";	
+	private String parametros;
+
+	private String formulaGrupoLancamento = "";
+	private String formulaIndicador = "";
+
+	public String getFormulaIndicador() {
+		return formulaIndicador;
+	}
+
+	public void setFormulaIndicador(String formulaIndicador) {
+		this.formulaIndicador = formulaIndicador;
+	}
 
 	public String getFormulaGrupoLancamento() {
 		return formulaGrupoLancamento;

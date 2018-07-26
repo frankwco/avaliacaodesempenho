@@ -130,21 +130,23 @@
 						</div>
 
 						<div class="col-md-12">
-							<label>Fórmula de Cálculo - Grupo Lançamento: * --></label>
+							<label>Fórmula de Cálculo - Grupos de Lançamentos: * --></label>
 							&nbsp;&nbsp;&nbsp;
 							<p:commandLink
 								onclick="PF('dlgInstrucoes').show(); PF('dlgInstrucoes').content.scrollTop('0')"
 								style="color: red; font-weight: bold;"
 								value="Clique aqui para obter Instruções" />
+						</div>
+						<div class="col-md-12">
 							<p:inputText id="cmpParametroGL"
 								title="Fórmula Cálculo Grupo Lançamentos"
 								value="#{indicadorMB.indicador.formulaGrupoLancamento}"
 								onselect="processSelection();">
-								<p:ajax event="blur" oncomplete="textbox()" />
+								<p:ajax event="blur" oncomplete="verificaCursorGL();" />
 							</p:inputText>
-							<p:remoteCommand name="sendCursorSelection" actionListener="#{indicadorMB.onCursorSelecionado}" process="@this" />
-							<p:remoteCommand name="selectionGrupoLancamento"
-								actionListener="#{indicadorMB.onSelect}" process="@this" />
+							<p:remoteCommand name="sendCursorSelection"
+								actionListener="#{indicadorMB.onCursorSelecionado}"
+								process="@this" />
 
 							<p:commandButton
 								value="Selecionar Outros Grupo de Lançamentos para a Fórmula"
@@ -155,39 +157,25 @@
 
 
 						<div class="col-md-12">
-							<label>Fórmula de Cálculo - Indicador: * --></label>
+							<label>Fórmula de Cálculo - Outros Indicadores: * --></label>
 							&nbsp;&nbsp;&nbsp;
 							<p:commandLink
 								onclick="PF('dlgInstrucoes').show(); PF('dlgInstrucoes').content.scrollTop('0')"
 								style="color: red; font-weight: bold;"
-								value="Base de Cálculo do
-								Indicador - Clique aqui para obter Instruções" />
-							<p:inputText id="cmpParametro" title="Parâmetros"
-								value="#{indicadorMB.indicador.parametros}"
-								onselect="processSelection();" />
+								value="Clique aqui para obter Instruções" />
+							<p:inputText id="cmpParametro" title="Fórmula de Cálculo Indicador"
+								value="#{indicadorMB.indicador.formulaIndicador}"
+								onselect="processSelection();">
+								<p:ajax event="blur" oncomplete="verificaCursorI()" />
+							</p:inputText>
 							<p:remoteCommand name="sendSelection"
 								actionListener="#{indicadorMB.onSelect}" process="@this" />
 
-
-							<p:autoComplete id="themes" multiple="true"
-								value="#{indicadorMB.indicadoresExpressao}"
-								completeMethod="#{indicadorMB.completarIndicador}" var="theme"
-								itemLabel="#{theme.descricao}" itemValue="#{theme}"
-								forceSelection="true" converter="#{converterIndicador}">
-								<p:column style="width:10%">
-									<h:outputText styleClass="ui-theme ui-theme" />
-								</p:column>
-								<p:column>
-									<h:outputText value="#{theme.descricao}" />
-								</p:column>
-							</p:autoComplete>
-
-
 							<p:commandButton
-								value="Selecionar Outros Indicadores para Base de Cálculo"
+								value="Selecionar Outros Indicadores para a Fórmula"
 								update=":frmModalEscolherIndicador"
 								onclick="PF('dlgEscolherIndicador').show(); PF('dlgEscolherIndicador').content.scrollTop('0')"
-								title="Cadastrar" />
+								title="Fórmula de Cálculo Indicador" />
 						</div>
 
 
@@ -208,16 +196,19 @@
 						</div>
 
 
-						<small>Campos obrigatórios *</small>
-					</div>
-					<div class="modal-footer">
-						<p:commandButton value="Salvar"
-							actionListener="#{indicadorMB.salvar()}"
-							styleClass="ui-priority-primary"
-							update=":dlgInformacao :frmTabela" />
 
-						<p:commandButton value="Cancelar"
-							onclick="PF('dlgIndicador').hide();" alt="Cancelar" />
+					</div>
+					<div class="col-md-12">
+						<small>Campos obrigatórios *</small>
+						<div class="modal-footer">
+							<p:commandButton value="Salvar"
+								actionListener="#{indicadorMB.salvar()}"
+								styleClass="ui-priority-primary"
+								update=":dlgInformacao :frmTabela" />
+
+							<p:commandButton value="Cancelar"
+								onclick="PF('dlgIndicador').hide();" alt="Cancelar" />
+						</div>
 					</div>
 				</h:form>
 				<script>
@@ -227,17 +218,22 @@
                 document.selection.createRange().text;
         sendSelection([{name: 'selectedText', value: selectedText}]);
     }
-    function textbox() {
-        console.log("asddsa");
+    
+    function verificaCursorGL() {
         var ctl = document.getElementById('frmModalSalvar:cmpParametroGL');
         if(ctl!=null){
-            console.log("no IFF");
         var startPos = ctl.selectionStart;
-        //var endPos = ctl.selectionEnd;
-        sendCursorSelection([{name: 'posicaoCursor', value: startPos}]);
-        console.log(startPos);
+        sendCursorSelection([{name: 'posicaoCursorGrupoLancamento', value: startPos}]);
         }
     }
+    function verificaCursorI() {
+            var ctl = document.getElementById('frmModalSalvar:cmpParametro');
+            if(ctl!=null){
+            var startPos = ctl.selectionStart;
+            sendCursorSelection([{name: 'posicaoCursorIndicador', value: startPos}]);
+          }
+    }
+    
 </script>
 			</p:dialog>
 			<!-- FIM DO DIALOG SALVAR -->
@@ -253,7 +249,7 @@
 						<div class="col-md-12">
 							<label>Indicador: *</label>
 							<p:autoComplete dropdown="true"
-								value="#{indicadorMB.indicadorSelecionadoExpressao}"
+								value="#{indicadorMB.indicadorFormula}"
 								scrollHeight="170"
 								completeMethod="#{indicadorMB.completarIndicador}"
 								forceSelection="true" converter="#{converterIndicador}"
