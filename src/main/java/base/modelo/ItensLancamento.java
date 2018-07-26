@@ -31,7 +31,7 @@ public class ItensLancamento implements Serializable {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataLancamento;
-	private Double valor=0.;
+	private Double valor = 0.;
 
 	@ManyToOne
 	@JoinColumn(name = "idLancamento")
@@ -44,6 +44,18 @@ public class ItensLancamento implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idIndicador")
 	private Indicador indicador;
+
+	@ManyToOne
+	@JoinColumn(name = "idGrupoLancamento")
+	private GrupoLancamento grupoLancamento;
+
+	public GrupoLancamento getGrupoLancamento() {
+		return grupoLancamento;
+	}
+
+	public void setGrupoLancamento(GrupoLancamento grupoLancamento) {
+		this.grupoLancamento = grupoLancamento;
+	}
 
 	public Indicador getIndicador() {
 		return indicador;
@@ -127,8 +139,8 @@ public class ItensLancamento implements Serializable {
 	}
 
 	public Double getValor() {
-		if(valor==null){
-			valor=0.;
+		if (valor == null) {
+			valor = 0.;
 		}
 		return valor;
 	}

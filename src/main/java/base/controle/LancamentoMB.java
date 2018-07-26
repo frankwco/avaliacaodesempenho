@@ -13,6 +13,7 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import base.modelo.CategoriaIndicador;
+import base.modelo.GrupoLancamento;
 import base.modelo.Indicador;
 import base.modelo.ItensLancamento;
 import base.modelo.Lancamento;
@@ -34,6 +35,8 @@ public class LancamentoMB implements Serializable {
 	private List<Lancamento> lancamentoBusca;
 	private List<Lancamento> listLancamento;
 	private List<ItensLancamento> listItensLancamento;
+	private GrupoLancamento grupoLancamentoSelecionado;
+	private ItensLancamento itensLancamento;
 
 	@Inject
 	private GenericDAO<Lancamento> daoLancamento; // faz as buscas
@@ -54,7 +57,7 @@ public class LancamentoMB implements Serializable {
 	public void inicializar() {
 
 		lancamento = new Lancamento();
-
+		itensLancamento = new ItensLancamento();
 		listLancamento = new ArrayList<>();
 		listLancamento = daoLancamento.listaComStatus(Lancamento.class);
 		lancamentoBusca = new ArrayList<>();
@@ -62,11 +65,23 @@ public class LancamentoMB implements Serializable {
 
 	}
 
+	public void adicionarItemLancamento() {
+		listItensLancamento.add(itensLancamento);
+		itensLancamento = new ItensLancamento();
+		ExibirMensagem.exibirMensagem(Mensagem.SUCESSO);
+		FecharDialog.fecharDialogInserirLancamento();
+	}
+
+	public void verificaValor(Double valor) {
+		System.out.println(valor);
+	}
+
+	@Deprecated
 	public void calcularIndicadores() {
 		for (ItensLancamento it : listItensLancamento) {
 			if (!it.getIndicador().getParametros().trim().equals("+")) {
-				// String expressao = "($1:@Valor com Pedágio;+$2:@Gastos com
-				// Combustível;+3)/2";
+				// String expressao = "($1:@Valor com Pedï¿½gio;+$2:@Gastos com
+				// Combustï¿½vel;+3)/2";
 				String expressao = it.getIndicador().getParametros();
 				expressao = limpar(expressao);
 				List<String> textos = new ArrayList<>();
@@ -85,14 +100,15 @@ public class LancamentoMB implements Serializable {
 						textos.add(textoSubstituir);
 					}
 				}
-				for (String s : textos) {					
-					String idd = s.replace("$", "").replace(":", "");					
+				for (String s : textos) {
+					String idd = s.replace("$", "").replace(":", "");
 					expressao = expressao.replace(s, String.valueOf(buscaValorIndicador(new Long(idd))));
 				}
 				try {
 //					String va = (String) new ScriptEngineManager().getEngineByName("JavaScript").eval(expressao).t;
-					it.setValor(Double.parseDouble(new ScriptEngineManager().getEngineByName("JavaScript").eval(expressao).toString()));
-					System.out.println("Valor IT: "+it.getValor());
+					it.setValor(Double.parseDouble(
+							new ScriptEngineManager().getEngineByName("JavaScript").eval(expressao).toString()));
+					System.out.println("Valor IT: " + it.getValor());
 //					System.out.println(new ScriptEngineManager().getEngineByName("JavaScript").eval(expressao));
 				} catch (ScriptException e) {
 					// TODO Auto-generated catch block
@@ -137,10 +153,12 @@ public class LancamentoMB implements Serializable {
 	}
 
 	public void finalizarLancamentos() {
+		System.out.println("Finalizando os LanÃ§amentos");
 		lancamento.setStatus(true);
 		lancamentoService.inserirAlterar(lancamento);
 		for (ItensLancamento it : listItensLancamento) {
 			it.setStatus(true);
+			it.setDataLancamento(lancamento.getDataLancamento());
 			it.setLancamento(lancamento);
 			itensLancamentoService.inserirAlterar(it);
 
@@ -154,6 +172,7 @@ public class LancamentoMB implements Serializable {
 
 	}
 
+	@Deprecated
 	public void buscarIndicadores() {
 
 		listItensLancamento = new ArrayList<>();
@@ -172,7 +191,7 @@ public class LancamentoMB implements Serializable {
 					listItensLancamento.add(it);
 				}
 			} else {
-				System.out.println("Buscando os Itens do Lançamento");
+				System.out.println("Buscando os Itens do Lanï¿½amento");
 				listItensLancamento = daoItensLancamento.listar(ItensLancamento.class,
 						"lancamento.id=" + lancamento.getId());
 			}
@@ -180,14 +199,29 @@ public class LancamentoMB implements Serializable {
 	}
 
 	public void inativar(Lancamento t) {
+
 		t.setStatus(false);
 		lancamentoService.inserirAlterar(t);
-		// lancamentoService.update(" Lancamento set status = false where id = "
-		// +
-		// t.getId());
 		criarNovoObjeto();
 		ExibirMensagem.exibirMensagem(Mensagem.SUCESSO);
 		carregarLista();
+	}
+
+	public void inativarItens(ItensLancamento t) {
+
+		if (t.getId() != null) {
+			t.setStatus(false);
+			itensLancamentoService.inserirAlterar(t);
+			carregarListaItens();
+		} else {
+			System.out.println("Aqui no remover");
+			
+			listItensLancamento.remove(t);
+		}
+
+		criarNovoObjetoItens();
+		ExibirMensagem.exibirMensagem(Mensagem.SUCESSO);
+
 	}
 
 	public void salvar() {
@@ -218,8 +252,16 @@ public class LancamentoMB implements Serializable {
 		lancamento = new Lancamento();
 	}
 
+	public void criarNovoObjetoItens() {
+		itensLancamento = new ItensLancamento();
+	}
+
 	public void carregarLista() {
 		listLancamento = daoLancamento.listaComStatus(Lancamento.class);
+	}
+
+	public void carregarListaItens() {
+		listItensLancamento = daoItensLancamento.listaComStatus(ItensLancamento.class);
 	}
 
 	public Lancamento getLancamento() {
@@ -252,6 +294,22 @@ public class LancamentoMB implements Serializable {
 
 	public void setListItensLancamento(List<ItensLancamento> listItensLancamento) {
 		this.listItensLancamento = listItensLancamento;
+	}
+
+	public GrupoLancamento getGrupoLancamentoSelecionado() {
+		return grupoLancamentoSelecionado;
+	}
+
+	public void setGrupoLancamentoSelecionado(GrupoLancamento grupoLancamentoSelecionado) {
+		this.grupoLancamentoSelecionado = grupoLancamentoSelecionado;
+	}
+
+	public ItensLancamento getItensLancamento() {
+		return itensLancamento;
+	}
+
+	public void setItensLancamento(ItensLancamento itensLancamento) {
+		this.itensLancamento = itensLancamento;
 	}
 
 }

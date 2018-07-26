@@ -26,6 +26,7 @@ import base.service.IndicadorService;
 import util.ExibirMensagem;
 import util.FecharDialog;
 import util.Mensagem;
+import util.ValidarFormula;
 import dao.GenericDAO;
 
 @ViewScoped
@@ -220,34 +221,35 @@ public class IndicadorMB implements Serializable {
 	}
 
 	public void salvar() {
-		//// String expre = "";
-		// for (Indicador ii : indicadoresExpressao) {
-		// expre += ii.getDescricao();
-		// }
-		// System.out.println("expressão: " + expre);
-
-		if (indicador.getParametros().trim().equals("")) {
-			indicador.setParametros("+");
+		boolean cadastrar = true;
+		if (!ValidarFormula.validar(indicador.getFormulaGrupoLancamento())) {
+			ExibirMensagem.exibirMensagem("Erro na fórmula de Grupos de Lançamentos");
+			cadastrar= false;
+		}else if (!ValidarFormula.validar(indicador.getFormulaIndicador())) {
+			ExibirMensagem.exibirMensagem("Erro na fórmula de Indicadores");			
+			cadastrar= false;
 		}
-		try {
-			if (indicador.getId() == null) {
-				indicador.setStatus(true);
-				indicadorService.inserirAlterar(indicador);
+		if(cadastrar) {
+			try {
+				if (indicador.getId() == null) {
+					indicador.setStatus(true);
+					indicadorService.inserirAlterar(indicador);
 
-			} else {
-				indicador.setStatus(true);
-				indicadorService.inserirAlterar(indicador);
+				} else {
+					indicador.setStatus(true);
+					indicadorService.inserirAlterar(indicador);
+				}
+
+				criarNovoObjeto();
+				ExibirMensagem.exibirMensagem(Mensagem.SUCESSO);
+				FecharDialog.fecharDialogIndicador();
+				carregarLista();
+
+			} catch (Exception e) {
+				ExibirMensagem.exibirMensagem(Mensagem.ERRO);
+				e.printStackTrace();
 			}
-
-			criarNovoObjeto();
-			ExibirMensagem.exibirMensagem(Mensagem.SUCESSO);
-			FecharDialog.fecharDialogIndicador();
-			carregarLista();
-
-		} catch (Exception e) {
-			ExibirMensagem.exibirMensagem(Mensagem.ERRO);
-			e.printStackTrace();
-		}
+		} 
 
 	}
 

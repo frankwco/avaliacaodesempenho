@@ -20,8 +20,7 @@
 			<!-- TITULO -->
 			<div class="row">
 				<div class="col-md-12">
-					<h1 class="page-header">Lançamento de Informações para os
-						Indicadores</h1>
+					<h1 class="page-header">Lançamento de Informações para os Indicadores</h1>
 
 				</div>
 			</div>
@@ -51,39 +50,62 @@
 				<div class="ui-fluid">
 					<div class="col-md-12">
 						<label>Data: *</label>
-						<p:calendar required="true" requiredMessage="Data Obrigatória!!" value="#{lancamentoMB.lancamento.dataLancamento}"
+						<p:calendar value="#{lancamentoMB.lancamento.dataLancamento}"
 							pattern="dd/MM/yyyy" />
 					</div>
-
+					
 					<div class="col-md-12">
-						<label>Atividade Logística: </label>
+						<label>Atividade: *</label>
 						<p:autoComplete dropdown="true"
 							value="#{lancamentoMB.lancamento.atividade}" scrollHeight="170"
 							completeMethod="#{atividadeMB.completarAtividade}"
 							forceSelection="true" converter="#{converterAtividade}" var="cur"
-							itemLabel="#{cur.descricao}" itemValue="#{cur}">
-
+							itemLabel="#{cur.descricao}" itemValue="#{cur}" required="true"
+							requiredMessage="Campo Obrigatório!!">		
+							<p:ajax event="itemSelect"
+								listener="#{lancamentoMB.buscarIndicadores}" update="@form" />					
 						</p:autoComplete>
 					</div>
 
+					<div class="col-md-12">
+						<label>Grupo de Indicadores: *</label>
+						<p:autoComplete dropdown="true"
+							value="#{lancamentoMB.lancamento.categoriaIndicador}"
+							scrollHeight="170"
+							completeMethod="#{categoriaIndicadorMB.completarCategoriaIndicador}"
+							forceSelection="true" converter="#{converterCategoriaIndicador}"
+							var="cur" itemLabel="#{cur.descricao}" itemValue="#{cur}"
+							required="true" requiredMessage="Campo Obrigatório!!">
+							<p:ajax event="itemSelect"
+								listener="#{lancamentoMB.buscarIndicadores}" update="@form" />
+						</p:autoComplete>
+					</div>
+
+					<div class="col-md-12">
+						<label>Processo: *</label>
+						<p:autoComplete dropdown="true"
+							value="#{lancamentoMB.lancamento.processo}" scrollHeight="170"
+							completeMethod="#{processoMB.completarProcesso}"
+							forceSelection="true" converter="#{converterProcesso}" var="cur"
+							itemLabel="#{cur.descricao}" itemValue="#{cur}" required="true"
+							requiredMessage="Campo Obrigatório!!">
+							<p:ajax event="itemSelect"
+								listener="#{lancamentoMB.buscarIndicadores}" update="@form" />
+						</p:autoComplete>
+					</div>
+					
+					
 
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>Campos
 						obrigatórios *</small>
 				</div>
-		
+				<!-- 				<div class="modal-footer"> -->
+				<!-- 					<p:commandButton value="Continuar" -->
+				<!-- 						actionListener="{lancamentoMB.buscarIndicadores()}" -->
+				<!-- 						styleClass="ui-priority-primary" update="@form" /> -->
+				<!-- 				</div> -->
+
 				<hr />
-				<!-- BOTÃO NOVO -->
-				<div class="row container-fluid">
-					<div class="col-md-12">						
-							<p:commandButton value="Inserir Item"
-								update=":frmInserirLancamento"
-								actionListener="#{lancamentoMB.criarNovoObjetoItens()}"
-								onclick="PF('dlgInserirLancamento').show(); PF('dlgInserirLancamento').content.scrollTop('0')"
-								title="Inserir Item" /> &nbsp;&nbsp;&nbsp;&nbsp;
-					</div>
-				</div>
-				<!-- FIM DO BOTÃO NOVO -->
-				
 				<!-- TABELA-->
 				<div class="col-md-12">
 					<small>Para editar o campo valor, clique na célula
@@ -97,10 +119,9 @@
 						editMode="cell">
 
 						<p:column headerText="Descrição"
-							filterBy="#{list.grupoLancamento.descricao}"
-							sortBy="#{list.grupoLancamento.descricao}"
-							filterMatchMode="contains">
-							<h:outputText value="#{list.grupoLancamento.descricao}" />
+							filterBy="#{list.indicador.descricao}"
+							sortBy="#{list.indicador.descricao}" filterMatchMode="contains">
+							<h:outputText value="#{list.indicador.descricao}" />
 						</p:column>
 
 						<p:column headerText="Valor">
@@ -109,20 +130,34 @@
 									<h:outputText value="#{list.valor}" />
 								</f:facet>
 								<f:facet name="input">
-									<p:inputText value="#{list.valor}" style="width:96%"/>
+									<p:inputText value="#{list.valor}" style="width:96%" >
+										<p:ajax event="blur" update="tabela" listener="#{lancamentoMB.calcularIndicadores()}"/>
+									</p:inputText>
 								</f:facet>
 							</p:cellEditor>
 						</p:column>
-						
-						<p:column headerText="Excluir" >
-							<p:commandButton action="#{lancamentoMB.inativarItens(list)}"
-								icon="ui-icon-trash" title="Excluir" styleClass="btn btn-block"
-								update="tabela :dlgInformacao" alt="Excluir">
-								<p:confirm header="Confirmação" message="Deseja excluir?" />
-							</p:commandButton>
-						</p:column>
+
+						<!-- 						<p:column headerText="Alterar" style="width:68px"> -->
+						<!-- 							<p:commandButton alt="Alterar" icon="ui-icon-pencil" -->
+						<!-- 								title="Alterar" -->
+						<!-- 								styleClass="btn btn-block" -->
+						<!-- 								oncomplete="PF('dlgLancamento').show();" -->
+						<!-- 								actionListener="#{lancamentoMB.preencherLista(list)}"> -->
+
+						<!-- 							</p:commandButton> -->
+						<!-- 						</p:column> -->
+						<!-- 						<p:column headerText="Excluir" style="width:68px"> -->
+						<!-- 							<p:commandButton actionListener="#{lancamentoMB.inativar(list)}" -->
+						<!-- 								icon="ui-icon-trash" title="Excluir" styleClass="btn btn-block" -->
+						<!-- 								update=":frmTabela :dlgInformacao" alt="Excluir"> -->
+						<!-- 								<p:confirm header="Confirmação" message="Deseja excluir?" /> -->
+						<!-- 							</p:commandButton> -->
+						<!-- 						</p:column> -->
+
+
 
 					</p:dataTable>
+
 
 				</div>
 
@@ -134,6 +169,8 @@
 						<p:confirm header="Confirmação"
 							message="Deseja Finalizar a Edição??" icon="ui-icon-alert" />
 					</p:commandButton>
+
+
 				</div>
 			</h:form>
 
@@ -147,61 +184,6 @@
 			<!--FIM DA TABELA-->
 
 			<!-- 			FIM DA MOVIMENTAÇÃO -->
-
-			<!-- DIALOG INSERIR NOVO LANÇAMENTO-->
-			<p:dialog header="Inserir Novo Lançamento"
-				widgetVar="dlgInserirLancamento" modal="true" responsive="true"
-				width="60%" id="dlgInserirLancamento" closable="true"
-				closeOnEscape="true" resizable="false" draggable="false">
-				<h:form id="frmInserirLancamento">
-					<div class="ui-fluid">
-
-						<div class="col-md-12">
-							<label>Grupo de Lançamento: *</label>
-							<p:autoComplete dropdown="true"
-								value="#{lancamentoMB.itensLancamento.grupoLancamento}"
-								scrollHeight="170"
-								completeMethod="#{grupoLancamentoMB.completarGrupoLancamento}"
-								forceSelection="true" converter="#{converterGrupoLancamento}"
-								var="cur" itemLabel="#{cur.descricao}" itemValue="#{cur}"
-								required="true" requiredMessage="Campo Obrigatório!!">
-							</p:autoComplete>
-						</div>
-
-						<div class="col-md-12">
-							<label>Valor: *</label>
-							<p:inputText value="#{lancamentoMB.itensLancamento.valor}"
-								required="true" requiredMessage="O valor é obrigatório!!" />
-						</div>
-
-						<div class="col-md-12">
-							<label>Data: </label>
-							<p:inputText disabled="true" value="Mesma do Lançamento"
-								required="false" requiredMessage="O valor é obrigatório!!" />
-						</div>
-
-						<div class="col-md-12">
-							<label>Observações: </label>
-							<p:inputText value="#{lancamentoMB.itensLancamento.observacao}"
-								required="false" requiredMessage="A observação é obrigatória!!" />
-						</div>
-
-
-						<small>Campos obrigatórios *</small>
-					</div>
-					<div class="modal-footer">
-						<p:commandButton value="Inserir"
-							actionListener="#{lancamentoMB.adicionarItemLancamento()}"
-							styleClass="ui-priority-primary"
-							update=":dlgInformacao :frmTabela:tabela" />
-
-						<p:commandButton value="Cancelar"
-							onclick="PF('dlgInserirLancamento').hide();" alt="Cancelar" />
-					</div>
-				</h:form>
-			</p:dialog>
-			<!-- FIM DO DIALOG INSERIR NOVO LANÇAMENTO -->
-
 
 			<!-- DIALOG SALVAR -->
 			<p:dialog header="Processo" widgetVar="dlgLancamento" modal="true"
@@ -266,7 +248,8 @@
 
 							<p:column headerText="Processo"
 								filterBy="#{list.processo.descricao}"
-								sortBy="#{list.processo.descricao}" filterMatchMode="contains">
+								sortBy="#{list.processo.descricao}"
+								filterMatchMode="contains">
 								<h:outputText value="#{list.processo.descricao}" />
 							</p:column>
 
@@ -275,7 +258,8 @@
 									title="Alterar" styleClass="btn btn-block"
 									oncomplete="PF('dlgPesquisarLancamento').hide();"
 									actionListener="#{lancamentoMB.preencherLista(list)}"
-									update=":dlgInformacao :frmTabela">
+									update=":dlgInformacao :frmTabela"
+									>
 
 								</p:commandButton>
 							</p:column>

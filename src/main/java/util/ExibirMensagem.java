@@ -10,11 +10,11 @@ public class ExibirMensagem {
 		context.addMessage(null, new FacesMessage(mensagem));
 	}
 	public static void exibirMessageFatal(){
-	   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "", "CPF inv·lido"));
+	   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "", "CPF inv√°lido"));
 	
 	}
 	
 	public static void exibirMessageWarn(){
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "", "Question·rio indisponÌvel"));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "", "Question√°rio indispon√≠vel"));
 		}
 }

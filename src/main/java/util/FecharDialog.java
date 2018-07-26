@@ -8,6 +8,10 @@ public class FecharDialog {
 		RequestContext.getCurrentInstance().execute("PF('dlgTipoServidor').hide();");
 	}
 	
+	public static void fecharDialogInserirLancamento() {
+		RequestContext.getCurrentInstance().execute("PF('dlgInserirLancamento').hide();");
+	}
+	
 	public static void fecharDialogVeiculo() {
 		RequestContext.getCurrentInstance().execute("PF('dlgVeiculo').hide();");
 	}
