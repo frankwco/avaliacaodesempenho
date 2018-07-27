@@ -2,53 +2,70 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
-      
-      <h:head>
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
 	<meta charset="utf-8"></meta>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
-	</h:head>
+</h:head>
 <h:body>
-	<ui:composition template="../resources/template/template-administrador.xhtml">
+	<ui:composition
+		template="../resources/template/template-administrador.xhtml">
 		<ui:define name="mensagem">
 			<ui:include src="../componentes/mensagem.xhtml" />
 		</ui:define>
 		<ui:define name="modal-confirmacao">
 			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
 		</ui:define>
-		
+
 		<ui:define name="conteudo">
 			<!-- TITULO -->
-	<div class="row">
-		<div class="col-md-12">
-			<h1 class="page-header">
-				<i class="fa fa-chart-line" aria-hidden="true"></i> Gráficos
-			</h1>
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">
+						<i class="fa fa-chart-line" aria-hidden="true"></i> Gráficos
+					</h1>
+
+				</div>
+
+
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<h:form>
+						<p:commandButton value="Buscar Valores"
+							styleClass="ui-priority-primary"
+							actionListener="#{chartView.buscarValoresIndicadores()}"
+							update="@form" /> &nbsp;&nbsp;&nbsp;&nbsp;
 			
-		</div>
 		
-		
-	</div>
-	<div class="row">
-		<div class="col-md-12">
-		<h:form>
-			<p:commandButton value="Buscar Valores" styleClass="ui-priority-primary"  actionListener="#{chartView.buscarValoresIndicadores()}" update="@form"/> &nbsp;&nbsp;&nbsp;&nbsp;
-			
-		
-			<p:commandButton value="Últimos 24 Meses" styleClass="ui-priority-primary"  actionListener="#{chartView.chamarGraficos(24)}" update="@form"/> &nbsp;&nbsp;&nbsp;&nbsp;
-			<p:commandButton value="Últimos 12 Meses" styleClass="ui-priority-primary" actionListener="#{chartView.chamarGraficos(12)}" update="@form"/> &nbsp;&nbsp;&nbsp;&nbsp;
- 			<p:commandButton value="Últimos 3 Meses" styleClass="ui-priority-primary" actionListener="#{chartView.chamarGraficos(3)}" update="@form"/> &nbsp;&nbsp;&nbsp;&nbsp;
+			<p:commandButton value="Últimos 24 Meses"
+							styleClass="ui-priority-primary"
+							actionListener="#{chartView.chamarGraficos(24)}" update="@form" /> &nbsp;&nbsp;&nbsp;&nbsp;
+			<p:commandButton value="Últimos 12 Meses"
+							styleClass="ui-priority-primary"
+							actionListener="#{chartView.chamarGraficos(12)}" update="@form" /> &nbsp;&nbsp;&nbsp;&nbsp;
+ 			<p:commandButton value="Últimos 3 Meses"
+							styleClass="ui-priority-primary"
+							actionListener="#{chartView.chamarGraficos(3)}" update="@form" /> &nbsp;&nbsp;&nbsp;&nbsp;
  			
 		
-			<p:chart type="line" model="#{chartView.lineModel2}" style="height:300px;" widgetVar="chart"/>
-			<p:commandButton type="button" value="Remover o Zoom" icon="ui-icon-cancel" onclick="PF('chart').resetZoom()"/>
-		</h:form>	
-		</div>
-		
-		
-	</div>
-	<!-- FIM TITULO -->
-	</ui:define>
+			<p:chart type="line" model="#{chartView.lineModel2}"
+							style="height:300px;" widgetVar="chart" />
+						<p:commandButton type="button" value="Remover o Zoom"
+							icon="ui-icon-cancel" onclick="PF('chart').resetZoom()" />
+					</h:form>
+				</div>
+
+				<div class="col-md-12">
+					<p:chart type="bar" model="#{graficosCategoriaIndicadoresMB.barModel}"
+						style="height:300px;" />
+				</div>
+
+
+			</div>
+			<!-- FIM TITULO -->
+		</ui:define>
 	</ui:composition>
 </h:body>
 </html>

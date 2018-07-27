@@ -99,7 +99,7 @@
 			<!--FIM DA TABELA-->
 
 			<!-- DIALOG SALVAR -->
-			<p:dialog header="Tipo Servidor" widgetVar="dlgIndicador"
+			<p:dialog header="Cadastro Indicador" widgetVar="dlgIndicador"
 				modal="true" responsive="true" width="60%" id="dlgIndicador"
 				closable="true" closeOnEscape="true" resizable="false"
 				draggable="false">
@@ -130,7 +130,18 @@
 						</div>
 
 						<div class="col-md-12">
-							<label>Fórmula de Cálculo - Grupos de Lançamentos: * --></label>
+							<label>Processo: *</label>
+							<p:autoComplete dropdown="true"
+								value="#{indicadorMB.indicador.processo}" scrollHeight="170"
+								completeMethod="#{processoMB.completarProcesso}"
+								forceSelection="true" converter="#{converterProcesso}" var="cur"
+								itemLabel="#{cur.descricao}" itemValue="#{cur}" required="true"
+								requiredMessage="Campo Obrigatório!!" />
+						</div>
+						
+						
+						<div class="col-md-12">
+							<label>Fórmula de Cálculo - Obtenção dos Valores do Indicador: *--></label>
 							&nbsp;&nbsp;&nbsp;
 							<p:commandLink
 								onclick="PF('dlgInstrucoes').show(); PF('dlgInstrucoes').content.scrollTop('0')"
@@ -155,21 +166,21 @@
 								title="Selecionar Outros Grupo de Lançamentos para a Fórmula" />
 						</div>
 
-
+<!--  
 						<div class="col-md-12">
-							<label>Fórmula de Cálculo - Outros Indicadores: * --></label>
+							<label>Fórmula de Cálculo - Outros Indicadores: * </label>
 							&nbsp;&nbsp;&nbsp;
 							<p:commandLink
 								onclick="PF('dlgInstrucoes').show(); PF('dlgInstrucoes').content.scrollTop('0')"
 								style="color: red; font-weight: bold;"
 								value="Clique aqui para obter Instruções" />
 							<p:inputText id="cmpParametro" title="Fórmula de Cálculo Indicador"
-								value="#{indicadorMB.indicador.formulaIndicador}"
+								value="{indicadorMB.indicador.formulaIndicador}"
 								onselect="processSelection();">
 								<p:ajax event="blur" oncomplete="verificaCursorI()" />
 							</p:inputText>
 							<p:remoteCommand name="sendSelection"
-								actionListener="#{indicadorMB.onSelect}" process="@this" />
+								actionListener="{indicadorMB.onSelect}" process="@this" />
 
 							<p:commandButton
 								value="Selecionar Outros Indicadores para a Fórmula"
@@ -177,17 +188,8 @@
 								onclick="PF('dlgEscolherIndicador').show(); PF('dlgEscolherIndicador').content.scrollTop('0')"
 								title="Fórmula de Cálculo Indicador" />
 						</div>
-
-
-						<div class="col-md-12">
-							<label>Processo: *</label>
-							<p:autoComplete dropdown="true"
-								value="#{indicadorMB.indicador.processo}" scrollHeight="170"
-								completeMethod="#{processoMB.completarProcesso}"
-								forceSelection="true" converter="#{converterProcesso}" var="cur"
-								itemLabel="#{cur.descricao}" itemValue="#{cur}" required="true"
-								requiredMessage="Campo Obrigatório!!" />
-						</div>
+-->
+						
 
 						<div class="col-md-12">
 							<label>Observação: </label>
@@ -268,8 +270,8 @@
 							actionListener="#{indicadorMB.selecionarIndicador()}"
 							styleClass="ui-priority-primary"
 							oncomplete="PF('dlgEscolherIndicador').hide();"
-							update=":dlgInformacao :frmModalSalvar:cmpParametro"
-							process="@this,:frmModalSalvar:cmpParametro" />
+							update=":dlgInformacao"
+							process="@this" />
 
 						<p:commandButton value="Cancelar"
 							onclick="PF('dlgEscolherIndicador').hide();" alt="Cancelar" />

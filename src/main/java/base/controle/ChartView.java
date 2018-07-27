@@ -59,7 +59,7 @@ public class ChartView implements Serializable {
 		String dataInicial="10/07/2018";
 		String dataFinal="30/12/2018";
 		
-		List<Indicador> li=funcoesMatematicas.calcularTodosIndicadores(ConverteStringDate.retornaData(dataInicial), ConverteStringDate.retornaData(dataFinal));
+		List<Indicador> li=funcoesMatematicas.calcularIndicadoresTodos(ConverteStringDate.retornaData(dataInicial), ConverteStringDate.retornaData(dataFinal));
 	
 		for(Indicador i:li) {
 			System.out.println(i.getDescricao()+ " - "+i.getValorCalculoGrupoLancamento() +" - "+i.getValorFinal());

@@ -27,6 +27,8 @@ public class Indicador implements Serializable {
 
 	private String descricao;
 
+	private String abreviacao;
+
 	private Boolean status;
 
 	private String observacao;
@@ -54,6 +56,30 @@ public class Indicador implements Serializable {
 
 	private String formulaIndicador = "";
 
+	public String getAbreviacao() {
+		//System.out.println("Abre: "+abreviacao);
+		//System.out.println("Descricao: "+descricao);
+		if (abreviacao == null) {
+			abreviacao="";
+			if (descricao != null) {
+				String[] palavra = descricao.split(" ");
+				for (String p : palavra) {
+					///System.out.println("Tamanho da palavra: "+p);
+					if (p.length() > 0) {
+						abreviacao += p.charAt(0);
+					}
+				}
+			} else {
+				abreviacao = ".";
+			}
+		}
+		return abreviacao;
+	}
+
+	public void setAbreviacao(String abreviacao) {
+		this.abreviacao = abreviacao;
+	}
+
 	public Double getValorCalculoGrupoLancamento() {
 		return valorCalculoGrupoLancamento;
 	}
@@ -71,8 +97,8 @@ public class Indicador implements Serializable {
 	}
 
 	public String getFormulaIndicador() {
-		if(formulaIndicador==null) {
-			formulaIndicador="";
+		if (formulaIndicador == null) {
+			formulaIndicador = "";
 		}
 		return formulaIndicador;
 	}
@@ -82,8 +108,8 @@ public class Indicador implements Serializable {
 	}
 
 	public String getFormulaGrupoLancamento() {
-		if(formulaGrupoLancamento==null) {
-			formulaGrupoLancamento="";
+		if (formulaGrupoLancamento == null) {
+			formulaGrupoLancamento = "";
 		}
 		return formulaGrupoLancamento;
 	}

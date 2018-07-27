@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta charset="utf-8"></meta>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+</h:head>
+<h:body>
+	<ui:composition
+		template="../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">
+						<i class="fa fa-chart-line" aria-hidden="true"></i> Gráficos
+					</h1>
+
+				</div>
+			</div>
+			
+			<h:form id="frmDataConsultaPorCategorias">
+			<div class="row">
+				<div class="col-md-12">
+						<h:panelGrid columns="2">
+							
+						</h:panelGrid>
+				</div>
+			</div>
+				<div class="ui-fluid">
+					<div class="col-md-12">
+						<label>Data: *</label>
+						<p:calendar required="true" requiredMessage="Data Obrigatória!!"
+							value="#{lancamentoMB.itensLancamento.dataLancamento}"
+							pattern="dd/MM/yyyy" />
+						<p:commandButton value="Inserir"
+							actionListener="#{lancamentoMB.adicionarItemLancamento()}"
+							styleClass="ui-priority-primary"
+							update=":dlgInformacao :frmTabela:tabela" />
+					</div>
+				</div>
+			</h:form>
+			
+			<div class="col-md-12">
+				<p:chart type="bar"
+					model="#{graficosCategoriaIndicadoresMB.barraCusto}"
+					style="height:300px;" />
+			</div>
+
+
+			<!-- FIM TITULO -->
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
+

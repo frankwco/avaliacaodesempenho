@@ -53,11 +53,11 @@ public class FuncoesMatematicas implements Serializable {
 	private Lancamento lancamento;
 	private List<Lancamento> lancamentoBusca;
 	private List<Lancamento> listLancamento;
-	private List<ItensLancamento> listItensLancamento;
+	//private List<ItensLancamento> listItensLancamento;
 	private GrupoLancamento grupoLancamentoSelecionado;
 	private ItensLancamento itensLancamento;
 
-	private List<Indicador> listaIndicadores;
+	//private List<Indicador> listaIndicadores;
 
 	@Inject
 	private GenericDAO<Lancamento> daoLancamento; // faz as buscas
@@ -85,19 +85,38 @@ public class FuncoesMatematicas implements Serializable {
 		listLancamento = new ArrayList<>();
 		listLancamento = daoLancamento.listaComStatus(Lancamento.class);
 		lancamentoBusca = new ArrayList<>();
-		listItensLancamento = new ArrayList<>();
-		listaIndicadores = daoIndicador.listar(Indicador.class, "utilizarAnalise is true");
+		//listItensLancamento = new ArrayList<>();
+		//listaIndicadores = daoIndicador.listar(Indicador.class, "utilizarAnalise is true");
 	}
 
-	public List<Indicador> calcularTodosIndicadores(Date dataInicial, Date dataFinal) {
-	
-		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal);
-		listaIndicadores = calcularValorFinalIndicador();
-		
+	public List<Indicador> calcularIndicadoresTodos(Date dataInicial, Date dataFinal) {
+		List<Indicador> listaIndicadores=daoIndicador.listar(Indicador.class, "utilizarAnalise is true");;
+		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal, listaIndicadores);
+		//listaIndicadores = calcularValorFinalIndicador();		
 		return listaIndicadores;
 	}
+	
+	public List<Indicador> calcularIndicadoresPorIndicador(Date dataInicial, Date dataFinal, Long id) {
+		List<Indicador> listaIndicadores=daoIndicador.listar(Indicador.class, "utilizarAnalise is true and id="+id);;
+		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal, listaIndicadores);
+		//listaIndicadores = calcularValorFinalIndicador();		
+		return listaIndicadores;
+	}
+	public List<Indicador> calcularIndicadoresPorProcesso(Date dataInicial, Date dataFinal, Long id) {
+		List<Indicador> listaIndicadores=daoIndicador.listar(Indicador.class, "utilizarAnalise is true and processo.id="+id);;
+		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal, listaIndicadores);
+		//listaIndicadores = calcularValorFinalIndicador();		
+		return listaIndicadores;
+	}
+	public List<Indicador> calcularIndicadoresPorCategoria(Date dataInicial, Date dataFinal, Long id) {
+		List<Indicador> listaIndicadores=daoIndicador.listar(Indicador.class, "utilizarAnalise is true and categoriaIndicador.id="+id);;
+		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal, listaIndicadores);
+		//listaIndicadores = calcularValorFinalIndicador();		
+		return listaIndicadores;
+	}
+	
 
-	private List<Indicador> calcularValorGruposLancamentos(Date dataInicial, Date dataFinal) {
+	private List<Indicador> calcularValorGruposLancamentos(Date dataInicial, Date dataFinal, List<Indicador> listaIndicadores) {
 		for (Indicador in : listaIndicadores) {
 			Double valor = 0.;
 			ScriptEngineManager mgr = new ScriptEngineManager();
@@ -119,12 +138,12 @@ public class FuncoesMatematicas implements Serializable {
 		return listaIndicadores;
 	}
 
-	private List<Indicador> calcularValorFinalIndicador() {
+	private List<Indicador> calcularValorFinalIndicador(List<Indicador> listaIndicadores) {
 		for (Indicador in : listaIndicadores) {
 			Double valor = 0.;
 			ScriptEngineManager mgr = new ScriptEngineManager();
 			ScriptEngine engine = mgr.getEngineByName("JavaScript");
-			String foo = montarExpressaoIndicador(in.getFormulaIndicador());
+			String foo = montarExpressaoIndicador(in.getFormulaIndicador(), listaIndicadores);
 			System.out.println("FooInd: " + foo);
 			try {
 				if (engine.eval(foo) != null) {
@@ -143,7 +162,7 @@ public class FuncoesMatematicas implements Serializable {
 	private Double buscarValorItensLancamento(Long idGrupoLancamento, Date dataInicial, Date dataFinal) {
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		System.out.println("DATA Formatada: " + format.format(dataInicial));
-		listItensLancamento = new ArrayList<>();
+		List<ItensLancamento> listItensLancamento = new ArrayList<>();
 		listItensLancamento = daoItensLancamento.listar(ItensLancamento.class,
 				"grupoLancamento.id=" + idGrupoLancamento + " and dataLancamento between '" + format.format(dataInicial)
 						+ "' and '" + format.format(dataFinal) + "'");
@@ -154,7 +173,7 @@ public class FuncoesMatematicas implements Serializable {
 		return valor;
 	}
 
-	private Double buscarValorIndicador(Long idIndicador) {
+	private Double buscarValorIndicador(Long idIndicador, List<Indicador> listaIndicadores) {
 		Double valor = 0.;
 		for (Indicador i : listaIndicadores) {
 			if (i.getId()==idIndicador) {
@@ -167,7 +186,7 @@ public class FuncoesMatematicas implements Serializable {
 
 	private int buscarQuantidadeItensLancamento(Long idGrupoLancamento, Date dataInicial, Date dataFinal) {
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		listItensLancamento = new ArrayList<>();
+		List<ItensLancamento> listItensLancamento = new ArrayList<>();
 		listItensLancamento = daoItensLancamento.listar(ItensLancamento.class,
 				"grupoLancamento.id=" + idGrupoLancamento + " and dataLancamento between '" + format.format(dataInicial)
 						+ "' and '" + format.format(dataFinal) + "'");
@@ -175,7 +194,7 @@ public class FuncoesMatematicas implements Serializable {
 		return listItensLancamento.size();
 	}
 
-	private String montarExpressaoIndicador(String formula) {
+	private String montarExpressaoIndicador(String formula, List<Indicador> listaIndicadores) {
 
 		if (formula.trim().equals("")) {
 			return "";
@@ -188,10 +207,10 @@ public class FuncoesMatematicas implements Serializable {
 			String posicao = result[x];
 			if (posicao.equals("somar")) {
 				equacao += String
-						.valueOf(buscarValorIndicador(Long.parseLong(result[x + 2])));
+						.valueOf(buscarValorIndicador(Long.parseLong(result[x + 2]), listaIndicadores));
 				x = x + 3;
 			} else if (posicao.equals("contar")) {
-				equacao += String.valueOf(buscarValorIndicador(Long.parseLong(result[x + 2])));
+				equacao += String.valueOf(buscarValorIndicador(Long.parseLong(result[x + 2]), listaIndicadores));
 				x = x + 3;
 			} else {
 				equacao += posicao;
@@ -228,7 +247,7 @@ public class FuncoesMatematicas implements Serializable {
 		return equacao;
 	}
 
-	private Double buscaValorIndicador(Long id) {
+	private Double buscaValorIndicador(Long id, List<ItensLancamento> listItensLancamento) {
 		Double valor = 0.;
 		for (ItensLancamento it : listItensLancamento) {
 			if (it.getIndicador().getId().equals(id)) {
@@ -251,7 +270,7 @@ public class FuncoesMatematicas implements Serializable {
 
 	private void buscarIndicadores(Long id, Date dataInicial, Date dataFinal) {
 
-		listItensLancamento = new ArrayList<>();
+		List<ItensLancamento> listItensLancamento = new ArrayList<>();
 		if (lancamento.getCategoriaIndicador() != null && lancamento.getProcesso() != null) {
 			if (lancamento.getId() == null) {
 				System.out.println("CAT: " + lancamento.getCategoriaIndicador().getId());
@@ -278,9 +297,7 @@ public class FuncoesMatematicas implements Serializable {
 		listLancamento = daoLancamento.listaComStatus(Lancamento.class);
 	}
 
-	private void carregarListaItens() {
-		listItensLancamento = daoItensLancamento.listaComStatus(ItensLancamento.class);
-	}
+
 
 	public Lancamento getLancamento() {
 		return lancamento;
@@ -306,13 +323,6 @@ public class FuncoesMatematicas implements Serializable {
 		this.listLancamento = listLancamento;
 	}
 
-	public List<ItensLancamento> getListItensLancamento() {
-		return listItensLancamento;
-	}
-
-	public void setListItensLancamento(List<ItensLancamento> listItensLancamento) {
-		this.listItensLancamento = listItensLancamento;
-	}
 
 	public GrupoLancamento getGrupoLancamentoSelecionado() {
 		return grupoLancamentoSelecionado;
