@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "indicador")
@@ -44,10 +45,35 @@ public class Indicador implements Serializable {
 
 	private String parametros;
 
+	@Transient
+	private Double valorCalculoGrupoLancamento;
+	@Transient
+	private Double valorFinal;
+
 	private String formulaGrupoLancamento = "";
+
 	private String formulaIndicador = "";
 
+	public Double getValorCalculoGrupoLancamento() {
+		return valorCalculoGrupoLancamento;
+	}
+
+	public void setValorCalculoGrupoLancamento(Double valorCalculoGrupoLancamento) {
+		this.valorCalculoGrupoLancamento = valorCalculoGrupoLancamento;
+	}
+
+	public Double getValorFinal() {
+		return valorFinal;
+	}
+
+	public void setValorFinal(Double valorFinal) {
+		this.valorFinal = valorFinal;
+	}
+
 	public String getFormulaIndicador() {
+		if(formulaIndicador==null) {
+			formulaIndicador="";
+		}
 		return formulaIndicador;
 	}
 
@@ -56,6 +82,9 @@ public class Indicador implements Serializable {
 	}
 
 	public String getFormulaGrupoLancamento() {
+		if(formulaGrupoLancamento==null) {
+			formulaGrupoLancamento="";
+		}
 		return formulaGrupoLancamento;
 	}
 

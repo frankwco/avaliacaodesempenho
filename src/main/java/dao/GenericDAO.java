@@ -34,7 +34,7 @@ public class GenericDAO<T> implements Serializable{
 	}
 	
 	public T buscarCondicao(Class classeEntidade, String condicao) {
-		return (T) manager.createQuery("from "+classeEntidade.getSimpleName()+" where "+condicao).getSingleResult();
+		return (T) manager.createQuery("from "+classeEntidade.getSimpleName()+" where status is true and "+condicao).getSingleResult();
 	}
 	
 	public List<T> listaComStatus(Class classeEntidade) {
@@ -44,7 +44,7 @@ public class GenericDAO<T> implements Serializable{
 	public List<T> listar(Class classeEntidade, String condicao) {
 		Query query = null;
 		try {
-			query = manager.createQuery("from " + classeEntidade.getSimpleName() + " where status is true and " + condicao);
+			query = manager.createQuery("from " + classeEntidade.getSimpleName() + " where status is true and " + condicao+" order by id asc");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

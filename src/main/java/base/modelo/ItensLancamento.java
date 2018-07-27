@@ -29,8 +29,8 @@ public class ItensLancamento implements Serializable {
 
 	private String descricao;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataLancamento;
+	@Temporal(TemporalType.DATE)
+	private Date dataLancamento = new Date();
 	private Double valor = 0.;
 
 	@ManyToOne
@@ -113,11 +113,21 @@ public class ItensLancamento implements Serializable {
 		this.observacao = observacao;
 	}
 
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((dataLancamento == null) ? 0 : dataLancamento.hashCode());
+		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
+		result = prime * result + ((grupoLancamento == null) ? 0 : grupoLancamento.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((indicador == null) ? 0 : indicador.hashCode());
+		result = prime * result + ((lancamento == null) ? 0 : lancamento.hashCode());
+		result = prime * result + ((observacao == null) ? 0 : observacao.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((valor == null) ? 0 : valor.hashCode());
 		return result;
 	}
 
@@ -130,10 +140,50 @@ public class ItensLancamento implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		ItensLancamento other = (ItensLancamento) obj;
+		if (dataLancamento == null) {
+			if (other.dataLancamento != null)
+				return false;
+		} else if (!dataLancamento.equals(other.dataLancamento))
+			return false;
+		if (descricao == null) {
+			if (other.descricao != null)
+				return false;
+		} else if (!descricao.equals(other.descricao))
+			return false;
+		if (grupoLancamento == null) {
+			if (other.grupoLancamento != null)
+				return false;
+		} else if (!grupoLancamento.equals(other.grupoLancamento))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
+			return false;
+		if (indicador == null) {
+			if (other.indicador != null)
+				return false;
+		} else if (!indicador.equals(other.indicador))
+			return false;
+		if (lancamento == null) {
+			if (other.lancamento != null)
+				return false;
+		} else if (!lancamento.equals(other.lancamento))
+			return false;
+		if (observacao == null) {
+			if (other.observacao != null)
+				return false;
+		} else if (!observacao.equals(other.observacao))
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
+			return false;
+		if (valor == null) {
+			if (other.valor != null)
+				return false;
+		} else if (!valor.equals(other.valor))
 			return false;
 		return true;
 	}

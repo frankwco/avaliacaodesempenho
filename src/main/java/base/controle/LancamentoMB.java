@@ -1,16 +1,29 @@
 package base.controle;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import javax.servlet.ServletContext;
+
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 import base.modelo.CategoriaIndicador;
 import base.modelo.GrupoLancamento;
@@ -20,10 +33,16 @@ import base.modelo.Lancamento;
 import base.service.IndicadorService;
 import base.service.ItensLancamentoService;
 import base.service.LancamentoService;
+import util.ConverteStringDate;
 import util.ExibirMensagem;
 import util.FecharDialog;
 import util.Mensagem;
 import dao.GenericDAO;
+import jxl.Cell;
+import jxl.DateCell;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
 
 @ViewScoped
 @Named("lancamentoMB")
@@ -40,6 +59,9 @@ public class LancamentoMB implements Serializable {
 
 	@Inject
 	private GenericDAO<Lancamento> daoLancamento; // faz as buscas
+	
+	@Inject
+	private GenericDAO<GrupoLancamento> daoGrupoLancamentos; // faz as buscas
 
 	@Inject
 	private GenericDAO<ItensLancamento> daoItensLancamento; // faz as buscas
@@ -152,17 +174,111 @@ public class LancamentoMB implements Serializable {
 		return expressao;
 	}
 
+	public void uploadDados(FileUploadEvent evento) {
+		System.out.println("DEntro do Upload de Dados");
+		try {
+			UploadedFile arquivoUpload = evento.getFile();
+			if (!arquivoUpload.getFileName().isEmpty()) {
+
+				Path arquivoTemp = Files.createTempFile(null, null);
+				Files.copy(arquivoUpload.getInputstream(), arquivoTemp, StandardCopyOption.REPLACE_EXISTING);
+				Path origem = Paths.get(arquivoTemp.toString());
+
+				Path destino = Paths.get(System.getProperty("java.io.tmpdir") + "//" + evento.getFile().getFileName());
+				Files.copy(origem, destino, StandardCopyOption.REPLACE_EXISTING);
+
+				/*
+				 * File tempdir = new File(System.getProperty("java.io.tmpdir"));
+				 * 
+				 * File tempFile = File.createTempFile("arquivo_dados_indic", ".xls", tempdir);
+				 * 
+				 * tempFile.deleteOnExit(); try {
+				 * 
+				 * } finally { tempFile.delete(); }
+				 */
+				System.out.println(System.getProperty("java.io.tmpdir") + "//" + arquivoUpload.getFileName());
+				ExibirMensagem.exibirMensagem(Mensagem.UPLOAD);
+
+				importaDados(String.valueOf(arquivoUpload.getFileName()));
+
+			}
+
+		} catch (Exception e) {
+			System.err.println("Erro em: upload");
+			e.printStackTrace();
+		}
+	}
+
+	public void importaDados(String nomeArquivo) throws IOException, BiffException {
+
+		Workbook workbook = Workbook.getWorkbook(new File(System.getProperty("java.io.tmpdir") + "/" + nomeArquivo));
+
+		Sheet sheet = workbook.getSheet(0);
+
+		boolean controle;
+		int linhas = sheet.getRows();
+
+		for (int i = 1; i < linhas; i++) {
+
+			Cell celulaGrupoLancamento = sheet.getCell(0, i);
+			Cell celulaData = sheet.getCell(1, i);
+			Cell celulaValor = sheet.getCell(2, i);
+			Cell celulaObservacao = sheet.getCell(3, i);
+
+			String grupoLancamento = celulaGrupoLancamento.getContents();
+			Date data = ConverteStringDate.retornaData(celulaData.getContents());
+			String valor = celulaValor.getContents();
+			String observacao = celulaObservacao.getContents();
+			
+			itensLancamento = new ItensLancamento();
+			itensLancamento.setDataLancamento(data);
+			itensLancamento.setGrupoLancamento(retornaGrupoLancamentoDescricao(grupoLancamento));
+			itensLancamento.setObservacao(observacao);
+			try {
+				itensLancamento.setValor(Double.parseDouble(valor.replace(",", ".")));
+			}catch(Exception e) {
+				itensLancamento.setValor(0.0);
+				itensLancamento.setObservacao(observacao+" - Ocorreu erro na importação do valor");
+			}
+			
+			listItensLancamento.add(itensLancamento);
+			
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			System.out.print("GL: " + grupoLancamento);
+			System.out.print(" Data: " + dateFormat.format(data));
+			System.out.print(" Valor: " + valor);
+			System.out.println(" Observação: " + observacao);
+
+		}
+
+		workbook.close();
+
+	}
+	
+	private GrupoLancamento retornaGrupoLancamentoDescricao(String descricao) {
+		GrupoLancamento grupo = null;
+		List<GrupoLancamento> listaGrupol = daoGrupoLancamentos.listar(GrupoLancamento.class, "descricao='"+descricao.trim()+"'");
+		if(listaGrupol.size()>0) {
+			grupo = listaGrupol.get(0);
+		}
+		
+		return grupo;
+	}
+
+	
+
 	public void finalizarLancamentos() {
 		System.out.println("Finalizando os Lançamentos");
 		lancamento.setStatus(true);
 		lancamentoService.inserirAlterar(lancamento);
 		for (ItensLancamento it : listItensLancamento) {
 			it.setStatus(true);
-			it.setDataLancamento(lancamento.getDataLancamento());
 			it.setLancamento(lancamento);
 			itensLancamentoService.inserirAlterar(it);
 
 		}
+		criarNovoObjeto();
+		listItensLancamento = new ArrayList<>();
 		ExibirMensagem.exibirMensagem(Mensagem.SUCESSO);
 	}
 
@@ -215,7 +331,7 @@ public class LancamentoMB implements Serializable {
 			carregarListaItens();
 		} else {
 			System.out.println("Aqui no remover");
-			
+
 			listItensLancamento.remove(t);
 		}
 

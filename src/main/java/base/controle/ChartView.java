@@ -1,6 +1,8 @@
 package base.controle;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -19,9 +21,12 @@ import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartSeries;
 
 import base.modelo.CategoriaIndicador;
+import base.modelo.Indicador;
 import base.modelo.ItensLancamento;
 import base.modelo.Lancamento;
 import dao.GenericDAO;
+import util.ConverteStringDate;
+import util.FuncoesMatematicas;
 
 @ViewScoped
 @Named("chartView")
@@ -39,15 +44,29 @@ public class ChartView implements Serializable {
 
 	@Inject
 	private GenericDAO<ItensLancamento> daoItensLancamento; // faz as buscas
-	
-	int meses=12;
+
+	@Inject
+	private FuncoesMatematicas funcoesMatematicas;
+
+	int meses = 12;
 
 	@PostConstruct
 	public void init() {
 		createLineModels();
 	}
+
+	public void buscarValoresIndicadores() {
+		String dataInicial="10/07/2018";
+		String dataFinal="30/12/2018";
+		
+		List<Indicador> li=funcoesMatematicas.calcularTodosIndicadores(ConverteStringDate.retornaData(dataInicial), ConverteStringDate.retornaData(dataFinal));
 	
-	public void chamarGraficos(int meses){
+		for(Indicador i:li) {
+			System.out.println(i.getDescricao()+ " - "+i.getValorCalculoGrupoLancamento() +" - "+i.getValorFinal());
+		}
+	}
+
+	public void chamarGraficos(int meses) {
 		this.meses = meses;
 		createLineModels();
 		System.out.println("");
@@ -77,8 +96,8 @@ public class ChartView implements Serializable {
 		lineModel2.getAxes().put(AxisType.X, new CategoryAxis("Mês/Ano"));
 		yAxis = lineModel2.getAxis(AxisType.Y);
 		yAxis.setLabel("R$");
-		//yAxis.setMin(0);
-		//yAxis.setMax(20000);
+		// yAxis.setMin(0);
+		// yAxis.setMax(20000);
 	}
 
 	private LineChartModel initLinearModel() {
@@ -124,14 +143,13 @@ public class ChartView implements Serializable {
 			ChartSeries girls = new ChartSeries();
 			girls.setLabel(cat.getDescricao());
 
-			dataCal.add(Calendar.MONTH, (meses*-1));
+			dataCal.add(Calendar.MONTH, (meses * -1));
 
-			for (int x = 0; x > (meses*-1); x--) {
-				dataCal.add(Calendar.MONTH, 1);				
-				int mes = dataCal.get(Calendar.MONTH)+1;
+			for (int x = 0; x > (meses * -1); x--) {
+				dataCal.add(Calendar.MONTH, 1);
+				int mes = dataCal.get(Calendar.MONTH) + 1;
 				int ano = dataCal.get(Calendar.YEAR);
-				
-				
+
 				List<ItensLancamento> listaItensLancamento = daoItensLancamento.listar(ItensLancamento.class,
 						"lancamento.categoriaIndicador.id=" + cat.getId() + " and extract(month from dataLancamento) ="
 								+ mes + " and extract(year from dataLancamento) =" + ano);

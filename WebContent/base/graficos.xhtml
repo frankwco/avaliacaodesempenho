@@ -32,6 +32,9 @@
 	<div class="row">
 		<div class="col-md-12">
 		<h:form>
+			<p:commandButton value="Buscar Valores" styleClass="ui-priority-primary"  actionListener="#{chartView.buscarValoresIndicadores()}" update="@form"/> &nbsp;&nbsp;&nbsp;&nbsp;
+			
+		
 			<p:commandButton value="Últimos 24 Meses" styleClass="ui-priority-primary"  actionListener="#{chartView.chamarGraficos(24)}" update="@form"/> &nbsp;&nbsp;&nbsp;&nbsp;
 			<p:commandButton value="Últimos 12 Meses" styleClass="ui-priority-primary" actionListener="#{chartView.chamarGraficos(12)}" update="@form"/> &nbsp;&nbsp;&nbsp;&nbsp;
  			<p:commandButton value="Últimos 3 Meses" styleClass="ui-priority-primary" actionListener="#{chartView.chamarGraficos(3)}" update="@form"/> &nbsp;&nbsp;&nbsp;&nbsp;

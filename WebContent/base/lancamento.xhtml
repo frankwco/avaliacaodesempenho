@@ -51,7 +51,8 @@
 				<div class="ui-fluid">
 					<div class="col-md-12">
 						<label>Data: *</label>
-						<p:calendar required="true" requiredMessage="Data Obrigatória!!" value="#{lancamentoMB.lancamento.dataLancamento}"
+						<p:calendar required="true" requiredMessage="Data Obrigatória!!"
+							value="#{lancamentoMB.lancamento.dataLancamento}"
 							pattern="dd/MM/yyyy" />
 					</div>
 
@@ -70,20 +71,32 @@
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>Campos
 						obrigatórios *</small>
 				</div>
-		
+
 				<hr />
 				<!-- BOTÃO NOVO -->
 				<div class="row container-fluid">
-					<div class="col-md-12">						
-							<p:commandButton value="Inserir Item"
-								update=":frmInserirLancamento"
-								actionListener="#{lancamentoMB.criarNovoObjetoItens()}"
-								onclick="PF('dlgInserirLancamento').show(); PF('dlgInserirLancamento').content.scrollTop('0')"
-								title="Inserir Item" /> &nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small><b>*Insira um Novo
+						Item ou Selecione um Arquivo "xls" para Importar os Lançamentos</b></small>
+					<div class="col-md-12">
+						<p:commandButton value="Inserir Item"
+							update=":frmInserirLancamento"
+							actionListener="#{lancamentoMB.criarNovoObjetoItens()}"
+							onclick="PF('dlgInserirLancamento').show(); PF('dlgInserirLancamento').content.scrollTop('0')"
+							title="Inserir Item" />
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<p:fileUpload mode="advanced" fileLimit="10000"
+							fileLimitMessage="É possível selecionar apenas 100000 arquivo"
+							invalidFileMessage="Tipo de arquivo inválido"
+							fileUploadListener="#{lancamentoMB.uploadDados}"
+							allowTypes="/(\.|\/)(xls)$/" sizeLimit="2000000" multiple="false"
+							invalidSizeMessage="Tamanho do arquivo inválido"
+							showButtons="true" update=":dlgInformacao tabela"
+							dragDropSupport="false" cancelLabel="Cancelar"
+							uploadLabel="Enviar" label="Selecionar Arquivo" />
 					</div>
 				</div>
 				<!-- FIM DO BOTÃO NOVO -->
-				
+
 				<!-- TABELA-->
 				<div class="col-md-12">
 					<small>Para editar o campo valor, clique na célula
@@ -103,18 +116,36 @@
 							<h:outputText value="#{list.grupoLancamento.descricao}" />
 						</p:column>
 
+						<p:column headerText="Data">
+							<h:outputText value="#{list.dataLancamento}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+
 						<p:column headerText="Valor">
 							<p:cellEditor>
 								<f:facet name="output">
 									<h:outputText value="#{list.valor}" />
 								</f:facet>
 								<f:facet name="input">
-									<p:inputText value="#{list.valor}" style="width:96%"/>
+									<p:inputText value="#{list.valor}" style="width:96%" />
 								</f:facet>
 							</p:cellEditor>
 						</p:column>
-						
-						<p:column headerText="Excluir" >
+
+						<p:column headerText="Observação" filterBy="#{list.observacao}"
+							sortBy="#{list.observacao}" filterMatchMode="contains">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{list.observacao}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{list.observacao}" style="width:96%" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="Excluir">
 							<p:commandButton action="#{lancamentoMB.inativarItens(list)}"
 								icon="ui-icon-trash" title="Excluir" styleClass="btn btn-block"
 								update="tabela :dlgInformacao" alt="Excluir">
@@ -129,7 +160,7 @@
 				<div class="modal-footer">
 
 					<p:commandButton value="Finalizar Lançamento"
-						styleClass="ui-priority-primary" update=":dlgInformacao"
+						styleClass="ui-priority-primary" update=":dlgInformacao @form"
 						actionListener="#{lancamentoMB.finalizarLancamentos()}">
 						<p:confirm header="Confirmação"
 							message="Deseja Finalizar a Edição??" icon="ui-icon-alert" />
@@ -175,9 +206,10 @@
 						</div>
 
 						<div class="col-md-12">
-							<label>Data: </label>
-							<p:inputText disabled="true" value="Mesma do Lançamento"
-								required="false" requiredMessage="O valor é obrigatório!!" />
+							<label>Data: *</label>
+							<p:calendar required="true" requiredMessage="Data Obrigatória!!"
+								value="#{lancamentoMB.itensLancamento.dataLancamento}"
+								pattern="dd/MM/yyyy" />
 						</div>
 
 						<div class="col-md-12">
