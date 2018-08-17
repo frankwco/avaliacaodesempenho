@@ -3,6 +3,7 @@ package base.controle;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -32,14 +33,16 @@ import util.ConverteStringDate;
 import util.FuncoesMatematicas;
 
 @ViewScoped
-@Named("graficosCategoriaIndicadoresMB")
-public class GraficosCategoriaIndicadoresMB implements Serializable {
+@Named("graficosCategoriaIndCopMB")
+public class GraficosCategoriaIndCopMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private Date dataInicialDate = new Date();
+	private Date dataFinalDate = new Date();
+
 	private BarChartModel barraCusto;
-	
-	
+
 	private BarChartModel barraProdutividade;
 	private BarChartModel barraQualidade;
 	private BarChartModel barraTempo;
@@ -59,12 +62,12 @@ public class GraficosCategoriaIndicadoresMB implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		createBarModels();
+		graficoCategoriaIndicadorData();
 	}
 
 	public void buscarValoresIndicadores() {
-		String dataInicial = "01/06/2018";
-		String dataFinal = "30/06/2018";
+		String dataInicial = "01/05/2018";
+		String dataFinal = "31/05/2018";
 
 		List<Indicador> li = funcoesMatematicas.calcularIndicadoresTodos(ConverteStringDate.retornaData(dataInicial),
 				ConverteStringDate.retornaData(dataFinal));
@@ -83,33 +86,52 @@ public class GraficosCategoriaIndicadoresMB implements Serializable {
 
 		BarChartModel model = new BarChartModel();
 
-		String dataInicial = "01/08/2018";
-		String dataFinal = "30/08/2018";
+		// String dataInicial = "01/05/2018";
+		// String dataFinal = "31/05/2018";
 
-		List<Indicador> li = funcoesMatematicas.calcularIndicadoresPorCategoria(
-				ConverteStringDate.retornaData(dataInicial), ConverteStringDate.retornaData(dataFinal), 1L);
+		List<Indicador> li = funcoesMatematicas.calcularIndicadoresPorCategoria(dataInicialDate, dataFinalDate, 1L);
 
-		for (Indicador i : li) {
+		List<Indicador> liM6 = retornaListaIndicadores();
+		List<Indicador> lista = new ArrayList<>();
+		for (int x = 0; x < li.size(); x++) {
+			li.get(x).setObservacao("aaad");
+			// System.out.println("Mes 05 - "+li.get(x).getValorFinal() + " Mes 06 -
+			// "+liM6.get(x).getValorFinal());
+
+			lista.add(li.get(x));
+			lista.add(liM6.get(x));
+		}
+
+		for (Indicador i : lista) {
+
 			System.out
 					.println(i.getDescricao() + " - " + i.getValorCalculoGrupoLancamento() + " - " + i.getValorFinal());
 			ChartSeries dados = new ChartSeries();
-			dados.setLabel(i.getDescricao());
-			dados.set("01/06/2018 à 30/06/2018", i.getValorFinal());
+			if (i.getObservacao().equals("aaad")) {
+				dados.setLabel(i.getDescricao() + "-Mês 05");
+			} else {
+				dados.setLabel(i.getDescricao() + "-Mês 06");
+			}
+
+			dados.set("01/05/2018 à 31/05/2018 - 01/06/2018 à 30/06/2018", i.getValorFinal());
 			model.addSeries(dados);
 		}
 
 		return model;
 	}
 
-	private void createBarModels() {
-		createBarModel();
+	private List<Indicador> retornaListaIndicadores() {
+		String dataInicialM6 = "01/06/2018";
+		String dataFinalM6 = "30/06/2018";
+		return funcoesMatematicas.calcularIndicadoresPorCategoria(ConverteStringDate.retornaData(dataInicialM6),
+				ConverteStringDate.retornaData(dataFinalM6), 1L);
 
 	}
 
-	private void createBarModel() {
+	public void graficoCategoriaIndicadorData() {
 		barraCusto = initBarModel();
 
-		barraCusto.setTitle(" ");
+		barraCusto.setTitle("Indicadores de Custos - Análise Comparativa");
 		barraCusto.setLegendPosition("ne");
 		// barModel.setLegendPosition("e");
 		// barModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
@@ -125,6 +147,22 @@ public class GraficosCategoriaIndicadoresMB implements Serializable {
 
 	public BarChartModel getBarraCusto() {
 		return barraCusto;
+	}
+
+	public Date getDataInicialDate() {
+		return dataInicialDate;
+	}
+
+	public void setDataInicialDate(Date dataInicialDate) {
+		this.dataInicialDate = dataInicialDate;
+	}
+
+	public Date getDataFinalDate() {
+		return dataFinalDate;
+	}
+
+	public void setDataFinalDate(Date dataFinalDate) {
+		this.dataFinalDate = dataFinalDate;
 	}
 
 }

@@ -14,7 +14,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "processo_indicador")
+@Table(name = "processoindicador")
 public class ProcessoIndicador implements Serializable {
 
 	public ProcessoIndicador() {

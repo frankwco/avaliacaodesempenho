@@ -1,5 +1,8 @@
 package testes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -13,6 +16,13 @@ public class TesteCalculos {
 		String te="frank jose";
 		String teste[] = te.split(" ");
 		System.out.println(teste.length);
+		
+		List<String> lista=new ArrayList<>();
+		lista.add("Frank");
+		lista.add("jsoe");
+		for(String l:lista) {
+			System.out.println(l);
+		}
 				
 	
 //    ScriptEngineManager mgr = new ScriptEngineManager();

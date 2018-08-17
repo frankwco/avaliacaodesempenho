@@ -117,7 +117,12 @@ public class FuncoesMatematicas implements Serializable {
 	
 
 	private List<Indicador> calcularValorGruposLancamentos(Date dataInicial, Date dataFinal, List<Indicador> listaIndicadores) {
+		List<Indicador> lr = new ArrayList<>();
 		for (Indicador in : listaIndicadores) {
+			Indicador indicador = new Indicador();
+			indicador.setObservacao("");
+			indicador.setDescricao(in.getDescricao());
+			
 			Double valor = 0.;
 			ScriptEngineManager mgr = new ScriptEngineManager();
 			ScriptEngine engine = mgr.getEngineByName("JavaScript");
@@ -134,8 +139,13 @@ public class FuncoesMatematicas implements Serializable {
 			}
 			in.setValorCalculoGrupoLancamento(valor);
 			in.setValorFinal(valor);
+			
+			indicador.setValorCalculoGrupoLancamento(in.getValorCalculoGrupoLancamento());
+			indicador.setValorFinal(in.getValorFinal());
+			
+			lr.add(indicador);
 		}
-		return listaIndicadores;
+		return lr;
 	}
 
 	private List<Indicador> calcularValorFinalIndicador(List<Indicador> listaIndicadores) {
