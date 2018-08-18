@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
 
 <h:head>
 	<meta charset="utf-8"></meta>
@@ -23,62 +24,166 @@
 			<div class="row">
 				<div class="col-md-12">
 					<h1 class="page-header">
-						<i class="fa fa-chart-line" aria-hidden="true"></i> Gráficos
+						<i class="fa fa-chart-line" aria-hidden="true"></i> Indicadores de
+						Custo
 					</h1>
-
 				</div>
-
-
 			</div>
+			<h4>Consulta de Todos Indicadores por Período</h4>
 			<div class="row">
 				<div class="col-md-12">
+
 					<h:form>
 						<!-- 						<p:commandButton value="Buscar Valores" -->
 						<!-- 							styleClass="ui-priority-primary" -->
-						<!-- 							actionListener="#{chartView.buscarValoresIndicadores()}" -->
+						<!-- 							actionListener="{chartView.buscarValoresIndicadores()}" -->
 						<!-- 							update="@form" /> &nbsp;&nbsp;&nbsp;&nbsp; -->
 						<!-- 			<p:commandButton value="Últimos 24 Meses" -->
 						<!-- 							styleClass="ui-priority-primary" -->
-						<!-- 							actionListener="#{chartView.chamarGraficos(24)}" update="@form" /> &nbsp;&nbsp;&nbsp;&nbsp; -->
+						<!-- 							actionListener="{chartView.chamarGraficos(24)}" update="@form" /> &nbsp;&nbsp;&nbsp;&nbsp; -->
 						<!-- 			<p:commandButton value="Últimos 12 Meses" -->
 						<!-- 							styleClass="ui-priority-primary" -->
-						<!-- 							actionListener="#{chartView.chamarGraficos(12)}" update="@form" /> &nbsp;&nbsp;&nbsp;&nbsp; -->
+						<!-- 							actionListener="{chartView.chamarGraficos(12)}" update="@form" /> &nbsp;&nbsp;&nbsp;&nbsp; -->
 						<!--  			<p:commandButton value="Últimos 3 Meses" -->
 						<!-- 							styleClass="ui-priority-primary" -->
-						<!-- 							actionListener="#{chartView.chamarGraficos(3)}" update="@form" /> &nbsp;&nbsp;&nbsp;&nbsp; -->
-						<!-- 			<p:chart type="line" model="#{chartView.lineModel2}" -->
+						<!-- 							actionListener="{chartView.chamarGraficos(3)}" update="@form" /> &nbsp;&nbsp;&nbsp;&nbsp; -->
+						<!-- 			<p:chart type="line" model="{chartView.lineModel2}" -->
 						<!-- 							style="height:300px;" widgetVar="chart" /> -->
 						<!-- 						<p:commandButton type="button" value="Remover o Zoom" -->
 						<!-- 							icon="ui-icon-cancel" onclick="PF('chart').resetZoom()" /> -->
-						<h:panelGrid columns="5" cellpadding="5">
+						<h:panelGrid columns="7" cellpadding="5">
 							<p:outputLabel value="Data Inicial:" />
-							<p:calendar value="#{graficosCategoriaIndCopMB.dataInicialDate}" pattern="dd/MM/yyyy"/>
+							<p:calendar value="#{graficosCategoriaIndCopMB.dataInicialDate}"
+								pattern="dd/MM/yyyy" />
 							<p:outputLabel value="Data Final:" />
-							<p:calendar value="#{graficosCategoriaIndCopMB.dataFinalDate}" pattern="dd/MM/yyyy"/>
-							
-							<p:commandButton value="Filtrar" update="grafico2, grafico1"
-								actionListener="#{graficosCategoriaIndCopMB.graficoCategoriaIndicadorData()}" />
+							<p:calendar value="#{graficosCategoriaIndCopMB.dataFinalDate}"
+								pattern="dd/MM/yyyy" />
+
+
+							<p:commandButton value="Filtrar" update="grafico1"
+								actionListener="#{graficosCategoriaIndCopMB.graficoCategoriaIndicadorData('Custo')}" />
+						</h:panelGrid>
+
+					</h:form>
+				</div>
+				<div class="col-md-12">
+					<div class="row">
+						<br />
+					</div>
+				</div>
+
+
+				<div class="col-md-12">
+					<h:form id="grafico1">
+
+						<p:chart type="bar"
+							model="#{graficosCategoriaIndCopMB.barraCusto}"
+							style="height:300px;" />
+
+					</h:form>
+				</div>
+			</div>
+			<!-- 				AQUI INICIA O GRÁFICO POR CATEGORIA E PROCESSO -->
+			<hr />
+			<hr />
+			<h4>Consulta de Todos Indicadores por Período e Processos</h4>
+			<div class="row">
+				<div class="col-md-12">
+					<h:form>
+						<h:panelGrid columns="7" cellpadding="5">
+							<p:outputLabel value="Data Inicial:" />
+							<p:calendar value="#{graficosCategoriaIndCopMB.dataInicialDate}"
+								pattern="dd/MM/yyyy" />
+							<p:outputLabel value="Data Final:" />
+							<p:calendar value="#{graficosCategoriaIndCopMB.dataFinalDate}"
+								pattern="dd/MM/yyyy" />
+
+							<h:outputLabel value="Multiple:" />
+							<p:selectCheckboxMenu
+								value="#{graficosCategoriaIndCopMB.processos}" label="Processos"
+								multiple="true" filter="true" filterMatchMode="startsWith"
+								panelStyle="width:250px">
+								<f:selectItems value="#{processoMB.listProcesso}" var="pro"
+									itemLabel="#{pro.descricao}" itemValue="#{pro.id}" />
+							</p:selectCheckboxMenu>
+
+							<p:commandButton value="Filtrar" update="grafico2"
+								actionListener="#{graficosCategoriaIndCopMB.graficoCategoriaIndicadorDataProcesso('Custo')}" />
+
 						</h:panelGrid>
 
 					</h:form>
 				</div>
 
 				<div class="col-md-12">
-					<p:chart id="grafico1" type="bar"
-						model="#{graficosCategoriaIndCopMB.barraCusto}"
-						style="height:300px;" />
+					<div class="row">
+						<br />
+					</div>
+				</div>
+
+
+				<div class="col-md-12">
+					<h:form id="grafico2">
+
+						<p:chart type="bar"
+							model="#{graficosCategoriaIndCopMB.barraCustoProcesso}"
+							style="height:300px;" />
+
+					</h:form>
+				</div>
+			</div>
+
+			<!-- 				AQUI INICIA O GRÁFICO POR ANÁLISE COMPARATIVA DE PERÍODOS -->
+			<hr />
+			<hr />
+			<h4>Análise Comparativa dos Indicadores</h4>
+			<div class="row">
+				<div class="col-md-12">
+					<h:form>
+						<h:panelGrid columns="7" cellpadding="5">
+							<p:outputLabel value="Data Inicial:" />
+							<p:calendar value="#{graficosCategoriaIndCopMB.dataInicialDate}"
+								pattern="dd/MM/yyyy" />
+							<p:outputLabel value="Data Final:" />
+							<p:calendar value="#{graficosCategoriaIndCopMB.dataFinalDate}"
+								pattern="dd/MM/yyyy" />
+
+							<h:outputLabel value="Multiple:" />
+							<p:selectCheckboxMenu
+								value="#{graficosCategoriaIndCopMB.processos}" label="Processos"
+								multiple="true" filter="true" filterMatchMode="startsWith"
+								panelStyle="width:250px">
+								<f:selectItems value="#{processoMB.listProcesso}" var="pro"
+									itemLabel="#{pro.descricao}" itemValue="#{pro.id}" />
+							</p:selectCheckboxMenu>
+
+							<p:commandButton value="Filtrar" update="grafico3"
+								actionListener="#{graficosCategoriaIndCopMB.graficoCategoriaIndicadorDataProcesso('Custo')}" />
+
+						</h:panelGrid>
+
+					</h:form>
 				</div>
 
 				<div class="col-md-12">
-					<p:chart id="grafico2" type="bar"
-						model="#{graficosCategoriaIndicadoresMB.barraCusto}"
-						style="height:300px;" />
+					<div class="row">
+						<br />
+					</div>
 				</div>
-				<hr />
 
 
+				<div class="col-md-12">
+					<h:form id="grafico3">
 
+						<p:chart type="bar"
+							model="#{graficosCategoriaIndCopMB.barraCustoProcesso}"
+							style="height:300px;" />
+
+					</h:form>
+				</div>
 			</div>
+
+
 			<!-- FIM TITULO -->
 		</ui:define>
 	</ui:composition>

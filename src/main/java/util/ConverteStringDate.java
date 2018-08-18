@@ -41,4 +41,15 @@ public class ConverteStringDate {
 		}
 
 	}
+	
+	/**Recebe um objeto Date e retorna uma data String formato dd-MM-yyyy**/
+	public static String retornaDataddMMyyyy(Date dataConverte) {
+		try {	
+			SimpleDateFormat out = new SimpleDateFormat("dd-MM-yyyy");
+			return out.format(dataConverte);
+		} catch (Exception e) {
+			return "";
+		}
+
+	}
 }

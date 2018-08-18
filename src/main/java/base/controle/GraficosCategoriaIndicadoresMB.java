@@ -59,8 +59,9 @@ public class GraficosCategoriaIndicadoresMB implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		createBarModels();
+		//createBarModels();
 	}
+	
 
 	public void buscarValoresIndicadores() {
 		String dataInicial = "01/06/2018";

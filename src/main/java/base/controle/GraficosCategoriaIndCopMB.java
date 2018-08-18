@@ -14,6 +14,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.hibernate.procedure.ProcedureCall;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
@@ -28,6 +29,7 @@ import base.modelo.CategoriaIndicador;
 import base.modelo.Indicador;
 import base.modelo.ItensLancamento;
 import base.modelo.Lancamento;
+import base.modelo.Processo;
 import dao.GenericDAO;
 import util.ConverteStringDate;
 import util.FuncoesMatematicas;
@@ -40,12 +42,17 @@ public class GraficosCategoriaIndCopMB implements Serializable {
 
 	private Date dataInicialDate = new Date();
 	private Date dataFinalDate = new Date();
+	private CategoriaIndicador categoriaIndicador;
 
 	private BarChartModel barraCusto;
+	private BarChartModel barraCustoProcesso;
 
 	private BarChartModel barraProdutividade;
 	private BarChartModel barraQualidade;
 	private BarChartModel barraTempo;
+	private Processo[] listaProcesso;
+	private Long[] processos;
+	private String[] processosString;
 
 	@Inject
 	private GenericDAO<Lancamento> daoLancamento; // faz as buscas
@@ -62,7 +69,8 @@ public class GraficosCategoriaIndCopMB implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		graficoCategoriaIndicadorData();
+		graficoCategoriaIndicadorData("Custo");
+		graficoCategoriaIndicadorDataProcesso("Custo");
 	}
 
 	public void buscarValoresIndicadores() {
@@ -82,14 +90,12 @@ public class GraficosCategoriaIndCopMB implements Serializable {
 		System.out.println("");
 	}
 
-	private BarChartModel initBarModel() {
+	private BarChartModel initBarModel_Comparativo() {
 
 		BarChartModel model = new BarChartModel();
 
-		// String dataInicial = "01/05/2018";
-		// String dataFinal = "31/05/2018";
-
-		List<Indicador> li = funcoesMatematicas.calcularIndicadoresPorCategoria(dataInicialDate, dataFinalDate, 1L);
+		List<Indicador> li = funcoesMatematicas.calcularIndicadoresPorCategoria(dataInicialDate, dataFinalDate,
+				categoriaIndicador.getId());
 
 		List<Indicador> liM6 = retornaListaIndicadores();
 		List<Indicador> lista = new ArrayList<>();
@@ -128,11 +134,21 @@ public class GraficosCategoriaIndCopMB implements Serializable {
 
 	}
 
-	public void graficoCategoriaIndicadorData() {
-		barraCusto = initBarModel();
+	public void graficoCategoriaIndicadorData(String categoria) {
+		List<CategoriaIndicador> listIndic = daoCategoriaIndicadores.listar(CategoriaIndicador.class,
+				"descricao='" + categoria + "'");
+		categoriaIndicador = listIndic.get(0);
+		if (categoriaIndicador == null) {
 
-		barraCusto.setTitle("Indicadores de Custos - Análise Comparativa");
+		}
+		
+			barraCusto = graficoCategoriaIndicadorDatal();
+			//barraCusto.setTitle("Indicadores de " + categoriaIndicador.getDescricao());
+		
+
 		barraCusto.setLegendPosition("ne");
+		barraCusto.setAnimate(true);
+		// barraCusto.setShowPointLabels(true);
 		// barModel.setLegendPosition("e");
 		// barModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
 
@@ -143,6 +159,78 @@ public class GraficosCategoriaIndCopMB implements Serializable {
 		yAxis.setLabel("Valores");
 		// yAxis.setMin(0);
 		// yAxis.setMax(200);
+
+	}
+
+	private BarChartModel graficoCategoriaIndicadorDatal() {
+
+		BarChartModel model = new BarChartModel();
+
+		String dataInicial = ConverteStringDate.retornaDataddMMyyyy(dataInicialDate);
+		String dataFinal = ConverteStringDate.retornaDataddMMyyyy(dataFinalDate);
+
+		List<Indicador> li = funcoesMatematicas.calcularIndicadoresPorCategoria(dataInicialDate, dataFinalDate,
+				categoriaIndicador.getId());
+
+		for (Indicador i : li) {
+			ChartSeries dados = new ChartSeries();
+			dados.setLabel(i.getDescricao());
+			dados.set(dataInicial + " à " + dataFinal, i.getValorFinal());
+			model.addSeries(dados);
+		}
+
+		return model;
+	}
+
+	public void graficoCategoriaIndicadorDataProcesso(String categoria) {
+		System.out.println("Aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+		List<CategoriaIndicador> listIndic = daoCategoriaIndicadores.listar(CategoriaIndicador.class,
+				"descricao='" + categoria + "'");
+		categoriaIndicador = listIndic.get(0);
+		if (processos != null) {
+			System.out.println("Tamanhooooo: "+processos.length);
+			for (Long p : processos) {
+				System.out.println("Processsooo: "+p);
+			}
+		}
+
+		barraCustoProcesso = graficoCategoriaIndicadorDataProcesso();
+		//barraCustoProcesso.setTitle("Indicadores de " + categoriaIndicador.getDescricao() + " e Processos");
+
+		barraCustoProcesso.setLegendPosition("ne");
+		barraCustoProcesso.setAnimate(true);
+		// barraCusto.setShowPointLabels(true);
+		// barModel.setLegendPosition("e");
+		// barModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
+
+		Axis xAxis = barraCustoProcesso.getAxis(AxisType.X);
+		xAxis.setLabel(" ");
+
+		Axis yAxis = barraCustoProcesso.getAxis(AxisType.Y);
+		yAxis.setLabel("Valores");
+		// yAxis.setMin(0);
+		// yAxis.setMax(200);
+
+	}
+
+	private BarChartModel graficoCategoriaIndicadorDataProcesso() {
+
+		BarChartModel model = new BarChartModel();
+
+		String dataInicial = ConverteStringDate.retornaDataddMMyyyy(dataInicialDate);
+		String dataFinal = ConverteStringDate.retornaDataddMMyyyy(dataFinalDate);
+
+		List<Indicador> li = funcoesMatematicas.calcularIndicadoresPorCategoriaProcessos(dataInicialDate, dataFinalDate,
+				categoriaIndicador.getId(), processos);
+
+		for (Indicador i : li) {
+			ChartSeries dados = new ChartSeries();
+			dados.setLabel(i.getDescricao());
+			dados.set(dataInicial + " à " + dataFinal, i.getValorFinal());
+			model.addSeries(dados);
+		}
+
+		return model;
 	}
 
 	public BarChartModel getBarraCusto() {
@@ -164,5 +252,47 @@ public class GraficosCategoriaIndCopMB implements Serializable {
 	public void setDataFinalDate(Date dataFinalDate) {
 		this.dataFinalDate = dataFinalDate;
 	}
+
+	public CategoriaIndicador getCategoriaIndicador() {
+		return categoriaIndicador;
+	}
+
+	public void setCategoriaIndicador(CategoriaIndicador categoriaIndicador) {
+		this.categoriaIndicador = categoriaIndicador;
+	}
+
+	public BarChartModel getBarraCustoProcesso() {
+		return barraCustoProcesso;
+	}
+
+	public void setBarraCustoProcesso(BarChartModel barraCustoProcesso) {
+		this.barraCustoProcesso = barraCustoProcesso;
+	}
+
+	public Long[] getProcessos() {
+		return processos;
+	}
+
+	public void setProcessos(Long[] processos) {
+		this.processos = processos;
+	}
+
+	public Processo[] getListaProcesso() {
+		return listaProcesso;
+	}
+
+	public void setListaProcesso(Processo[] listaProcesso) {
+		this.listaProcesso = listaProcesso;
+	}
+
+	public String[] getProcessosString() {
+		return processosString;
+	}
+
+	public void setProcessosString(String[] processosString) {
+		this.processosString = processosString;
+	}
+
+
 
 }

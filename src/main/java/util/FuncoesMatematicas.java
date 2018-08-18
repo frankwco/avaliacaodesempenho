@@ -32,6 +32,7 @@ import base.modelo.GrupoLancamento;
 import base.modelo.Indicador;
 import base.modelo.ItensLancamento;
 import base.modelo.Lancamento;
+import base.modelo.Processo;
 import base.service.IndicadorService;
 import base.service.ItensLancamentoService;
 import base.service.LancamentoService;
@@ -53,11 +54,11 @@ public class FuncoesMatematicas implements Serializable {
 	private Lancamento lancamento;
 	private List<Lancamento> lancamentoBusca;
 	private List<Lancamento> listLancamento;
-	//private List<ItensLancamento> listItensLancamento;
+	// private List<ItensLancamento> listItensLancamento;
 	private GrupoLancamento grupoLancamentoSelecionado;
 	private ItensLancamento itensLancamento;
 
-	//private List<Indicador> listaIndicadores;
+	// private List<Indicador> listaIndicadores;
 
 	@Inject
 	private GenericDAO<Lancamento> daoLancamento; // faz as buscas
@@ -85,44 +86,72 @@ public class FuncoesMatematicas implements Serializable {
 		listLancamento = new ArrayList<>();
 		listLancamento = daoLancamento.listaComStatus(Lancamento.class);
 		lancamentoBusca = new ArrayList<>();
-		//listItensLancamento = new ArrayList<>();
-		//listaIndicadores = daoIndicador.listar(Indicador.class, "utilizarAnalise is true");
+		// listItensLancamento = new ArrayList<>();
+		// listaIndicadores = daoIndicador.listar(Indicador.class, "utilizarAnalise is
+		// true");
 	}
 
 	public List<Indicador> calcularIndicadoresTodos(Date dataInicial, Date dataFinal) {
-		List<Indicador> listaIndicadores=daoIndicador.listar(Indicador.class, "utilizarAnalise is true");;
+		List<Indicador> listaIndicadores = daoIndicador.listar(Indicador.class, "utilizarAnalise is true");
+		;
 		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal, listaIndicadores);
-		//listaIndicadores = calcularValorFinalIndicador();		
+		// listaIndicadores = calcularValorFinalIndicador();
 		return listaIndicadores;
 	}
-	
-	public List<Indicador> calcularIndicadoresPorIndicador(Date dataInicial, Date dataFinal, Long id) {
-		List<Indicador> listaIndicadores=daoIndicador.listar(Indicador.class, "utilizarAnalise is true and id="+id);;
-		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal, listaIndicadores);
-		//listaIndicadores = calcularValorFinalIndicador();		
-		return listaIndicadores;
-	}
-	public List<Indicador> calcularIndicadoresPorProcesso(Date dataInicial, Date dataFinal, Long id) {
-		List<Indicador> listaIndicadores=daoIndicador.listar(Indicador.class, "utilizarAnalise is true and processo.id="+id);;
-		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal, listaIndicadores);
-		//listaIndicadores = calcularValorFinalIndicador();		
-		return listaIndicadores;
-	}
-	public List<Indicador> calcularIndicadoresPorCategoria(Date dataInicial, Date dataFinal, Long id) {
-		List<Indicador> listaIndicadores=daoIndicador.listar(Indicador.class, "utilizarAnalise is true and categoriaIndicador.id="+id);;
-		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal, listaIndicadores);
-		//listaIndicadores = calcularValorFinalIndicador();		
-		return listaIndicadores;
-	}
-	
 
-	private List<Indicador> calcularValorGruposLancamentos(Date dataInicial, Date dataFinal, List<Indicador> listaIndicadores) {
+	public List<Indicador> calcularIndicadoresPorIndicador(Date dataInicial, Date dataFinal, Long id) {
+		List<Indicador> listaIndicadores = daoIndicador.listar(Indicador.class, "utilizarAnalise is true and id=" + id);
+		;
+		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal, listaIndicadores);
+		// listaIndicadores = calcularValorFinalIndicador();
+		return listaIndicadores;
+	}
+
+	public List<Indicador> calcularIndicadoresPorProcesso(Date dataInicial, Date dataFinal, Long id) {
+		List<Indicador> listaIndicadores = daoIndicador.listar(Indicador.class,
+				"utilizarAnalise is true and processo.id=" + id);
+		;
+		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal, listaIndicadores);
+		// listaIndicadores = calcularValorFinalIndicador();
+		return listaIndicadores;
+	}
+
+	public List<Indicador> calcularIndicadoresPorCategoria(Date dataInicial, Date dataFinal, Long id) {
+		List<Indicador> listaIndicadores = daoIndicador.listar(Indicador.class,
+				"utilizarAnalise is true and categoriaIndicador.id=" + id);
+		;
+		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal, listaIndicadores);
+		// listaIndicadores = calcularValorFinalIndicador();
+		return listaIndicadores;
+	}
+
+	public List<Indicador> calcularIndicadoresPorCategoriaProcessos(Date dataInicial, Date dataFinal, Long idCategoria,
+			Long[] processos) {
+		String qp = "";
+		if (processos != null) {
+			for (Long p : processos) {
+				qp += " processo.id=" + p;
+			}
+			qp=qp.trim().replace(" ", " or ");
+			qp=" and ("+qp+")";
+		}
+		List<Indicador> listaIndicadores = daoIndicador.listar(Indicador.class,
+				"utilizarAnalise is true and categoriaIndicador.id=" + idCategoria + qp);
+		;
+		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal, listaIndicadores);
+		// listaIndicadores = calcularValorFinalIndicador();
+		return listaIndicadores;
+	}
+
+	private List<Indicador> calcularValorGruposLancamentos(Date dataInicial, Date dataFinal,
+			List<Indicador> listaIndicadores) {
 		List<Indicador> lr = new ArrayList<>();
 		for (Indicador in : listaIndicadores) {
 			Indicador indicador = new Indicador();
+			indicador.setId(in.getId());
 			indicador.setObservacao("");
 			indicador.setDescricao(in.getDescricao());
-			
+
 			Double valor = 0.;
 			ScriptEngineManager mgr = new ScriptEngineManager();
 			ScriptEngine engine = mgr.getEngineByName("JavaScript");
@@ -139,10 +168,10 @@ public class FuncoesMatematicas implements Serializable {
 			}
 			in.setValorCalculoGrupoLancamento(valor);
 			in.setValorFinal(valor);
-			
+
 			indicador.setValorCalculoGrupoLancamento(in.getValorCalculoGrupoLancamento());
 			indicador.setValorFinal(in.getValorFinal());
-			
+
 			lr.add(indicador);
 		}
 		return lr;
@@ -164,7 +193,7 @@ public class FuncoesMatematicas implements Serializable {
 				System.out.println("erro na equação");
 
 			}
-			in.setValorFinal(valor+in.getValorFinal());
+			in.setValorFinal(valor + in.getValorFinal());
 		}
 		return listaIndicadores;
 	}
@@ -186,8 +215,8 @@ public class FuncoesMatematicas implements Serializable {
 	private Double buscarValorIndicador(Long idIndicador, List<Indicador> listaIndicadores) {
 		Double valor = 0.;
 		for (Indicador i : listaIndicadores) {
-			if (i.getId()==idIndicador) {
-				System.out.println("No somar:::-----: "+i.getValorFinal());
+			if (i.getId() == idIndicador) {
+				System.out.println("No somar:::-----: " + i.getValorFinal());
 				valor += i.getValorFinal();
 			}
 		}
@@ -216,8 +245,7 @@ public class FuncoesMatematicas implements Serializable {
 		for (int x = 0; x < result.length; x++) {
 			String posicao = result[x];
 			if (posicao.equals("somar")) {
-				equacao += String
-						.valueOf(buscarValorIndicador(Long.parseLong(result[x + 2]), listaIndicadores));
+				equacao += String.valueOf(buscarValorIndicador(Long.parseLong(result[x + 2]), listaIndicadores));
 				x = x + 3;
 			} else if (posicao.equals("contar")) {
 				equacao += String.valueOf(buscarValorIndicador(Long.parseLong(result[x + 2]), listaIndicadores));
@@ -307,8 +335,6 @@ public class FuncoesMatematicas implements Serializable {
 		listLancamento = daoLancamento.listaComStatus(Lancamento.class);
 	}
 
-
-
 	public Lancamento getLancamento() {
 		return lancamento;
 	}
@@ -332,7 +358,6 @@ public class FuncoesMatematicas implements Serializable {
 	public void setListLancamento(List<Lancamento> listLancamento) {
 		this.listLancamento = listLancamento;
 	}
-
 
 	public GrupoLancamento getGrupoLancamentoSelecionado() {
 		return grupoLancamentoSelecionado;
