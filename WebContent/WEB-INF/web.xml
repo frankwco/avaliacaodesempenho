@@ -52,4 +52,27 @@
 		<filter-name>primeUploadFilter</filter-name>
 		<servlet-name>FacesServlet</servlet-name>
 	</filter-mapping>
+	
+<!-- 	INICIO CONFIGURAÇÃO WEB SERVICE -->
+		<servlet>
+		<servlet-name>Jersey REST Service</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		<init-param>
+			<param-name>jersey.config.server.provider.packages</param-name>
+			<param-value>services</param-value>
+		</init-param>
+		<init-param>
+			<param-name>com.sun.jersey.spi.container.ContainerResponseFilters</param-name>
+			<param-value>services.CORSFilter</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Jersey REST Service</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+<!-- FIM CONFIGURAÇÃO WEB SERVICE -->
+
+
+
 </web-app>

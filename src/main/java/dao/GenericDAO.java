@@ -33,9 +33,9 @@ public class GenericDAO<T> implements Serializable{
 		return manager.find(classe, id);
 	}
 	
-	public T buscarCondicao(Class classeEntidade, String condicao) {
-		return (T) manager.createQuery("from "+classeEntidade.getSimpleName()+" where status is true and "+condicao).getSingleResult();
-	}
+//	public T buscarCondicao(Class classeEntidade, String condicao) {
+//		return (T) manager.createQuery("from "+classeEntidade.getSimpleName()+" where status is true and "+condicao).getSingleResult();
+//	}
 	
 	public List<T> listaComStatus(Class classeEntidade) {
 		return manager.createQuery("from "+classeEntidade.getSimpleName()+" where status is true order by id").getResultList();

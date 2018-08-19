@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+	<meta charset="utf-8"></meta>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+</h:head>
+<h:body>
+	<ui:composition
+		template="../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+		#{avaliacaoDesempenhoEspecificosMB.init('Produtividade')}
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">
+						<i class="fa fa-chart-line" aria-hidden="true"></i> Indicadores de
+						Produtividade
+					</h1>
+				</div>
+			</div>
+			<h4>Avaliação de Todos os Indicadores por Período</h4>
+			<div class="row">
+				<div class="col-md-12">
+
+					<h:form>
+						<!-- 						<p:commandButton value="Buscar Valores" -->
+						<!-- 							styleClass="ui-priority-primary" -->
+						<!-- 							actionListener="{chartView.buscarValoresIndicadores()}" -->
+						<!-- 							update="@form" /> &nbsp;&nbsp;&nbsp;&nbsp; -->
+						<!-- 			<p:commandButton value="Últimos 24 Meses" -->
+						<!-- 							styleClass="ui-priority-primary" -->
+						<!-- 							actionListener="{chartView.chamarGraficos(24)}" update="@form" /> &nbsp;&nbsp;&nbsp;&nbsp; -->
+						<!-- 			<p:commandButton value="Últimos 12 Meses" -->
+						<!-- 							styleClass="ui-priority-primary" -->
+						<!-- 							actionListener="{chartView.chamarGraficos(12)}" update="@form" /> &nbsp;&nbsp;&nbsp;&nbsp; -->
+						<!--  			<p:commandButton value="Últimos 3 Meses" -->
+						<!-- 							styleClass="ui-priority-primary" -->
+						<!-- 							actionListener="{chartView.chamarGraficos(3)}" update="@form" /> &nbsp;&nbsp;&nbsp;&nbsp; -->
+						<!-- 			<p:chart type="line" model="{chartView.lineModel2}" -->
+						<!-- 							style="height:300px;" widgetVar="chart" /> -->
+						<!-- 						<p:commandButton type="button" value="Remover o Zoom" -->
+						<!-- 							icon="ui-icon-cancel" onclick="PF('chart').resetZoom()" /> -->
+						<h:panelGrid columns="7" cellpadding="5">
+							<p:outputLabel value="Data Inicial:" />
+							<p:calendar value="#{avaliacaoDesempenhoEspecificosMB.dataInicialDate}"
+								pattern="dd/MM/yyyy" />
+							<p:outputLabel value="Data Final:" />
+							<p:calendar value="#{avaliacaoDesempenhoEspecificosMB.dataFinalDate}"
+								pattern="dd/MM/yyyy" />
+
+
+							<p:commandButton value="Filtrar" update="grafico1"
+								actionListener="#{avaliacaoDesempenhoEspecificosMB.graficoCategoriaIndicadorData('Custo')}" />
+						</h:panelGrid>
+
+					</h:form>
+				</div>
+				<div class="col-md-12">
+					<div class="row">
+						<br />
+					</div>
+				</div>
+
+
+				<div class="col-md-12">
+					<h:form id="grafico1">
+
+						<p:chart type="bar"
+							model="#{avaliacaoDesempenhoEspecificosMB.barraCusto}"
+							style="height:300px;" />
+
+					</h:form>
+				</div>
+			</div>
+			<!-- 				AQUI INICIA O GRÁFICO POR CATEGORIA E PROCESSO -->
+			<hr />
+			<hr />
+			<h4>Avaliação de Todos os Indicadores por Período e Processos</h4>
+			<div class="row">
+				<div class="col-md-12">
+					<h:form>
+						<h:panelGrid columns="8" cellpadding="5">
+							
+								<p:outputLabel value="Data Inicial:" />
+								<p:calendar value="#{avaliacaoDesempenhoEspecificosMB.dataInicialDate}"
+									pattern="dd/MM/yyyy" />
+								<p:outputLabel value="Data Final:" />
+								<p:calendar value="#{avaliacaoDesempenhoEspecificosMB.dataFinalDate}"
+									pattern="dd/MM/yyyy" />
+								
+							<h:outputLabel value="Processos:" />
+							<p:selectCheckboxMenu
+								value="#{avaliacaoDesempenhoEspecificosMB.processos}" label="Processos"
+								multiple="true" filter="true" filterMatchMode="startsWith"
+								panelStyle="width:250px">
+								<f:selectItems value="#{processoMB.listProcesso}" var="pro"
+									itemLabel="#{pro.descricao}" itemValue="#{pro.id}" />
+							</p:selectCheckboxMenu>
+
+							&nbsp;<p:commandButton value="Filtrar" update="grafico2"
+								actionListener="#{avaliacaoDesempenhoEspecificosMB.graficoCategoriaIndicadorDataProcesso('Custo')}" />
+
+						</h:panelGrid>
+
+					</h:form>
+				</div>
+
+				<div class="col-md-12">
+					<div class="row">
+						<br />
+					</div>
+				</div>
+
+
+				<div class="col-md-12">
+					<h:form id="grafico2">
+
+						<p:chart type="bar"
+							model="#{avaliacaoDesempenhoEspecificosMB.barraCustoProcesso}"
+							style="height:300px;" />
+
+					</h:form>
+				</div>
+			</div>
+
+			<!-- 				AQUI INICIA O GRÁFICO POR ANÁLISE COMPARATIVA DE PERÍODOS -->
+			<hr />
+			<hr />
+			<h4>Avaliação Comparativa por Período dos Indicadores</h4>
+			<div class="row">
+				<div class="col-md-12">
+					<h:form>
+						<h:panelGrid columns="8" cellpadding="5">
+							<h:panelGrid columns="4">
+								<p:outputLabel value="Data Inicial:" />
+								<p:calendar value="#{avaliacaoDesempenhoEspecificosMB.dataInicialDateC1}"
+									pattern="dd/MM/yyyy" />
+								<p:outputLabel value="Data Final:" />
+								<p:calendar value="#{avaliacaoDesempenhoEspecificosMB.dataFinalDateC1}"
+									pattern="dd/MM/yyyy" />
+									
+									<p:outputLabel value="" />
+									<p:outputLabel value="" />
+									<p:outputLabel value="" />
+									<p:outputLabel value="" />
+									
+								<p:outputLabel value="Data Inicial:" />
+								<p:calendar value="#{avaliacaoDesempenhoEspecificosMB.dataInicialDateC2}"
+									pattern="dd/MM/yyyy" />
+								<p:outputLabel value="Data Final:" />
+								<p:calendar value="#{avaliacaoDesempenhoEspecificosMB.dataFinalDateC2}"
+									pattern="dd/MM/yyyy" />
+									
+									<p:outputLabel value="" />
+									<p:outputLabel value="" />
+									<p:outputLabel value="" />
+									<p:outputLabel value="" />
+									
+								<p:outputLabel value="Data Inicial:" />
+								<p:calendar value="#{avaliacaoDesempenhoEspecificosMB.dataInicialDateC3}"
+									pattern="dd/MM/yyyy" />
+								<p:outputLabel value="Data Final:" />
+								<p:calendar value="#{avaliacaoDesempenhoEspecificosMB.dataFinalDateC3}"
+									pattern="dd/MM/yyyy" />
+							</h:panelGrid>
+
+							<h:outputLabel value="Processos:" />
+							<p:selectCheckboxMenu
+								value="#{avaliacaoDesempenhoEspecificosMB.processosComparativos}" label="Processos"
+								multiple="true" filter="true" filterMatchMode="startsWith"
+								panelStyle="width:250px">
+								<f:selectItems value="#{processoMB.listProcesso}" var="pro"
+									itemLabel="#{pro.descricao}" itemValue="#{pro.id}" />
+							</p:selectCheckboxMenu>
+
+							&nbsp;<p:commandButton value="Filtrar" update="grafico3"
+								actionListener="#{avaliacaoDesempenhoEspecificosMB.graficoCategoriaIndicadorDataProcessoComparativo('Custo')}" />
+
+						</h:panelGrid>
+
+					</h:form>
+				</div>
+
+				<div class="col-md-12">
+					<div class="row">
+						<br />
+					</div>
+				</div>
+
+
+				<div class="col-md-12">
+					<h:form id="grafico3">
+
+						<p:chart type="bar"
+							model="#{avaliacaoDesempenhoEspecificosMB.barraCustoComparativo}"
+							style="height:300px;" />
+
+					</h:form>
+				</div>
+			</div>
+
+
+			<!-- FIM TITULO -->
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
+

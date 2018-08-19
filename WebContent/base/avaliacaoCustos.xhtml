@@ -20,6 +20,7 @@
 		</ui:define>
 
 		<ui:define name="conteudo">
+		#{avaliacaoDesempenhoEspecificosMB.init('Custo')}
 			<!-- TITULO -->
 			<div class="row">
 				<div class="col-md-12">
@@ -29,7 +30,7 @@
 					</h1>
 				</div>
 			</div>
-			<h4>Consulta de Todos Indicadores por Período</h4>
+			<h4>Avaliação de Todos os Indicadores por Período</h4>
 			<div class="row">
 				<div class="col-md-12">
 
@@ -53,15 +54,15 @@
 						<!-- 							icon="ui-icon-cancel" onclick="PF('chart').resetZoom()" /> -->
 						<h:panelGrid columns="7" cellpadding="5">
 							<p:outputLabel value="Data Inicial:" />
-							<p:calendar value="#{graficosCategoriaIndCopMB.dataInicialDate}"
+							<p:calendar value="#{avaliacaoDesempenhoEspecificosMB.dataInicialDate}"
 								pattern="dd/MM/yyyy" />
 							<p:outputLabel value="Data Final:" />
-							<p:calendar value="#{graficosCategoriaIndCopMB.dataFinalDate}"
+							<p:calendar value="#{avaliacaoDesempenhoEspecificosMB.dataFinalDate}"
 								pattern="dd/MM/yyyy" />
 
 
 							<p:commandButton value="Filtrar" update="grafico1"
-								actionListener="#{graficosCategoriaIndCopMB.graficoCategoriaIndicadorData('Custo')}" />
+								actionListener="#{avaliacaoDesempenhoEspecificosMB.graficoCategoriaIndicadorData('Custo')}" />
 						</h:panelGrid>
 
 					</h:form>
@@ -77,7 +78,7 @@
 					<h:form id="grafico1">
 
 						<p:chart type="bar"
-							model="#{graficosCategoriaIndCopMB.barraCusto}"
+							model="#{avaliacaoDesempenhoEspecificosMB.barraCusto}"
 							style="height:300px;" />
 
 					</h:form>
@@ -86,29 +87,30 @@
 			<!-- 				AQUI INICIA O GRÁFICO POR CATEGORIA E PROCESSO -->
 			<hr />
 			<hr />
-			<h4>Consulta de Todos Indicadores por Período e Processos</h4>
+			<h4>Avaliação de Todos os Indicadores por Período e Processos</h4>
 			<div class="row">
 				<div class="col-md-12">
 					<h:form>
-						<h:panelGrid columns="7" cellpadding="5">
-							<p:outputLabel value="Data Inicial:" />
-							<p:calendar value="#{graficosCategoriaIndCopMB.dataInicialDate}"
-								pattern="dd/MM/yyyy" />
-							<p:outputLabel value="Data Final:" />
-							<p:calendar value="#{graficosCategoriaIndCopMB.dataFinalDate}"
-								pattern="dd/MM/yyyy" />
-
-							<h:outputLabel value="Multiple:" />
+						<h:panelGrid columns="8" cellpadding="5">
+							
+								<p:outputLabel value="Data Inicial:" />
+								<p:calendar value="#{avaliacaoDesempenhoEspecificosMB.dataInicialDate}"
+									pattern="dd/MM/yyyy" />
+								<p:outputLabel value="Data Final:" />
+								<p:calendar value="#{avaliacaoDesempenhoEspecificosMB.dataFinalDate}"
+									pattern="dd/MM/yyyy" />
+								
+							<h:outputLabel value="Processos:" />
 							<p:selectCheckboxMenu
-								value="#{graficosCategoriaIndCopMB.processos}" label="Processos"
+								value="#{avaliacaoDesempenhoEspecificosMB.processos}" label="Processos"
 								multiple="true" filter="true" filterMatchMode="startsWith"
 								panelStyle="width:250px">
 								<f:selectItems value="#{processoMB.listProcesso}" var="pro"
 									itemLabel="#{pro.descricao}" itemValue="#{pro.id}" />
 							</p:selectCheckboxMenu>
 
-							<p:commandButton value="Filtrar" update="grafico2"
-								actionListener="#{graficosCategoriaIndCopMB.graficoCategoriaIndicadorDataProcesso('Custo')}" />
+							&nbsp;<p:commandButton value="Filtrar" update="grafico2"
+								actionListener="#{avaliacaoDesempenhoEspecificosMB.graficoCategoriaIndicadorDataProcesso('Custo')}" />
 
 						</h:panelGrid>
 
@@ -126,7 +128,7 @@
 					<h:form id="grafico2">
 
 						<p:chart type="bar"
-							model="#{graficosCategoriaIndCopMB.barraCustoProcesso}"
+							model="#{avaliacaoDesempenhoEspecificosMB.barraCustoProcesso}"
 							style="height:300px;" />
 
 					</h:form>
@@ -136,29 +138,55 @@
 			<!-- 				AQUI INICIA O GRÁFICO POR ANÁLISE COMPARATIVA DE PERÍODOS -->
 			<hr />
 			<hr />
-			<h4>Análise Comparativa dos Indicadores</h4>
+			<h4>Avaliação Comparativa por Período dos Indicadores</h4>
 			<div class="row">
 				<div class="col-md-12">
 					<h:form>
-						<h:panelGrid columns="7" cellpadding="5">
-							<p:outputLabel value="Data Inicial:" />
-							<p:calendar value="#{graficosCategoriaIndCopMB.dataInicialDate}"
-								pattern="dd/MM/yyyy" />
-							<p:outputLabel value="Data Final:" />
-							<p:calendar value="#{graficosCategoriaIndCopMB.dataFinalDate}"
-								pattern="dd/MM/yyyy" />
+						<h:panelGrid columns="8" cellpadding="5">
+							<h:panelGrid columns="4">
+								<p:outputLabel value="Data Inicial:" />
+								<p:calendar value="#{avaliacaoDesempenhoEspecificosMB.dataInicialDateC1}"
+									pattern="dd/MM/yyyy" />
+								<p:outputLabel value="Data Final:" />
+								<p:calendar value="#{avaliacaoDesempenhoEspecificosMB.dataFinalDateC1}"
+									pattern="dd/MM/yyyy" />
+									
+									<p:outputLabel value="" />
+									<p:outputLabel value="" />
+									<p:outputLabel value="" />
+									<p:outputLabel value="" />
+									
+								<p:outputLabel value="Data Inicial:" />
+								<p:calendar value="#{avaliacaoDesempenhoEspecificosMB.dataInicialDateC2}"
+									pattern="dd/MM/yyyy" />
+								<p:outputLabel value="Data Final:" />
+								<p:calendar value="#{avaliacaoDesempenhoEspecificosMB.dataFinalDateC2}"
+									pattern="dd/MM/yyyy" />
+									
+									<p:outputLabel value="" />
+									<p:outputLabel value="" />
+									<p:outputLabel value="" />
+									<p:outputLabel value="" />
+									
+								<p:outputLabel value="Data Inicial:" />
+								<p:calendar value="#{avaliacaoDesempenhoEspecificosMB.dataInicialDateC3}"
+									pattern="dd/MM/yyyy" />
+								<p:outputLabel value="Data Final:" />
+								<p:calendar value="#{avaliacaoDesempenhoEspecificosMB.dataFinalDateC3}"
+									pattern="dd/MM/yyyy" />
+							</h:panelGrid>
 
-							<h:outputLabel value="Multiple:" />
+							<h:outputLabel value="Processos:" />
 							<p:selectCheckboxMenu
-								value="#{graficosCategoriaIndCopMB.processos}" label="Processos"
+								value="#{avaliacaoDesempenhoEspecificosMB.processosComparativos}" label="Processos"
 								multiple="true" filter="true" filterMatchMode="startsWith"
 								panelStyle="width:250px">
 								<f:selectItems value="#{processoMB.listProcesso}" var="pro"
 									itemLabel="#{pro.descricao}" itemValue="#{pro.id}" />
 							</p:selectCheckboxMenu>
 
-							<p:commandButton value="Filtrar" update="grafico3"
-								actionListener="#{graficosCategoriaIndCopMB.graficoCategoriaIndicadorDataProcesso('Custo')}" />
+							&nbsp;<p:commandButton value="Filtrar" update="grafico3"
+								actionListener="#{avaliacaoDesempenhoEspecificosMB.graficoCategoriaIndicadorDataProcessoComparativo('Custo')}" />
 
 						</h:panelGrid>
 
@@ -176,7 +204,7 @@
 					<h:form id="grafico3">
 
 						<p:chart type="bar"
-							model="#{graficosCategoriaIndCopMB.barraCustoProcesso}"
+							model="#{avaliacaoDesempenhoEspecificosMB.barraCustoComparativo}"
 							style="height:300px;" />
 
 					</h:form>
