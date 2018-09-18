@@ -18,7 +18,8 @@
 
 		<ui:define name="conteudo">
 			<!-- TITULO -->
-			 <p:growl id="growl" autoUpdate="true" life="3000" showDetail="true" sticky="false" />  
+			<p:growl id="growl" autoUpdate="true" life="3000" showDetail="true"
+				sticky="false" />
 			<div class="row">
 				<div class="col-md-12">
 					<h1 class="page-header">Para iniciar o processo de escolha dos
@@ -139,73 +140,96 @@
 				<h:form id="frmDlgDefinirIndicador">
 					<h2>
 						<b>#{indicadorMB.indicador.categoriaIndicador.descricao} de
-							#{indicadorMB.indicador.processo.descricao}</b>
+							#{indicadorMB.indicador.processo.descricao}:</b><b><u>
+								#{indicadorMB.indicador.descricao}</u></b>
 					</h2>
-					<h1>
-						<b><u>#{indicadorMB.indicador.descricao}</u></b>
-					</h1>
-					<br />
+
+					<label>Metas dos Indicadores</label>
 					<div class="ui-fluid">
 						<div class="col-md-12">
-							<label>Específico!! É claro? Não deixa dúvidas do que se
-								trata?? *</label>
-							<p:selectOneButton value="#{indicadorMB.smart.especifico}">
-								<f:selectItem itemLabel="Sim" itemValue="true" />
-								<f:selectItem itemLabel="Não" itemValue="false" />
-							</p:selectOneButton>
-						</div>
-						<div class="col-md-12">
-							<label></label>
-						</div>
-						<div class="col-md-12">
-							<label>Mensurável!! Pode ser medido de alguma forma?? *</label>
-							<p:selectOneButton value="#{indicadorMB.smart.mensuravel}">
-								<f:selectItem itemLabel="Sim" itemValue="true" />
-								<f:selectItem itemLabel="Não" itemValue="false" />
-							</p:selectOneButton>
-						</div>
-						<div class="col-md-12">
-							<label></label>
-						</div>
+							<h:panelGrid columns="6">
+								<h:outputText value=" Janeiro" />
+								<h:outputText value=" Fevereiro" />
+								<h:outputText value=" Março" />
+								<h:outputText value=" Abril" />
+								<h:outputText value=" Maio" />
+								<h:outputText value=" Junho" />
+								<p:inputText value="#{indicadorMB.smart.meta01}" size="12" />
+								<p:inputText value="#{indicadorMB.smart.meta02}" size="12" />
+								<p:inputText value="#{indicadorMB.smart.meta03}" size="12" />
+								<p:inputText value="#{indicadorMB.smart.meta04}" size="12" />
+								<p:inputText value="#{indicadorMB.smart.meta05}" size="12" />
+								<p:inputText value="#{indicadorMB.smart.meta06}" size="12" />
+								<h:outputText value=" Julho" />
+								<h:outputText value=" Agosto" />
+								<h:outputText value=" Setembro" />
+								<h:outputText value=" Outubro" />
+								<h:outputText value=" Novembro" />
+								<h:outputText value=" Dezembro" />
+								<p:inputText value="#{indicadorMB.smart.meta07}" size="12" />
+								<p:inputText value="#{indicadorMB.smart.meta08}" size="12" />
+								<p:inputText value="#{indicadorMB.smart.meta09}" size="12" />
+								<p:inputText value="#{indicadorMB.smart.meta10}" size="12" />
+								<p:inputText value="#{indicadorMB.smart.meta11}" size="12" />
+								<p:inputText value="#{indicadorMB.smart.meta12}" size="12" />
 
-						<div class="col-md-12">
-							<label>Atingível!! É possível atingir/medir com os
-								recursos disponíveis?? *</label>
-							<p:selectOneButton value="#{indicadorMB.smart.atingivel}">
-								<f:selectItem itemLabel="Sim" itemValue="true" />
-								<f:selectItem itemLabel="Não" itemValue="false" />
-							</p:selectOneButton>
+							</h:panelGrid>
 						</div>
+					</div>
+					<div class="ui-fluid">
 						<div class="col-md-12">
-							<label></label>
+							<br />
 						</div>
+					</div>
+					<div class="ui-fluid">
+						<div class="col-md-12">
+							<h:panelGrid columns="2">
+								<label>Específico!! É claro? Não deixa dúvidas do que se
+									trata?? *</label>
+								<p:selectOneButton value="#{indicadorMB.smart.especifico}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneButton>
 
-						<div class="col-md-12">
-							<label>Relevante!! Ira impactar nas decisões da
-								organização?? *</label>
-							<p:selectOneButton value="#{indicadorMB.smart.relevante}">
-								<f:selectItem itemLabel="Sim" itemValue="true" />
-								<f:selectItem itemLabel="Não" itemValue="false" />
-							</p:selectOneButton>
-						</div>
-						<div class="col-md-12">
-							<label></label>
-						</div>
+								<label>Mensurável!! Pode ser medido de alguma forma?? *</label>
+								<p:selectOneButton value="#{indicadorMB.smart.mensuravel}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneButton>
 
-						<div class="col-md-12">
-							<label>Temporizável!! É executável em um prazo
-								determinado?? *</label>
-							<p:selectOneButton value="#{indicadorMB.smart.temporizavel}">
-								<f:selectItem itemLabel="Sim" itemValue="true" />
-								<f:selectItem itemLabel="Não" itemValue="false" />
-							</p:selectOneButton>
-						</div>
-						<div class="col-md-12">
-							<label></label>
+								<label>Atingível!! É possível atingir/medir com os
+									recursos disponíveis?? *</label>
+								<p:selectOneButton value="#{indicadorMB.smart.atingivel}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneButton>
+
+								<label>Relevante!! Ira impactar nas decisões da
+									organização?? *</label>
+								<p:selectOneButton value="#{indicadorMB.smart.relevante}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneButton>
+
+								<label>Temporizável!! É executável em um prazo
+									determinado?? *</label>
+								<p:selectOneButton value="#{indicadorMB.smart.temporizavel}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneButton>
+
+
+							</h:panelGrid>
+
 						</div>
 
 					</div>
-
+					<div class="ui-fluid">
+						<div class="col-md-12">
+							<label>Observações Pertinentes</label>
+							<p:editor value="#{indicadorMB.smart.observacao}" width="600" height="100" />
+						</div>
+					</div>
 
 					<div class="modal-footer">
 						<!-- 						<p:commandButton value="&#60;&#60; Anterior" -->
