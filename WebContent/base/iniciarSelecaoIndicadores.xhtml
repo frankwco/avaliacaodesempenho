@@ -79,7 +79,7 @@
 							<p:column width="150">
 								<h:outputText value="Saiba Mais" /> &nbsp;&nbsp;&nbsp;&nbsp;
 								<p:commandLink rendered="#{indicador.utilizarAnalise == false}"
-									value="Analisar" update="frmDlgDefinirIndicador"
+									value="Analisar" update="frmDlgDefinirIndicador, dialogHeader"
 									onclick="PF('dlgDefinirIndicador').show();">
 									<f:setPropertyActionListener value="#{indicador}"
 										target="#{indicadorMB.indicador}" />
@@ -131,22 +131,24 @@
 
 
 			<!-- DIALOG ESCOLHER INDICADOR -->
-			<p:dialog header="Indicador" widgetVar="dlgDefinirIndicador"
-				modal="true" responsive="true" width="60%" id="dlgDefinirIndicador"
-				closable="true" closeOnEscape="true" resizable="true"
-				draggable="true">
-
-
+			<p:dialog			
+				widgetVar="dlgDefinirIndicador" modal="true" responsive="true"
+				width="740" id="dlgDefinirIndicador"
+				closeOnEscape="true" height="700"
+				draggable="true" >
+				<f:facet name="header">
+					<h:outputText id="dialogHeader"
+						value="#{indicadorMB.indicador.categoriaIndicador.descricao} de
+							#{indicadorMB.indicador.processo.descricao}:
+								#{indicadorMB.indicador.descricao}" />
+				</f:facet>
+	
 				<h:form id="frmDlgDefinirIndicador">
-					<h2>
-						<b>#{indicadorMB.indicador.categoriaIndicador.descricao} de
-							#{indicadorMB.indicador.processo.descricao}:</b><b><u>
-								#{indicadorMB.indicador.descricao}</u></b>
-					</h2>
 
 					<label>Metas dos Indicadores</label>
-					<div class="ui-fluid">
-						<div class="col-md-12">
+					<p:commandLink style="color:#007bff; font-size:14px !important" value="       Mais Informações? Clique aqui"
+						onclick="PF('dlgSaibaMais').show()" />
+			
 							<h:panelGrid columns="6">
 								<h:outputText value=" Janeiro" />
 								<h:outputText value=" Fevereiro" />
@@ -174,78 +176,58 @@
 								<p:inputText value="#{indicadorMB.smart.meta12}" size="12" />
 
 							</h:panelGrid>
-						</div>
-					</div>
+				
+				<h2>Você julga que o indicador/meta é??</h2>
 					<div class="ui-fluid">
 						<div class="col-md-12">
-							<br />
-						</div>
-					</div>
-					<div class="ui-fluid">
-						<div class="col-md-12">
-							<h:panelGrid columns="2">
-								<label>Específico!! É claro? Não deixa dúvidas do que se
-									trata?? *</label>
-								<p:selectOneButton value="#{indicadorMB.smart.especifico}">
-									<f:selectItem itemLabel="Sim" itemValue="true" />
-									<f:selectItem itemLabel="Não" itemValue="false" />
-								</p:selectOneButton>
+								<h:panelGrid columns="5">
+									<h:graphicImage value="/resources/img/smart_2s.png" />
+									<h:graphicImage value="/resources/img/smart_2m.png" />
+									<h:graphicImage value="/resources/img/smart_2a.png" />
+									<h:graphicImage value="/resources/img/smart_2r.png" />
+									<h:graphicImage value="/resources/img/smart_2t.png" />
+			
+									<p:selectOneButton value="#{indicadorMB.smart.especifico}">
+										<f:selectItem itemLabel="Sim" itemValue="true" />
+										<f:selectItem itemLabel="Não" itemValue="false" />
+									</p:selectOneButton>
 
-								<label>Mensurável!! Pode ser medido de alguma forma?? *</label>
-								<p:selectOneButton value="#{indicadorMB.smart.mensuravel}">
-									<f:selectItem itemLabel="Sim" itemValue="true" />
-									<f:selectItem itemLabel="Não" itemValue="false" />
-								</p:selectOneButton>
+									<p:selectOneButton value="#{indicadorMB.smart.mensuravel}">
+										<f:selectItem itemLabel="Sim" itemValue="true" />
+										<f:selectItem itemLabel="Não" itemValue="false" />
+									</p:selectOneButton>
 
-								<label>Atingível!! É possível atingir/medir com os
-									recursos disponíveis?? *</label>
-								<p:selectOneButton value="#{indicadorMB.smart.atingivel}">
-									<f:selectItem itemLabel="Sim" itemValue="true" />
-									<f:selectItem itemLabel="Não" itemValue="false" />
-								</p:selectOneButton>
+									<p:selectOneButton value="#{indicadorMB.smart.atingivel}">
+										<f:selectItem itemLabel="Sim" itemValue="true" />
+										<f:selectItem itemLabel="Não" itemValue="false" />
+									</p:selectOneButton>
 
-								<label>Relevante!! Ira impactar nas decisões da
-									organização?? *</label>
-								<p:selectOneButton value="#{indicadorMB.smart.relevante}">
-									<f:selectItem itemLabel="Sim" itemValue="true" />
-									<f:selectItem itemLabel="Não" itemValue="false" />
-								</p:selectOneButton>
+									<p:selectOneButton value="#{indicadorMB.smart.relevante}">
+										<f:selectItem itemLabel="Sim" itemValue="true" />
+										<f:selectItem itemLabel="Não" itemValue="false" />
+									</p:selectOneButton>
 
-								<label>Temporizável!! É executável em um prazo
-									determinado?? *</label>
-								<p:selectOneButton value="#{indicadorMB.smart.temporizavel}">
-									<f:selectItem itemLabel="Sim" itemValue="true" />
-									<f:selectItem itemLabel="Não" itemValue="false" />
-								</p:selectOneButton>
+									<p:selectOneButton value="#{indicadorMB.smart.temporizavel}">
+										<f:selectItem itemLabel="Sim" itemValue="true" />
+										<f:selectItem itemLabel="Não" itemValue="false" />
+									</p:selectOneButton>
 
-
-							</h:panelGrid>
-
-						</div>
-
-					</div>
-					<div class="ui-fluid">
-						<div class="col-md-12">
+								</h:panelGrid>
+						</div></div>
+						
+				
+					
 							<label>Observações Pertinentes</label>
-							<p:editor value="#{indicadorMB.smart.observacao}" width="600" height="100" />
-						</div>
-					</div>
-
-					<div class="modal-footer">
-						<!-- 						<p:commandButton value="&#60;&#60; Anterior" -->
-						<!-- 							onclick="PF('dlgDefinirIndicador').hide();" -->
-						<!-- 							styleClass="ui-priority-primary" update=":dlgDefinirIndicador" /> -->
-
+							<p:editor value="#{indicadorMB.smart.observacao}" width="650"
+								height="100" />
+						
 						<p:commandButton value="Finalizar" update="frmDlgIncluirIndicador"
 							actionListener="#{indicadorMB.verificarSmart()}" />
+						
 
-						<!-- 						<p:commandButton value="Próximo &#62;&#62;" -->
-						<!-- 							onclick="PF('dlgDefinirIndicador').hide();" -->
-						<!-- 							styleClass="ui-priority-primary" update=":dlgDefinirIndicador" /> -->
-
-
-					</div>
+				
 				</h:form>
+
 			</p:dialog>
 			<!-- FIM DO DIALOG ESCOLHER INDICADOR-->
 
@@ -280,12 +262,28 @@
 
 					</div>
 				</h:form>
+				
 			</p:dialog>
 			<!-- FIM DO DIALOG INCLUIR INDICADOR-->
+
+			<!-- INÍCIO AJUDA INDICADDORES -->
+			<p:dialog header="Saiba Mais" widgetVar="dlgSaibaMais" modal="true"
+				responsive="true" width="60%" closable="true" closeOnEscape="true"
+				resizable="false" draggable="false">
+				<h:form id="frmSaibaMais">
+					<div class="ui-fluid">
+						<div class="col-md-12">
+							<label>Fórmula de Cálculo do Indicador:
+								#{indicadorMB.indicador.formulaIndicador}</label>
+						</div>
+					</div>
+
+				</h:form>
+			</p:dialog>
+			<!-- FIM AJUDA INDICADORES -->
 
 		</ui:define>
 
 	</ui:composition>
 </h:body>
 </html>
-
