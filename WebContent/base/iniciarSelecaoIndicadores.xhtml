@@ -156,24 +156,24 @@
 								<h:outputText value=" Abril" />
 								<h:outputText value=" Maio" />
 								<h:outputText value=" Junho" />
-								<p:inputText value="#{indicadorMB.smart.meta01}" size="12" />
-								<p:inputText value="#{indicadorMB.smart.meta02}" size="12" />
-								<p:inputText value="#{indicadorMB.smart.meta03}" size="12" />
-								<p:inputText value="#{indicadorMB.smart.meta04}" size="12" />
-								<p:inputText value="#{indicadorMB.smart.meta05}" size="12" />
-								<p:inputText value="#{indicadorMB.smart.meta06}" size="12" />
+								<p:inputText value="#{indicadorMB.indicador.meta01}" size="12" />
+								<p:inputText value="#{indicadorMB.indicador.meta02}" size="12" />
+								<p:inputText value="#{indicadorMB.indicador.meta03}" size="12" />
+								<p:inputText value="#{indicadorMB.indicador.meta04}" size="12" />
+								<p:inputText value="#{indicadorMB.indicador.meta05}" size="12" />
+								<p:inputText value="#{indicadorMB.indicador.meta06}" size="12" />
 								<h:outputText value=" Julho" />
 								<h:outputText value=" Agosto" />
 								<h:outputText value=" Setembro" />
 								<h:outputText value=" Outubro" />
 								<h:outputText value=" Novembro" />
 								<h:outputText value=" Dezembro" />
-								<p:inputText value="#{indicadorMB.smart.meta07}" size="12" />
-								<p:inputText value="#{indicadorMB.smart.meta08}" size="12" />
-								<p:inputText value="#{indicadorMB.smart.meta09}" size="12" />
-								<p:inputText value="#{indicadorMB.smart.meta10}" size="12" />
-								<p:inputText value="#{indicadorMB.smart.meta11}" size="12" />
-								<p:inputText value="#{indicadorMB.smart.meta12}" size="12" />
+								<p:inputText value="#{indicadorMB.indicador.meta07}" size="12" />
+								<p:inputText value="#{indicadorMB.indicador.meta08}" size="12" />
+								<p:inputText value="#{indicadorMB.indicador.meta09}" size="12" />
+								<p:inputText value="#{indicadorMB.indicador.meta10}" size="12" />
+								<p:inputText value="#{indicadorMB.indicador.meta11}" size="12" />
+								<p:inputText value="#{indicadorMB.indicador.meta12}" size="12" />
 
 							</h:panelGrid>
 				
@@ -187,27 +187,27 @@
 									<h:graphicImage value="/resources/img/smart_2r.png" />
 									<h:graphicImage value="/resources/img/smart_2t.png" />
 			
-									<p:selectOneButton value="#{indicadorMB.smart.especifico}">
+									<p:selectOneButton value="#{indicadorMB.indicador.especifico}">
 										<f:selectItem itemLabel="Sim" itemValue="true" />
 										<f:selectItem itemLabel="Não" itemValue="false" />
 									</p:selectOneButton>
 
-									<p:selectOneButton value="#{indicadorMB.smart.mensuravel}">
+									<p:selectOneButton value="#{indicadorMB.indicador.mensuravel}">
 										<f:selectItem itemLabel="Sim" itemValue="true" />
 										<f:selectItem itemLabel="Não" itemValue="false" />
 									</p:selectOneButton>
 
-									<p:selectOneButton value="#{indicadorMB.smart.atingivel}">
+									<p:selectOneButton value="#{indicadorMB.indicador.atingivel}">
 										<f:selectItem itemLabel="Sim" itemValue="true" />
 										<f:selectItem itemLabel="Não" itemValue="false" />
 									</p:selectOneButton>
 
-									<p:selectOneButton value="#{indicadorMB.smart.relevante}">
+									<p:selectOneButton value="#{indicadorMB.indicador.relevante}">
 										<f:selectItem itemLabel="Sim" itemValue="true" />
 										<f:selectItem itemLabel="Não" itemValue="false" />
 									</p:selectOneButton>
 
-									<p:selectOneButton value="#{indicadorMB.smart.temporizavel}">
+									<p:selectOneButton value="#{indicadorMB.indicador.temporizavel}">
 										<f:selectItem itemLabel="Sim" itemValue="true" />
 										<f:selectItem itemLabel="Não" itemValue="false" />
 									</p:selectOneButton>
@@ -218,7 +218,7 @@
 				
 					
 							<label>Observações Pertinentes</label>
-							<p:editor value="#{indicadorMB.smart.observacao}" width="650"
+							<p:editor value="#{indicadorMB.indicador.observacao}" width="650"
 								height="100" />
 						
 						<p:commandButton value="Finalizar" update="frmDlgIncluirIndicador"

@@ -104,69 +104,72 @@
 				closable="true" closeOnEscape="true" resizable="false"
 				draggable="false">
 				<h:form id="frmModalSalvar">
-					<div class="ui-fluid">
+					<p:tabView id="tabViewIndicador">
+						<p:tab title="Dados do Indicador">
+							<div class="ui-fluid">
 
-						<div class="col-md-12">
-							<label>Categoria: *</label>
-							<p:autoComplete dropdown="true"
-								value="#{indicadorMB.indicador.categoriaIndicador}"
-								scrollHeight="170"
-								completeMethod="#{categoriaIndicadorMB.completarCategoriaIndicador}"
-								forceSelection="true" converter="#{converterCategoriaIndicador}"
-								var="cur" itemLabel="#{cur.descricao}" itemValue="#{cur}"
-								required="true" requiredMessage="Campo Obrigatório!!" />
-						</div>
+								<div class="col-md-12">
+									<label>Categoria: *</label>
+									<p:autoComplete dropdown="true"
+										value="#{indicadorMB.indicador.categoriaIndicador}"
+										scrollHeight="170"
+										completeMethod="#{categoriaIndicadorMB.completarCategoriaIndicador}"
+										forceSelection="true"
+										converter="#{converterCategoriaIndicador}" var="cur"
+										itemLabel="#{cur.descricao}" itemValue="#{cur}"
+										required="true" requiredMessage="Campo Obrigatório!!" />
+								</div>
 
-						<div class="col-md-12">
-							<label>Descrição: *</label>
-							<p:inputText title="Descrição"
-								value="#{indicadorMB.indicador.descricao}" />
-						</div>
+								<div class="col-md-12">
+									<label>Descrição: *</label>
+									<p:inputText title="Descrição"
+										value="#{indicadorMB.indicador.descricao}" />
+								</div>
 
-						<div class="col-md-12">
-							<label>Justificativa: *</label>
-							<p:inputText title="Justificativa"
-								value="#{indicadorMB.indicador.justificativa}" />
-						</div>
+								<div class="col-md-12">
+									<label>Justificativa: *</label>
+									<p:inputText title="Justificativa"
+										value="#{indicadorMB.indicador.justificativa}" />
+								</div>
 
-						<div class="col-md-12">
-							<label>Processo: *</label>
-							<p:autoComplete dropdown="true"
-								value="#{indicadorMB.indicador.processo}" scrollHeight="170"
-								completeMethod="#{processoMB.completarProcesso}"
-								forceSelection="true" converter="#{converterProcesso}" var="cur"
-								itemLabel="#{cur.descricao}" itemValue="#{cur}" required="true"
-								requiredMessage="Campo Obrigatório!!" />
-						</div>
-						
-						
-						<div class="col-md-12">
-							<label>Fórmula de Cálculo - Obtenção dos Valores do Indicador: *--></label>
-							&nbsp;&nbsp;&nbsp;
-							<p:commandLink
-								onclick="PF('dlgInstrucoes').show(); PF('dlgInstrucoes').content.scrollTop('0')"
-								style="color: red; font-weight: bold;"
-								value="Clique aqui para obter Instruções" />
-						</div>
-						<div class="col-md-12">
-							<p:inputText id="cmpParametroGL"
-								title="Fórmula Cálculo Grupo Lançamentos"
-								value="#{indicadorMB.indicador.formulaGrupoLancamento}"
-								onselect="processSelection();">
-								<p:ajax event="blur" oncomplete="verificaCursorGL();" />
-							</p:inputText>
-							<p:remoteCommand name="sendCursorSelection"
-								actionListener="#{indicadorMB.onCursorSelecionado}"
-								process="@this" />
+								<div class="col-md-12">
+									<label>Processo: *</label>
+									<p:autoComplete dropdown="true"
+										value="#{indicadorMB.indicador.processo}" scrollHeight="170"
+										completeMethod="#{processoMB.completarProcesso}"
+										forceSelection="true" converter="#{converterProcesso}"
+										var="cur" itemLabel="#{cur.descricao}" itemValue="#{cur}"
+										required="true" requiredMessage="Campo Obrigatório!!" />
+								</div>
 
-							<p:commandButton
-								value="Selecionar Outros Grupo de Lançamentos para a Fórmula"
-								update=":frmModalEscolherGrupoLancamento"
-								onclick="PF('dlgEscolherGrupoLancamento').show(); PF('dlgEscolherGrupoLancamento').content.scrollTop('0')"
-								title="Selecionar Outros Grupo de Lançamentos para a Fórmula" />
-						</div>
 
-<!--  
+								<div class="col-md-12">
+									<label>Fórmula de Cálculo - Obtenção dos Valores do
+										Indicador: *--></label> &nbsp;&nbsp;&nbsp;
+									<p:commandLink
+										onclick="PF('dlgInstrucoes').show(); PF('dlgInstrucoes').content.scrollTop('0')"
+										style="color: red; font-weight: bold;"
+										value="Clique aqui para obter Instruções" />
+								</div>
+								<div class="col-md-12">
+									<p:inputText id="cmpParametroGL"
+										title="Fórmula Cálculo Grupo Lançamentos"
+										value="#{indicadorMB.indicador.formulaGrupoLancamento}"
+										onselect="processSelection();">
+										<p:ajax event="blur" oncomplete="verificaCursorGL();" />
+									</p:inputText>
+									<p:remoteCommand name="sendCursorSelection"
+										actionListener="#{indicadorMB.onCursorSelecionado}"
+										process="@this" />
+
+									<p:commandButton
+										value="Selecionar Outros Grupo de Lançamentos para a Fórmula"
+										update=":frmModalEscolherGrupoLancamento"
+										onclick="PF('dlgEscolherGrupoLancamento').show(); PF('dlgEscolherGrupoLancamento').content.scrollTop('0')"
+										title="Selecionar Outros Grupo de Lançamentos para a Fórmula" />
+								</div>
+
+								<!--  
 						<div class="col-md-12">
 							<label>Fórmula de Cálculo - Outros Indicadores: * </label>
 							&nbsp;&nbsp;&nbsp;
@@ -189,29 +192,40 @@
 								title="Fórmula de Cálculo Indicador" />
 						</div>
 -->
-						
-
-						<div class="col-md-12">
-							<label>Observação: </label>
-							<p:inputText title="Nome"
-								value="#{indicadorMB.indicador.observacao}" />
-						</div>
 
 
+								<div class="col-md-12">
+									<label>Observação: </label>
+									<p:inputText title="Nome"
+										value="#{indicadorMB.indicador.observacao}" />
+								</div>
 
-					</div>
-					<div class="col-md-12">
-						<small>Campos obrigatórios *</small>
-						<div class="modal-footer">
-							<p:commandButton value="Salvar"
-								actionListener="#{indicadorMB.salvar()}"
-								styleClass="ui-priority-primary"
-								update=":dlgInformacao :frmTabela" />
 
-							<p:commandButton value="Cancelar"
-								onclick="PF('dlgIndicador').hide();" alt="Cancelar" />
-						</div>
-					</div>
+
+							</div>
+							<div class="col-md-12">
+								<small>Campos obrigatórios *</small>
+								<div class="modal-footer">
+									<p:commandButton value="Salvar"
+										actionListener="#{indicadorMB.salvar()}"
+										styleClass="ui-priority-primary"
+										update=":dlgInformacao :frmTabela" />
+
+									<p:commandButton value="Cancelar"
+										onclick="PF('dlgIndicador').hide();" alt="Cancelar" />
+								</div>
+							</div>
+						</p:tab>
+						<p:tab title="Ações para Melhoria">
+							<div class="ui-fluid">
+
+								<div class="col-md-12">
+									<label>Quais ações podem ser tomadas para melhorar o indicador??</label>
+									 <p:editor value="#{indicadorMB.indicador.acoesMelhoria}" width="600" />
+								</div>
+								</div>
+						</p:tab>
+					</p:tabView>
 				</h:form>
 				<script>
     function processSelection() {
@@ -222,7 +236,7 @@
     }
     
     function verificaCursorGL() {
-        var ctl = document.getElementById('frmModalSalvar:cmpParametroGL');
+        var ctl = document.getElementById('frmModalSalvar:tabViewIndicador:cmpParametroGL');
         if(ctl!=null){
         var startPos = ctl.selectionStart;
         sendCursorSelection([{name: 'posicaoCursorGrupoLancamento', value: startPos}]);
@@ -251,14 +265,12 @@
 						<div class="col-md-12">
 							<label>Indicador: *</label>
 							<p:autoComplete dropdown="true"
-								value="#{indicadorMB.indicadorFormula}"
-								scrollHeight="170"
+								value="#{indicadorMB.indicadorFormula}" scrollHeight="170"
 								completeMethod="#{indicadorMB.completarIndicador}"
 								forceSelection="true" converter="#{converterIndicador}"
 								var="cur" itemLabel="#{cur.descricao}" itemValue="#{cur}"
 								required="true" requiredMessage="Campo Obrigatório!!">
-								<p:ajax event="itemSelect"
-									/>
+								<p:ajax event="itemSelect" />
 							</p:autoComplete>
 						</div>
 
@@ -270,8 +282,7 @@
 							actionListener="#{indicadorMB.selecionarIndicador()}"
 							styleClass="ui-priority-primary"
 							oncomplete="PF('dlgEscolherIndicador').hide();"
-							update=":dlgInformacao"
-							process="@this" />
+							update=":dlgInformacao" process="@this" />
 
 						<p:commandButton value="Cancelar"
 							onclick="PF('dlgEscolherIndicador').hide();" alt="Cancelar" />
@@ -297,8 +308,7 @@
 								forceSelection="true" converter="#{converterGrupoLancamento}"
 								var="cur" itemLabel="#{cur.descricao}" itemValue="#{cur}"
 								required="true" requiredMessage="Campo Obrigatório!!">
-								<p:ajax event="itemSelect"
-									 />
+								<p:ajax event="itemSelect" />
 							</p:autoComplete>
 						</div>
 
@@ -310,8 +320,8 @@
 							actionListener="#{indicadorMB.selecionarGrupoLancamento()}"
 							styleClass="ui-priority-primary"
 							oncomplete="PF('dlgEscolherGrupoLancamento').hide();"
-							update=":dlgInformacao :frmModalSalvar:cmpParametroGL"
-							process="@this,:frmModalSalvar:cmpParametroGL" />
+							update=":dlgInformacao :frmModalSalvar:tabViewIndicador:cmpParametroGL"
+							process="@this,:frmModalSalvar:tabViewIndicador:cmpParametroGL" />
 
 						<p:commandButton value="Cancelar"
 							onclick="PF('dlgEscolherGrupoLancamento').hide();" alt="Cancelar" />
@@ -325,6 +335,7 @@
 				responsive="true" width="60%" id="dlgInstrucoes" closable="true"
 				closeOnEscape="true" resizable="false" draggable="false">
 				<h:form id="frmModalInstrucoes">
+
 					<div class="ui-fluid">
 
 						<div class="col-md-12">
@@ -351,6 +362,7 @@
 						<p:commandButton value="Fechar"
 							onclick="PF('dlgInstrucoes').hide();" alt="Cancelar" />
 					</div>
+
 				</h:form>
 			</p:dialog>
 			<!-- FIM DO DIALOG INSTRUÇÕES PARÂMETROS -->

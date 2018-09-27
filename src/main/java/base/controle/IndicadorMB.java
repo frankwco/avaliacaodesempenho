@@ -140,19 +140,19 @@ public class IndicadorMB implements Serializable {
 	public void verificarSmart() {
 		naoEe = "<ol>";
 		mensagemNaoEe = "";
-		if (!smart.isAtingivel()) {
+		if (!indicador.isAtingivel()) {
 			naoEe += " <li> Não é Atingível </li>";
 		}
-		if (!smart.isEspecifico()) {
+		if (!indicador.isEspecifico()) {
 			naoEe += " <li> Não é Específico </li>";
 		}
-		if (!smart.isMensuravel()) {
+		if (!indicador.isMensuravel()) {
 			naoEe += " <li> Não é Mensurável </li>";
 		}
-		if (!smart.isRelevante()) {
+		if (!indicador.isRelevante()) {
 			naoEe += " <li> Não é Relevante </li>";
 		}
-		if (!smart.isTemporizavel()) {
+		if (!indicador.isTemporizavel()) {
 			naoEe += " <li> Não e Temporizável </li>";
 		}
 		naoEe += " </ol>";
@@ -193,6 +193,7 @@ public class IndicadorMB implements Serializable {
 
 	public void confirmarInclusaoIndicador(String confirmar) {
 		if (confirmar.equals("sim")) {
+			
 			indicador.setUtilizarAnalise(true);
 			indicadorService.inserirAlterar(indicador);
 			FacesContext context = FacesContext.getCurrentInstance();

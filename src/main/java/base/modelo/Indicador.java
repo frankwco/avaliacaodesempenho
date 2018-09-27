@@ -69,6 +69,63 @@ public class Indicador implements Serializable {
 	private Double meta11;
 	private Double meta12;
 	
+	@Column(length=10000)
+	private String acoesMelhoria;
+	
+	private boolean especifico;
+	private boolean temporizavel;
+	private boolean mensuravel;
+	private boolean atingivel;
+	private boolean relevante;
+		
+	public boolean isEspecifico() {
+		return especifico;
+	}
+
+	public void setEspecifico(boolean especifico) {
+		this.especifico = especifico;
+	}
+
+	public boolean isTemporizavel() {
+		return temporizavel;
+	}
+
+	public void setTemporizavel(boolean temporizavel) {
+		this.temporizavel = temporizavel;
+	}
+
+	public boolean isMensuravel() {
+		return mensuravel;
+	}
+
+	public void setMensuravel(boolean mensuravel) {
+		this.mensuravel = mensuravel;
+	}
+
+	public boolean isAtingivel() {
+		return atingivel;
+	}
+
+	public void setAtingivel(boolean atingivel) {
+		this.atingivel = atingivel;
+	}
+
+	public boolean isRelevante() {
+		return relevante;
+	}
+
+	public void setRelevante(boolean relevante) {
+		this.relevante = relevante;
+	}
+
+	public String getAcoesMelhoria() {
+		return acoesMelhoria;
+	}
+
+	public void setAcoesMelhoria(String acoesMelhoria) {
+		this.acoesMelhoria = acoesMelhoria;
+	}
+
 	public Double getMeta01() {
 		return meta01;
 	}
