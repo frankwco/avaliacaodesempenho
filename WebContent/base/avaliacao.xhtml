@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+	<meta charset="utf-8"></meta>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+</h:head>
+<h:body>
+	<ui:composition
+		template="../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+		#{avaliacaoDesempenhoEspecificosMB.init('Custo')}
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">
+						<i class="fa fa-chart-line" aria-hidden="true"></i> Avaliação de
+						Desempenho
+					</h1>
+				</div>
+			</div>
+			<h4>O que vamos avaliar??</h4>
+
+			<div class="row">
+<h:form>
+				<div class="col-lg-3 col-xs-3">
+					<!-- small box -->
+					<div class="small-box bg-orange" style="filter: opacity(100%)">
+						<div class="inner">
+							<h3>Custo</h3>
+						</div>
+						<div class="icon">
+							<i class="fa fa-dollar" aria-hidden="true"></i>
+						</div>
+						<p:commandLink value="Analisar" actionListener="#{testeMB.chamada()}" class="small-box-footer"/>
+<!-- 						<a href="avaliacaoCustos.jsf" class="small-box-footer"><p:commandLink value="TEste"/> -->
+<!-- 							<i class="fa fa-arrow-circle-right"></i> -->
+<!-- 						</a> -->
+					</div>
+				</div>
+</h:form>
+
+				<div class="col-lg-3 col-xs-3">
+					<!-- small box -->
+					<div class="small-box bg-blue" style="filter: opacity(50%)">
+						<div class="inner">
+							<h3>Produtividade</h3>
+						</div>
+						<div class="icon">
+							<i class="fa fa-line-chart" aria-hidden="true"></i>
+						</div>
+						<a href="avaliacaoProdutividade.jsf" class="small-box-footer">Analisar
+							<i class="fa fa-arrow-circle-right"></i>
+						</a>
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-xs-3" style="filter: opacity(50%)">
+					<!-- small box -->
+					<div class="small-box bg-green">
+						<div class="inner">
+							<h3>Qualidade</h3>
+						</div>
+						<div class="icon">
+							<i class="fa fa-star" aria-hidden="true"></i>
+						</div>
+						<a href="avaliacaoQualidade.jsf" class="small-box-footer">Analisar
+							<i class="fa fa-arrow-circle-right"></i>
+						</a>
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-xs-3" style="filter: opacity(50%)">
+					<!-- small box -->
+					<div class="small-box bg-red">
+						<div class="inner">
+							<h3>Tempo</h3>
+						</div>
+						<div class="icon">
+							<i class="fa fa-clock-o" aria-hidden="true"></i>
+						</div>
+						<a href="avaliacaoTempo.jsf" class="small-box-footer">Analisar
+							<i class="fa fa-arrow-circle-right"></i>
+						</a>
+					</div>
+				</div>
+
+				<!-- 								<div class="col-lg-4 col-xs-4"> -->
+				<!-- 								small box -->
+				<!-- 								<div class="small-box bg-yellow"> -->
+				<!-- 									<div class="inner"> -->
+				<!-- 										<h3>Outros</h3> -->
+				<!-- 									</div> -->
+				<!-- 									<div class="icon"> -->
+				<!-- 										<i class="fa fa-binoculars" aria-hidden="true"></i> -->
+				<!-- 									</div> -->
+				<!-- 									<a href="avaliacaoOutros.jsf" class="small-box-footer">Visualizar <i -->
+				<!-- 										class="fa fa-arrow-circle-right"></i> -->
+				<!-- 									</a> -->
+				<!-- 								</div> -->
+				<!-- 							</div> -->
+
+
+			</div>
+
+			<div class="row">
+
+				<h:form>
+
+					<div class="col-md-12">
+
+						<h:panelGrid columns="4" cellpadding="5">
+
+							<p:outputLabel value="Categoria:" />
+
+
+
+							<p:autoComplete dropdown="true"
+								value="#{indicadorMB.indicador.categoriaIndicador}"
+								scrollHeight="170"
+								completeMethod="#{categoriaIndicadorMB.completarCategoriaIndicador}"
+								forceSelection="true" converter="#{converterCategoriaIndicador}"
+								var="cur" itemLabel="#{cur.descricao}" itemValue="#{cur}"
+								required="true" requiredMessage="Campo Obrigatório!!" />
+							<p:outputLabel value="" />
+							<p:outputLabel value="" />
+
+
+							<p:outputLabel value="Ano:" />
+							<p:selectOneMenu style="width:125px">
+								<f:selectItem itemLabel="2017" itemValue="2017" />
+								<f:selectItem itemLabel="2018" itemValue="2018" />
+								<f:selectItem itemLabel="2019" itemValue="2019" />
+								<f:selectItem itemLabel="2020" itemValue="2020" />
+								<f:selectItem itemLabel="2021" itemValue="2022" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Mês" />
+
+							<p:selectOneMenu style="width:125px">
+								<f:selectItem itemLabel="Janeiro" itemValue="1" />
+								<f:selectItem itemLabel="Fevereiro" itemValue="2" />
+								<f:selectItem itemLabel="Março" itemValue="3" />
+								<f:selectItem itemLabel="Abril" itemValue="4" />
+								<f:selectItem itemLabel="Maio" itemValue="5" />
+								<f:selectItem itemLabel="Junho" itemValue="6" />
+								<f:selectItem itemLabel="Julho" itemValue="7" />
+								<f:selectItem itemLabel="Agosto" itemValue="8" />
+								<f:selectItem itemLabel="Setembro" itemValue="9" />
+								<f:selectItem itemLabel="Outubro" itemValue="10" />
+								<f:selectItem itemLabel="Novembro" itemValue="11" />
+								<f:selectItem itemLabel="Dezembro" itemValue="12" />
+
+							</p:selectOneMenu>
+
+							<h:outputLabel value="Processos:" />
+							<p:selectCheckboxMenu
+								value="#{avaliacaoDesempenhoEspecificosMB.processos}"
+								label="Processos" multiple="true" filter="true"
+								filterMatchMode="startsWith" panelStyle="width:250px">
+								<f:selectItems value="#{processoMB.listProcesso}" var="pro"
+									itemLabel="#{pro.descricao}" itemValue="#{pro.id}" />
+							</p:selectCheckboxMenu>
+
+							<p:commandButton value="Buscar" update="grafico1"
+								actionListener="#{avaliacaoDesempenhoEspecificosMB.graficoCategoriaIndicadorData('Custo')}" />
+						</h:panelGrid>
+
+					</div>
+				</h:form>
+
+				<div class="col-md-12">
+					<div class="row">
+						<br />
+					</div>
+				</div>
+
+
+				<div class="col-md-12">
+					<h:form id="grafico1">
+
+						<p:chart type="bar"
+							model="#{avaliacaoDesempenhoEspecificosMB.barraCusto}"
+							style="height:300px;" />
+
+					</h:form>
+				</div>
+
+			</div>
+			<!-- 				AQUI INICIA O GRÁFICO POR CATEGORIA E PROCESSO -->
+			<hr />
+			<hr />
+			<h4>Avaliação de Todos os Indicadores por Período e Processos</h4>
+			<div class="row">
+				<div class="col-md-12">
+					<h:form>
+						<h:panelGrid columns="8" cellpadding="5">
+
+							<p:outputLabel value="Data Inicial:" />
+							<p:calendar
+								value="#{avaliacaoDesempenhoEspecificosMB.dataInicialDate}"
+								pattern="dd/MM/yyyy" />
+							<p:outputLabel value="Data Final:" />
+							<p:calendar
+								value="#{avaliacaoDesempenhoEspecificosMB.dataFinalDate}"
+								pattern="dd/MM/yyyy" />
+
+							<h:outputLabel value="Processos:" />
+							<p:selectCheckboxMenu
+								value="#{avaliacaoDesempenhoEspecificosMB.processos}"
+								label="Processos" multiple="true" filter="true"
+								filterMatchMode="startsWith" panelStyle="width:250px">
+								<f:selectItems value="#{processoMB.listProcesso}" var="pro"
+									itemLabel="#{pro.descricao}" itemValue="#{pro.id}" />
+							</p:selectCheckboxMenu>
+
+							&nbsp;<p:commandButton value="Filtrar" update="grafico2"
+								actionListener="#{avaliacaoDesempenhoEspecificosMB.graficoCategoriaIndicadorDataProcesso('Custo')}" />
+
+						</h:panelGrid>
+
+					</h:form>
+				</div>
+
+				<div class="col-md-12">
+					<div class="row">
+						<br />
+					</div>
+				</div>
+
+
+				<div class="col-md-12">
+					<h:form id="grafico2">
+
+						<p:chart type="bar"
+							model="#{avaliacaoDesempenhoEspecificosMB.barraCustoProcesso}"
+							style="height:300px;" />
+
+					</h:form>
+				</div>
+			</div>
+
+			<!-- 				AQUI INICIA O GRÁFICO POR ANÁLISE COMPARATIVA DE PERÍODOS -->
+			<hr />
+			<hr />
+			<h4>Avaliação Comparativa por Período dos Indicadores</h4>
+			<div class="row">
+				<div class="col-md-12">
+					<h:form>
+						<h:panelGrid columns="8" cellpadding="5">
+							<h:panelGrid columns="4">
+								<p:outputLabel value="Data Inicial:" />
+								<p:calendar
+									value="#{avaliacaoDesempenhoEspecificosMB.dataInicialDateC1}"
+									pattern="dd/MM/yyyy" />
+								<p:outputLabel value="Data Final:" />
+								<p:calendar
+									value="#{avaliacaoDesempenhoEspecificosMB.dataFinalDateC1}"
+									pattern="dd/MM/yyyy" />
+
+								<p:outputLabel value="" />
+								<p:outputLabel value="" />
+								<p:outputLabel value="" />
+								<p:outputLabel value="" />
+
+								<p:outputLabel value="Data Inicial:" />
+								<p:calendar
+									value="#{avaliacaoDesempenhoEspecificosMB.dataInicialDateC2}"
+									pattern="dd/MM/yyyy" />
+								<p:outputLabel value="Data Final:" />
+								<p:calendar
+									value="#{avaliacaoDesempenhoEspecificosMB.dataFinalDateC2}"
+									pattern="dd/MM/yyyy" />
+
+								<p:outputLabel value="" />
+								<p:outputLabel value="" />
+								<p:outputLabel value="" />
+								<p:outputLabel value="" />
+
+								<p:outputLabel value="Data Inicial:" />
+								<p:calendar
+									value="#{avaliacaoDesempenhoEspecificosMB.dataInicialDateC3}"
+									pattern="dd/MM/yyyy" />
+								<p:outputLabel value="Data Final:" />
+								<p:calendar
+									value="#{avaliacaoDesempenhoEspecificosMB.dataFinalDateC3}"
+									pattern="dd/MM/yyyy" />
+							</h:panelGrid>
+
+							<h:outputLabel value="Processos:" />
+							<p:selectCheckboxMenu
+								value="#{avaliacaoDesempenhoEspecificosMB.processosComparativos}"
+								label="Processos" multiple="true" filter="true"
+								filterMatchMode="startsWith" panelStyle="width:250px">
+								<f:selectItems value="#{processoMB.listProcesso}" var="pro"
+									itemLabel="#{pro.descricao}" itemValue="#{pro.id}" />
+							</p:selectCheckboxMenu>
+
+							&nbsp;<p:commandButton value="Filtrar" update="grafico3"
+								actionListener="#{avaliacaoDesempenhoEspecificosMB.graficoCategoriaIndicadorDataProcessoComparativo('Custo')}" />
+
+						</h:panelGrid>
+
+					</h:form>
+				</div>
+
+				<div class="col-md-12">
+					<div class="row">
+						<br />
+					</div>
+				</div>
+
+
+				<div class="col-md-12">
+					<h:form id="grafico3">
+
+						<p:chart type="bar"
+							model="#{avaliacaoDesempenhoEspecificosMB.barraCustoComparativo}"
+							style="height:300px;" />
+
+					</h:form>
+				</div>
+			</div>
+
+
+			<!-- FIM TITULO -->
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
+

@@ -40,6 +40,10 @@ public class TesteMB implements Serializable {
 
 	}
 	
+	public void chamada(){
+		System.out.println("Teste de chamada de método");
+	}
+	
 	public void itemSelect(ItemSelectEvent event) 
 	{  
 		System.out.println("Item Index: " + event.getItemIndex() + ", Series Index:" + event.getSeriesIndex());
