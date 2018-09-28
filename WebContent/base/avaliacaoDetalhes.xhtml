@@ -48,7 +48,8 @@
 				</div>
 
 				<div class="col-lg-6 col-xs-6" style="filter: opacity(100%)">
-
+					<h2>O que pode ser feito para melhorar o Indicador??</h2>
+					<h:outputText escape="true" value="Reduzir o número de ministérios" />
 				</div>
 
 
@@ -253,154 +254,10 @@
 
 			<div class="row">
 
-				<h:form>
-
-					<div class="col-md-12">
-
-						<h:panelGrid columns="10">
-
-							<p:outputLabel value="Mês:" />
-
-							<p:selectOneMenu style="width:125px">
-								<f:selectItem itemLabel="Janeiro" itemValue="1" />
-								<f:selectItem itemLabel="Fevereiro" itemValue="2" />
-								<f:selectItem itemLabel="Março" itemValue="3" />
-								<f:selectItem itemLabel="Abril" itemValue="4" />
-								<f:selectItem itemLabel="Maio" itemValue="5" />
-								<f:selectItem itemLabel="Junho" itemValue="6" />
-								<f:selectItem itemLabel="Julho" itemValue="7" />
-								<f:selectItem itemLabel="Agosto" itemValue="8" />
-								<f:selectItem itemLabel="Setembro" itemValue="9" />
-								<f:selectItem itemLabel="Outubro" itemValue="10" />
-								<f:selectItem itemLabel="Novembro" itemValue="11" />
-								<f:selectItem itemLabel="Dezembro" itemValue="12" />
-
-							</p:selectOneMenu>
-
-							<p:outputLabel value="&#160; &#160; &#160;Ano:" />
-							<p:selectOneMenu style="width:125px">
-								<f:selectItem itemLabel="2017" itemValue="2017" />
-								<f:selectItem itemLabel="2018" itemValue="2018" />
-								<f:selectItem itemLabel="2019" itemValue="2019" />
-								<f:selectItem itemLabel="2020" itemValue="2020" />
-								<f:selectItem itemLabel="2021" itemValue="2022" />
-							</p:selectOneMenu>
-
-							<h:outputLabel value=" &#160; &#160; &#160;Processos:" />
-							<p:selectCheckboxMenu
-								value="#{avaliacaoDesempenhoEspecificosMB.processos}"
-								label="Processos" multiple="true" filter="true"
-								filterMatchMode="startsWith" panelStyle="width:250px">
-								<f:selectItems value="#{processoMB.listProcesso}" var="pro"
-									itemLabel="#{pro.descricao}" itemValue="#{pro.id}" />
-							</p:selectCheckboxMenu>
- 							&#160; &#160; &#160;
-							<p:commandButton value="Buscar" update="grafico1"
-								actionListener="#{avaliacaoDesempenhoEspecificosMB.graficoCategoriaIndicadorData('Custo')}" />
-						</h:panelGrid>
-
-					</div>
-				</h:form>
-
-				<div class="col-md-12">
-					<div class="row">
-						<br />
-					</div>
-				</div>
-
-
-				<div class="col-md-12">
-					<h:form id="grafico1">
-
-						<p:chart type="bar"
-							model="#{avaliacaoDesempenhoEspecificosMB.barraCusto}"
-							style="height:300px;" />
-
-					</h:form>
-				</div>
-
 			</div>
 			<!-- 			INDICADORES DE ****** -->
 			<h2>Relação dos Indicadores de Custo</h2>
 			<hr />
-
-
-			<p:dataTable var="ind" value="#{indicadorMB.listIndicador}">
-				<f:facet name="header">
-           Indicadores
-        </f:facet>
-
-				<p:columnGroup type="header">
-					<p:row>
-						<p:column rowspan="3" headerText="Indicador" width="250" />
-					</p:row>
-					<p:row>
-						<p:column colspan="3" headerText="Mês 07/2018" />
-						<p:column colspan="3" headerText="Mês 08/2018" />
-						<p:column colspan="3" headerText="Mês 09/2018 - Pesquisado" />
-					</p:row>
-					<p:row>
-						<p:column headerText="Meta" />
-						<p:column headerText="Realizado" />
-						<p:column headerText="Estado" />
-						<p:column headerText="Meta" />
-						<p:column headerText="Realizado" />
-						<p:column headerText="Estado" />
-						<p:column headerText="Meta" />
-						<p:column headerText="Realizado" />
-						<p:column headerText="Estado" style="width:100px;" />
-					</p:row>
-				</p:columnGroup>
-
-				<p:column>
-					<h:outputText value="#{ind.descricao}" />
-				</p:column>
-
-				<p:column>
-					<h:outputText value="#{ind.meta01}" />
-				</p:column>
-
-				<p:column>
-					<h:outputText value="" />
-				</p:column>
-
-				<p:column>
-					<center>
-						<h:outputText escape="false" value="#{testeMB.statusVerde}" />
-					</center>
-				</p:column>
-
-				<p:column>
-					<h:outputText value="" />
-				</p:column>
-
-				<p:column>
-					<h:outputText value="" />
-				</p:column>
-
-				<p:column>
-					<center>
-						<h:outputText escape="false" value="#{testeMB.statusLaranja}" />
-					</center>
-				</p:column>
-
-				<p:column>
-					<h:outputText value="" />
-				</p:column>
-
-				<p:column>
-					<h:outputText value="" />
-				</p:column>
-
-				<p:column style="width:100px;">
-					<center>
-						<h:outputText escape="false" value="#{testeMB.statusVermelho}" />
-					</center>
-				</p:column>
-
-
-			</p:dataTable>
-
 
 
 
