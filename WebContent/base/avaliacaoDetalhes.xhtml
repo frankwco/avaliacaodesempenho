@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+	<meta charset="utf-8"></meta>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+	<style>
+.ui-datatable table {
+	width: auto !important;
+}
+</style>
+</h:head>
+<h:body>
+	<ui:composition
+		template="../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+		#{avaliacaoDesempenhoEspecificosMB.init('Custo')}
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">
+						<i class="fa fa-chart-line" aria-hidden="true"></i> Análise
+						Detalhada do Indicador ****
+					</h1>
+				</div>
+			</div>
+
+			<div class="row">
+
+
+
+
+				<div class="col-lg-6 col-xs-6" style="filter: opacity(100%)">
+					<p:chart type="metergauge" model="#{testeMB.meterGaugeModel2}"
+						style="width:400px;height:250px" />
+
+				</div>
+
+				<div class="col-lg-6 col-xs-6" style="filter: opacity(100%)">
+
+				</div>
+
+
+			</div>
+
+			<div class="row">
+			
+			<div class="col-lg-1 col-xs-1">
+					<div class="small-box bg-green">
+						<div class="inner">
+							<h3 style="font-size: 14px">Mês 1</h3>
+						</div>
+<!-- 						<div class="icon"> -->
+<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
+<!-- 						</div> -->
+						<p:commandLink  value="90" style="font-size: 18px !important; color: black !important"
+								actionListener="#{testeMB.chamada()}" class="small-box-footer" >
+								 <i class="fa fa-edit"></i>
+								</p:commandLink>
+						
+					</div>
+				</div>
+			
+				<div class="col-lg-1 col-xs-1">
+					<div class="small-box bg-green">
+						<div class="inner">
+							<h3 style="font-size: 14px">Mês 2</h3>
+						</div>
+<!-- 						<div class="icon"> -->
+<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
+<!-- 						</div> -->
+						<p:commandLink  value="90" style="font-size: 18px !important; color: black !important"
+								actionListener="#{testeMB.chamada()}" class="small-box-footer" >
+								 <i class="fa fa-edit"></i>
+								</p:commandLink>
+						
+					</div>
+				</div>
+				
+						<div class="col-lg-1 col-xs-1">
+					<div class="small-box bg-green">
+						<div class="inner">
+							<h3 style="font-size: 14px">Mês 3</h3>
+						</div>
+<!-- 						<div class="icon"> -->
+<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
+<!-- 						</div> -->
+						<p:commandLink  value="90" style="font-size: 18px !important; color: black !important"
+								actionListener="#{testeMB.chamada()}" class="small-box-footer" >
+								 <i class="fa fa-edit"></i>
+								</p:commandLink>
+						
+					</div>
+					
+				</div>
+						<div class="col-lg-1 col-xs-1">
+					<div class="small-box bg-green">
+						<div class="inner">
+							<h3 style="font-size: 14px">Mês 4</h3>
+						</div>
+<!-- 						<div class="icon"> -->
+<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
+<!-- 						</div> -->
+						<p:commandLink  value="90" style="font-size: 18px !important; color: black !important"
+								actionListener="#{testeMB.chamada()}" class="small-box-footer" >
+								 <i class="fa fa-edit"></i>
+								</p:commandLink>
+						
+					</div>
+				</div>
+				
+						<div class="col-lg-1 col-xs-1">
+					<div class="small-box bg-green">
+						<div class="inner">
+							<h3 style="font-size: 14px">Mês 5</h3>
+						</div>
+<!-- 						<div class="icon"> -->
+<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
+<!-- 						</div> -->
+						<p:commandLink  value="90" style="font-size: 18px !important; color: black !important"
+								actionListener="#{testeMB.chamada()}" class="small-box-footer" >
+								 <i class="fa fa-edit"></i>
+								</p:commandLink>
+						
+					</div>
+				</div>
+				
+						<div class="col-lg-1 col-xs-1">
+					<div class="small-box bg-green">
+						<div class="inner">
+							<h3 style="font-size: 14px">Mês 6</h3>
+						</div>
+<!-- 						<div class="icon"> -->
+<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
+<!-- 						</div> -->
+						<p:commandLink  value="90" style="font-size: 18px !important; color: black !important"
+								actionListener="#{testeMB.chamada()}" class="small-box-footer" >
+								 <i class="fa fa-edit"></i>
+								</p:commandLink>
+						
+					</div>
+				</div>
+				
+						<div class="col-lg-1 col-xs-1">
+					<div class="small-box bg-green">
+						<div class="inner">
+							<h3 style="font-size: 14px">Mês 7</h3>
+						</div>
+<!-- 						<div class="icon"> -->
+<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
+<!-- 						</div> -->
+						<p:commandLink  value="90" style="font-size: 18px !important; color: black !important"
+								actionListener="#{testeMB.chamada()}" class="small-box-footer" >
+								 <i class="fa fa-edit"></i>
+								</p:commandLink>
+						
+					</div>
+				</div>
+				
+						<div class="col-lg-1 col-xs-1">
+					<div class="small-box bg-green">
+						<div class="inner">
+							<h3 style="font-size: 14px">Mês 8</h3>
+						</div>
+<!-- 						<div class="icon"> -->
+<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
+<!-- 						</div> -->
+						<p:commandLink  value="90" style="font-size: 18px !important; color: black !important"
+								actionListener="#{testeMB.chamada()}" class="small-box-footer" >
+								 <i class="fa fa-edit"></i>
+								</p:commandLink>
+						
+					</div>
+				</div>
+				
+						<div class="col-lg-1 col-xs-1">
+					<div class="small-box bg-green">
+						<div class="inner">
+							<h3 style="font-size: 14px">Mês 9</h3>
+						</div>
+<!-- 						<div class="icon"> -->
+<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
+<!-- 						</div> -->
+						<p:commandLink  value="90" style="font-size: 18px !important; color: black !important"
+								actionListener="#{testeMB.chamada()}" class="small-box-footer" >
+								 <i class="fa fa-edit"></i>
+								</p:commandLink>
+						
+					</div>
+				</div>
+				
+										
+						<div class="col-lg-1 col-xs-1">
+					<div class="small-box bg-red">
+						<div class="inner">
+							<h3 style="font-size: 14px">Mês 10</h3>
+						</div>
+<!-- 						<div class="icon"> -->
+<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
+<!-- 						</div> -->
+						<p:commandLink  value="90" style="font-size: 18px !important; color: black !important"
+								actionListener="#{testeMB.chamada()}" class="small-box-footer" >
+								 <i class="fa fa-edit"></i>
+								</p:commandLink>
+						
+					</div>
+				</div>
+				
+						<div class="col-lg-1 col-xs-1">
+					<div class="small-box bg-red">
+						<div class="inner">
+							<h3 style="font-size: 14px">Mês 11</h3>
+						</div>
+<!-- 						<div class="icon"> -->
+<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
+<!-- 						</div> -->
+						<p:commandLink  value="90" style="font-size: 18px !important; color: black !important"
+								actionListener="#{testeMB.chamada()}" class="small-box-footer" >
+								 <i class="fa fa-edit"></i>
+								</p:commandLink>
+						
+					</div>
+				</div>
+				
+						<div class="col-lg-1 col-xs-1">
+					<div class="small-box bg-green">
+						<div class="inner">
+							<h3 style="font-size: 14px">Mês 12</h3>
+						</div>
+<!-- 						<div class="icon"> -->
+<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
+<!-- 						</div> -->
+						<p:commandLink  value="90" style="font-size: 18px !important; color: black !important"
+								actionListener="#{testeMB.chamada()}" class="small-box-footer" >
+								 <i class="fa fa-edit"></i>
+								</p:commandLink>
+						
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row">
+
+				<h:form>
+
+					<div class="col-md-12">
+
+						<h:panelGrid columns="10">
+
+							<p:outputLabel value="Mês:" />
+
+							<p:selectOneMenu style="width:125px">
+								<f:selectItem itemLabel="Janeiro" itemValue="1" />
+								<f:selectItem itemLabel="Fevereiro" itemValue="2" />
+								<f:selectItem itemLabel="Março" itemValue="3" />
+								<f:selectItem itemLabel="Abril" itemValue="4" />
+								<f:selectItem itemLabel="Maio" itemValue="5" />
+								<f:selectItem itemLabel="Junho" itemValue="6" />
+								<f:selectItem itemLabel="Julho" itemValue="7" />
+								<f:selectItem itemLabel="Agosto" itemValue="8" />
+								<f:selectItem itemLabel="Setembro" itemValue="9" />
+								<f:selectItem itemLabel="Outubro" itemValue="10" />
+								<f:selectItem itemLabel="Novembro" itemValue="11" />
+								<f:selectItem itemLabel="Dezembro" itemValue="12" />
+
+							</p:selectOneMenu>
+
+							<p:outputLabel value="&#160; &#160; &#160;Ano:" />
+							<p:selectOneMenu style="width:125px">
+								<f:selectItem itemLabel="2017" itemValue="2017" />
+								<f:selectItem itemLabel="2018" itemValue="2018" />
+								<f:selectItem itemLabel="2019" itemValue="2019" />
+								<f:selectItem itemLabel="2020" itemValue="2020" />
+								<f:selectItem itemLabel="2021" itemValue="2022" />
+							</p:selectOneMenu>
+
+							<h:outputLabel value=" &#160; &#160; &#160;Processos:" />
+							<p:selectCheckboxMenu
+								value="#{avaliacaoDesempenhoEspecificosMB.processos}"
+								label="Processos" multiple="true" filter="true"
+								filterMatchMode="startsWith" panelStyle="width:250px">
+								<f:selectItems value="#{processoMB.listProcesso}" var="pro"
+									itemLabel="#{pro.descricao}" itemValue="#{pro.id}" />
+							</p:selectCheckboxMenu>
+ 							&#160; &#160; &#160;
+							<p:commandButton value="Buscar" update="grafico1"
+								actionListener="#{avaliacaoDesempenhoEspecificosMB.graficoCategoriaIndicadorData('Custo')}" />
+						</h:panelGrid>
+
+					</div>
+				</h:form>
+
+				<div class="col-md-12">
+					<div class="row">
+						<br />
+					</div>
+				</div>
+
+
+				<div class="col-md-12">
+					<h:form id="grafico1">
+
+						<p:chart type="bar"
+							model="#{avaliacaoDesempenhoEspecificosMB.barraCusto}"
+							style="height:300px;" />
+
+					</h:form>
+				</div>
+
+			</div>
+			<!-- 			INDICADORES DE ****** -->
+			<h2>Relação dos Indicadores de Custo</h2>
+			<hr />
+
+
+			<p:dataTable var="ind" value="#{indicadorMB.listIndicador}">
+				<f:facet name="header">
+           Indicadores
+        </f:facet>
+
+				<p:columnGroup type="header">
+					<p:row>
+						<p:column rowspan="3" headerText="Indicador" width="250" />
+					</p:row>
+					<p:row>
+						<p:column colspan="3" headerText="Mês 07/2018" />
+						<p:column colspan="3" headerText="Mês 08/2018" />
+						<p:column colspan="3" headerText="Mês 09/2018 - Pesquisado" />
+					</p:row>
+					<p:row>
+						<p:column headerText="Meta" />
+						<p:column headerText="Realizado" />
+						<p:column headerText="Estado" />
+						<p:column headerText="Meta" />
+						<p:column headerText="Realizado" />
+						<p:column headerText="Estado" />
+						<p:column headerText="Meta" />
+						<p:column headerText="Realizado" />
+						<p:column headerText="Estado" style="width:100px;" />
+					</p:row>
+				</p:columnGroup>
+
+				<p:column>
+					<h:outputText value="#{ind.descricao}" />
+				</p:column>
+
+				<p:column>
+					<h:outputText value="#{ind.meta01}" />
+				</p:column>
+
+				<p:column>
+					<h:outputText value="" />
+				</p:column>
+
+				<p:column>
+					<center>
+						<h:outputText escape="false" value="#{testeMB.statusVerde}" />
+					</center>
+				</p:column>
+
+				<p:column>
+					<h:outputText value="" />
+				</p:column>
+
+				<p:column>
+					<h:outputText value="" />
+				</p:column>
+
+				<p:column>
+					<center>
+						<h:outputText escape="false" value="#{testeMB.statusLaranja}" />
+					</center>
+				</p:column>
+
+				<p:column>
+					<h:outputText value="" />
+				</p:column>
+
+				<p:column>
+					<h:outputText value="" />
+				</p:column>
+
+				<p:column style="width:100px;">
+					<center>
+						<h:outputText escape="false" value="#{testeMB.statusVermelho}" />
+					</center>
+				</p:column>
+
+
+			</p:dataTable>
+
+
+
+
+			<!-- FIM TITULO -->
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
+
