@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:body>
+	<ui:composition
+		template="../resources/template/template-administrador.xhtml">
+		<ui:define name="mensagem">
+			<ui:include src="../componentes/mensagem.xhtml" />
+		</ui:define>
+		<ui:define name="modal-confirmacao">
+			<ui:include src="../componentes/dialog-confirmacao.xhtml" />
+		</ui:define>
+
+		<ui:define name="conteudo">
+			<!-- TITULO -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="page-header">Indicador</h1>
+
+				</div>
+			</div>
+			<!-- FIM TITULO -->
+
+			<!-- BOTAO CADASTRAR -->
+			<div class="row container-fluid">
+				<div class="col-md-12">
+					<ol class="breadcrumb">
+						<h:form id="frmCadastrar">
+							<p:commandButton value="Cadastrar" update=":frmModalSalvar"
+								actionListener="#{ocorrenciaMB.criarNovoObjeto()}"
+								onclick="PF('dlgOcorrencia').show(); PF('dlgOcorrencia').content.scrollTop('0')"
+								title="Cadastrar" />
+						</h:form>
+					</ol>
+				</div>
+			</div>
+			<!-- FIM DO BOTAO CADASTRAR -->
+			<!-- TABELA-->
+			<div class="col-md-12" style="min-height: 700px">
+				<h:form id="frmTabela">
+					<p:dataTable id="tabela" value="#{ocorrenciaMB.listOcorrencia}"
+						resizableColumns="true" reflow="true" var="list" rows="10"
+						paginator="true" paginatorPosition="bottom"
+						emptyMessage="Nenhum administrador cadastrado"
+						rowsPerPageTemplate="5,10,15,30,50,100">
+
+						<p:column headerText="Título" filterBy="#{list.titulo}"
+							sortBy="#{list.titulo}" filterMatchMode="contains">
+							<h:outputText value="#{list.titulo}" />
+						</p:column>
+
+						<p:column headerText="Inserido Por"
+							filterBy="#{list.responsavelRegistro.nome}"
+							sortBy="#{list.responsavelRegistro.nome}"
+							filterMatchMode="contains">
+							<h:outputText value="#{list.responsavelRegistro.nome}" />
+						</p:column>
+
+						<p:column headerText="Data">
+							<h:outputText value="#{list.dataOcorrencia}">
+								<f:convertDateTime 
+									pattern="dd/MM/yyyy HH:mm:ss" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Atividade" filterBy="#{list.atividade.descricao}"
+							sortBy="#{list.atividade.descricao}" filterMatchMode="contains">
+							<h:outputText value="#{list.atividade.descricao}" />
+						</p:column>
+
+						<p:column headerText="Descrição" filterBy="#{list.descricao}"
+							sortBy="#{list.descricao}" filterMatchMode="contains">
+							<h:outputText value="#{list.descricao}" />
+						</p:column>
+
+						<p:column headerText="Opções">
+							<p:panelGrid columns="2" styleClass="ui-noborder">
+								<p:commandButton disabled="false" alt="Alterar"
+									icon="ui-icon-pencil" update=":frmModalSalvar" title="Alterar"
+									styleClass="btn btn-block"
+									oncomplete="PF('dlgOcorrencia').show();"
+									actionListener="#{ocorrenciaMB.preencherLista(list)}">
+								</p:commandButton>
+
+								<p:commandButton actionListener="#{ocorrenciaMB.inativar(list)}"
+									icon="ui-icon-trash" title="Excluir" styleClass="btn btn-block"
+									update=":frmTabela :dlgInformacao" alt="Excluir">
+									<p:confirm header="Confirmação" message="Deseja excluir?" />
+								</p:commandButton>
+
+							</p:panelGrid>
+						</p:column>
+
+
+
+
+					</p:dataTable>
+				</h:form>
+
+			</div>
+			<!--FIM DA TABELA-->
+
+			<!-- DIALOG SALVAR -->
+			<p:dialog header="Registro de Ocorrência" widgetVar="dlgOcorrencia"
+				modal="true" responsive="true" width="60%" id="dlgOcorrencia"
+				closable="true" closeOnEscape="true" resizable="false"
+				draggable="false">
+				<h:form id="frmModalSalvar">
+
+					<div class="ui-fluid">
+
+						<div class="col-md-12">
+							<label>Título: *</label>
+							<p:inputText title="Justificativa"
+								value="#{ocorrenciaMB.ocorrencia.titulo}" />
+						</div>
+
+						<div class="col-md-12">
+							<label>Data: *</label>
+							<p:calendar required="false" requiredMessage="Data Obrigatória!!"
+								value="#{ocorrenciaMB.ocorrencia.dataOcorrencia}"
+								pattern="dd/MM/yyyy HH:mm:ss" />
+						</div>
+
+						<div class="col-md-12">
+							<label>Atividade Logística: </label>
+							<p:autoComplete dropdown="true"
+								value="#{ocorrenciaMB.ocorrencia.atividade}" scrollHeight="170"
+								completeMethod="#{atividadeMB.completarAtividade}"
+								forceSelection="true" converter="#{converterAtividade}"
+								var="cur" itemLabel="#{cur.descricao}" itemValue="#{cur}">
+
+							</p:autoComplete>
+						</div>
+						
+						<div class="col-md-12">
+							<label>Indicador Relacionado: </label>
+							<p:autoComplete dropdown="true"
+								value="#{ocorrenciaMB.ocorrencia.indicadorRelacionado}" scrollHeight="170"
+								completeMethod="#{indicadorMB.completarIndicador}"
+								forceSelection="true" converter="#{converterIndicador}"
+								var="cur" itemLabel="#{cur.descricao}" itemValue="#{cur}">
+
+							</p:autoComplete>
+						</div>
+
+						<div class="col-md-12">
+							<label>Descrição: *</label>
+							<p:editor title="Descrição" height="135"
+								value="#{ocorrenciaMB.ocorrencia.descricao}" />
+						</div>
+
+						<div class="col-md-12">
+							<label>Gravidade: *</label>
+							<p:selectOneRadio id="console"
+								value="#{ocorrenciaMB.ocorrencia.gravidade}">
+								<f:selectItem itemEscaped="false"
+									itemLabel="#{testeMB.statusVerde}" itemValue="1" />
+								<f:selectItem itemEscaped="false"
+									itemLabel="#{testeMB.statusVerdeFraco}" itemValue="2" />
+								<f:selectItem itemEscaped="false"
+									itemLabel="#{testeMB.statusAmarelo}" itemValue="3" />
+								<f:selectItem itemEscaped="false"
+									itemLabel="#{testeMB.statusLaranja}" itemValue="4" />
+								<f:selectItem itemEscaped="false"
+									itemLabel="#{testeMB.statusVermelho}" itemValue="5" />
+							</p:selectOneRadio>
+						</div>
+
+					</div>
+					<div class="col-md-12">
+						<small>Campos obrigatórios *</small>
+						<div class="modal-footer">
+							<p:commandButton value="Salvar"
+								actionListener="#{ocorrenciaMB.salvar()}"
+								styleClass="ui-priority-primary"
+								update=":dlgInformacao :frmTabela" />
+
+							<p:commandButton value="Cancelar"
+								onclick="PF('dlgOcorrencia').hide();" alt="Cancelar" />
+						</div>
+					</div>
+
+				</h:form>
+
+			</p:dialog>
+			<!-- FIM DO DIALOG SALVAR -->
+
+
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>
+

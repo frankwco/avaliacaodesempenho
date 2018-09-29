@@ -9,32 +9,36 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.ItemSelectEvent;
 import org.primefaces.model.chart.MeterGaugeChartModel;
 
 import base.modelo.Pessoa;
 import base.modelo.Atividade;
+import base.modelo.Indicador;
+import base.modelo.Ocorrencia;
 import base.service.AtividadeService;
+import util.ElementosCoresAvaliacao;
 import util.ExibirMensagem;
 import util.FecharDialog;
 import util.Mensagem;
 import dao.GenericDAO;
 
 @ViewScoped
-@Named("testeMB")
-public class TesteMB implements Serializable {
+@Named("avaliacaoDetalhesMB")
+public class AvaliacaoDetalhesMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private String porcentagem = "20";
 
-	private String statusVermelho = "<i class=\"fa fa-circle\" style=\"font-size:36px;color:red\"></i>";
-	private String statusVerde = "<i class=\"fa fa-circle\" style=\"font-size:36px;color:green\"></i>";
-	private String statusVerdeFraco = "<i class=\"fa fa-circle\" style=\"font-size:36px;color:#7CFC00\"></i>";
-	private String statusAmarelo = "<i class=\"fa fa-circle\" style=\"font-size:36px;color:yellow\"></i>";
-	private String statusLaranja = "<i class=\"fa fa-circle\" style=\"font-size:36px;color:orange\"></i>";
+	ElementosCoresAvaliacao elementosCores = new ElementosCoresAvaliacao();
 
 	private MeterGaugeChartModel meterGaugeModel2;
+
+	private Ocorrencia ocorrenciaVerDetalhes;
+
+	private Indicador indicador;
 
 	@Inject
 	private GenericDAO<Atividade> daoProcesso; // faz as buscas
@@ -45,6 +49,11 @@ public class TesteMB implements Serializable {
 	@PostConstruct
 	public void inicializar() {
 		createMeterGaugeModels();
+	}
+
+	public void preencherOcorrencia(Ocorrencia t) {
+		this.ocorrenciaVerDetalhes = t;
+
 	}
 
 	public MeterGaugeChartModel getMeterGaugeModel2() {
@@ -77,11 +86,48 @@ public class TesteMB implements Serializable {
 	}
 
 	public void chamada() {
-		System.out.println("Teste de chamada de m�todo");
+		System.out.println("Teste de chamada de método");
 	}
 
 	public void itemSelect(ItemSelectEvent event) {
 		System.out.println("Item Index: " + event.getItemIndex() + ", Series Index:" + event.getSeriesIndex());
+
+	}
+
+	public String verificarSmart() {
+		String naoEe = "<ol>";
+		if (indicador != null) {
+			if (!indicador.isAtingivel()) {
+				naoEe += " <li> Não é Atingível </li>";
+			}
+			if (!indicador.isEspecifico()) {
+				naoEe += " <li> Não é Específico </li>";
+			}
+			if (!indicador.isMensuravel()) {
+				naoEe += " <li> Não é Mensurável </li>";
+			}
+			if (!indicador.isRelevante()) {
+				naoEe += " <li> Não é Relevante </li>";
+			}
+			if (!indicador.isTemporizavel()) {
+				naoEe += " <li> Não e Temporizável </li>";
+			}
+			naoEe += " </ol>";
+			// naoEe = naoEe.trim().replace(" ", "<br/>");
+
+			if (naoEe.length() < 15) {
+				naoEe = "<ol>";
+				naoEe += " <li> É AtingÍvel </li>";
+				naoEe += " <li> É Específico </li>";
+				naoEe += " <li> É Mensurável </li>";
+				naoEe += " <li> É Relevante </li>";
+				naoEe += " <li> É Temporizável </li>";
+				naoEe += " </ol>";
+			}
+			return naoEe;
+		} else {
+			return "";
+		}
 
 	}
 
@@ -93,46 +139,28 @@ public class TesteMB implements Serializable {
 		this.porcentagem = porcentagem;
 	}
 
-	public String getStatusVermelho() {
-		return statusVermelho;
+	public ElementosCoresAvaliacao getElementosCores() {
+		return elementosCores;
 	}
 
-	public void setStatusVermelho(String statusVermelho) {
-		this.statusVermelho = statusVermelho;
+	public void setElementosCores(ElementosCoresAvaliacao elementosCores) {
+		this.elementosCores = elementosCores;
 	}
 
-	public String getStatusVerde() {
-		return statusVerde;
+	public Ocorrencia getOcorrenciaVerDetalhes() {
+		return ocorrenciaVerDetalhes;
 	}
 
-	public void setStatusVerde(String statusVerde) {
-		this.statusVerde = statusVerde;
+	public void setOcorrenciaVerDetalhes(Ocorrencia ocorrenciaVerDetalhes) {
+		this.ocorrenciaVerDetalhes = ocorrenciaVerDetalhes;
 	}
 
-	public String getStatusLaranja() {
-		return statusLaranja;
+	public Indicador getIndicador() {
+		return indicador;
 	}
 
-	public void setStatusLaranja(String statusLaranja) {
-		this.statusLaranja = statusLaranja;
+	public void setIndicador(Indicador indicador) {
+		this.indicador = indicador;
 	}
-
-	public String getStatusVerdeFraco() {
-		return statusVerdeFraco;
-	}
-
-	public void setStatusVerdeFraco(String statusVerdeFraco) {
-		this.statusVerdeFraco = statusVerdeFraco;
-	}
-
-	public String getStatusAmarelo() {
-		return statusAmarelo;
-	}
-
-	public void setStatusAmarelo(String statusAmarelo) {
-		this.statusAmarelo = statusAmarelo;
-	}
-	
-	
 
 }

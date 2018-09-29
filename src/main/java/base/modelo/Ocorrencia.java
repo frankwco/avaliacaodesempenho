@@ -14,7 +14,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "atividade")
+@Table(name = "ocorrencia")
 public class Ocorrencia implements Serializable {
 
 	public Ocorrencia() {
@@ -26,6 +26,7 @@ public class Ocorrencia implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@Column(length=5000)
 	private String descricao;
 	
 	private String titulo;
@@ -36,7 +37,50 @@ public class Ocorrencia implements Serializable {
 	@ManyToOne
 	private Indicador indicadorRelacionado;
 	
+	@ManyToOne
+	private Pessoa responsavelRegistro;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dataOcorrencia = new Date();
+	
+	private boolean status;
+	
+	@ManyToOne
+	private Atividade atividade;
+	
+		
+	public Date getDataOcorrencia() {
+		return dataOcorrencia;
+	}
+
+	public void setDataOcorrencia(Date dataOcorrencia) {
+		this.dataOcorrencia = dataOcorrencia;
+	}
+
+	public Atividade getAtividade() {
+		return atividade;
+	}
+
+	public void setAtividade(Atividade atividade) {
+		this.atividade = atividade;
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	public Pessoa getResponsavelRegistro() {
+		return responsavelRegistro;
+	}
+
+	public void setResponsavelRegistro(Pessoa responsavelRegistro) {
+		this.responsavelRegistro = responsavelRegistro;
+	}
+
 	public String getTitulo() {
 		return titulo;
 	}

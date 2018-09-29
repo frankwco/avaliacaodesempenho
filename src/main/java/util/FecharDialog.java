@@ -32,6 +32,10 @@ public class FecharDialog {
 		RequestContext.getCurrentInstance().execute("PF('dlgAtividade').hide();");
 	}
 	
+	public static void fecharDialogOcorrencia() {
+		RequestContext.getCurrentInstance().execute("PF('dlgOcorrencia').hide();");
+	}
+	
 	public static void fecharDialogCategoriaIndicador() {
 		RequestContext.getCurrentInstance().execute("PF('dlgCategoriaIndicador').hide();");
 	}
