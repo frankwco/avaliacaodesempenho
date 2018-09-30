@@ -94,7 +94,7 @@ public class FuncoesMatematicas implements Serializable {
 	public List<Indicador> calcularIndicadoresTodos(Date dataInicial, Date dataFinal) {
 		List<Indicador> listaIndicadores = daoIndicador.listar(Indicador.class, "utilizarAnalise is true");
 		;
-		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal, listaIndicadores);
+		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal, listaIndicadores, null);
 		// listaIndicadores = calcularValorFinalIndicador();
 		return listaIndicadores;
 	}
@@ -102,7 +102,7 @@ public class FuncoesMatematicas implements Serializable {
 	public List<Indicador> calcularIndicadoresPorIndicador(Date dataInicial, Date dataFinal, Long id) {
 		List<Indicador> listaIndicadores = daoIndicador.listar(Indicador.class, "utilizarAnalise is true and id=" + id);
 		;
-		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal, listaIndicadores);
+		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal, listaIndicadores, null);
 		// listaIndicadores = calcularValorFinalIndicador();
 		return listaIndicadores;
 	}
@@ -111,7 +111,7 @@ public class FuncoesMatematicas implements Serializable {
 		List<Indicador> listaIndicadores = daoIndicador.listar(Indicador.class,
 				"utilizarAnalise is true and processo.id=" + id);
 		;
-		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal, listaIndicadores);
+		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal, listaIndicadores, null);
 		// listaIndicadores = calcularValorFinalIndicador();
 		return listaIndicadores;
 	}
@@ -120,7 +120,35 @@ public class FuncoesMatematicas implements Serializable {
 		List<Indicador> listaIndicadores = daoIndicador.listar(Indicador.class,
 				"utilizarAnalise is true and categoriaIndicador.id=" + id);
 		;
-		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal, listaIndicadores);
+		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal, listaIndicadores, null);
+		// listaIndicadores = calcularValorFinalIndicador();
+		return listaIndicadores;
+	}
+
+	public Indicador calcularIndicadorPorIdAno(Integer mes, Integer ano, Long idIndicador) {
+		List<Indicador> listaIndicadores = daoIndicador.listar(Indicador.class,
+				"utilizarAnalise is true and id=" + idIndicador);
+		listaIndicadores = calcularValorGruposLancamentos(ConverteStringDate.retornaData("01/" + mes + "/" + ano),
+				ConverteStringDate.retornaData("31/" + mes + "/" + ano), listaIndicadores, ano);
+		// listaIndicadores = calcularValorFinalIndicador();
+		return listaIndicadores.get(0);
+	}
+
+	public List<Indicador> calcularIndicadoresPorCategoriaProcessosMesAno(Integer mes, Integer ano, Long idCategoria,
+			Long[] processos) {
+		String qp = "";
+		if (processos != null) {
+			for (Long p : processos) {
+				qp += " processo.id=" + p;
+			}
+			qp = qp.trim().replace(" ", " or ");
+			qp = " and (" + qp + ")";
+		}
+		List<Indicador> listaIndicadores = daoIndicador.listar(Indicador.class,
+				"utilizarAnalise is true and categoriaIndicador.id=" + idCategoria + qp);
+
+		listaIndicadores = calcularValorGruposLancamentos(ConverteStringDate.retornaData("01/" + mes + "/" + ano),
+				ConverteStringDate.retornaData("31/" + mes + "/" + ano), listaIndicadores, ano);
 		// listaIndicadores = calcularValorFinalIndicador();
 		return listaIndicadores;
 	}
@@ -132,19 +160,18 @@ public class FuncoesMatematicas implements Serializable {
 			for (Long p : processos) {
 				qp += " processo.id=" + p;
 			}
-			qp=qp.trim().replace(" ", " or ");
-			qp=" and ("+qp+")";
+			qp = qp.trim().replace(" ", " or ");
+			qp = " and (" + qp + ")";
 		}
 		List<Indicador> listaIndicadores = daoIndicador.listar(Indicador.class,
 				"utilizarAnalise is true and categoriaIndicador.id=" + idCategoria + qp);
-		;
-		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal, listaIndicadores);
+		listaIndicadores = calcularValorGruposLancamentos(dataInicial, dataFinal, listaIndicadores, null);
 		// listaIndicadores = calcularValorFinalIndicador();
 		return listaIndicadores;
 	}
 
 	private List<Indicador> calcularValorGruposLancamentos(Date dataInicial, Date dataFinal,
-			List<Indicador> listaIndicadores) {
+			List<Indicador> listaIndicadores, Integer ano) {
 		List<Indicador> lr = new ArrayList<>();
 		for (Indicador in : listaIndicadores) {
 			Indicador indicador = new Indicador();
@@ -169,8 +196,183 @@ public class FuncoesMatematicas implements Serializable {
 			in.setValorCalculoGrupoLancamento(valor);
 			in.setValorFinal(valor);
 
+			// INÍCIO DOS CÁLCULOS PARA OS MESES
+			if (ano != null) {
+				// JANEIRO
+				String expressao1 = montarExpressaoGrupoLancamentos(in.getFormulaGrupoLancamento(),
+						ConverteStringDate.retornaData("01/01/" + ano), ConverteStringDate.retornaData("31/01/" + ano));
+				try {
+					if (engine.eval(expressao1) != null) {
+						indicador.setValor1(Double.parseDouble(engine.eval(expressao1).toString()));
+					}
+				} catch (Exception e) {
+					System.out.println("erro na equação");
+
+				}
+				// FEVEREIRO
+				String expressao2 = montarExpressaoGrupoLancamentos(in.getFormulaGrupoLancamento(),
+						ConverteStringDate.retornaData("01/02/" + ano), ConverteStringDate.retornaData("29/02/" + ano));
+				try {
+					if (engine.eval(expressao2) != null) {
+						indicador.setValor2(Double.parseDouble(engine.eval(expressao2).toString()));
+					}
+				} catch (Exception e) {
+					System.out.println("erro na equação");
+
+				}
+				// MARÇO
+				String expressao3 = montarExpressaoGrupoLancamentos(in.getFormulaGrupoLancamento(),
+						ConverteStringDate.retornaData("01/03/" + ano), ConverteStringDate.retornaData("31/03/" + ano));
+				try {
+					if (engine.eval(expressao3) != null) {
+						indicador.setValor3(Double.parseDouble(engine.eval(expressao3).toString()));
+					}
+				} catch (Exception e) {
+					System.out.println("erro na equação");
+
+				}
+				// ABRIL
+				String expressao4 = montarExpressaoGrupoLancamentos(in.getFormulaGrupoLancamento(),
+						ConverteStringDate.retornaData("01/04/" + ano), ConverteStringDate.retornaData("30/04/" + ano));
+				try {
+					if (engine.eval(expressao4) != null) {
+						indicador.setValor4(Double.parseDouble(engine.eval(expressao4).toString()));
+					}
+				} catch (Exception e) {
+					System.out.println("erro na equação");
+
+				}
+				// MAIO
+				String expressao5 = montarExpressaoGrupoLancamentos(in.getFormulaGrupoLancamento(),
+						ConverteStringDate.retornaData("01/05/" + ano), ConverteStringDate.retornaData("31/05/" + ano));
+				try {
+					if (engine.eval(expressao5) != null) {
+						indicador.setValor5(Double.parseDouble(engine.eval(expressao5).toString()));
+					}
+				} catch (Exception e) {
+					System.out.println("erro na equação");
+
+				}
+				// JUNHO
+				String expressao6 = montarExpressaoGrupoLancamentos(in.getFormulaGrupoLancamento(),
+						ConverteStringDate.retornaData("01/06/" + ano), ConverteStringDate.retornaData("30/06/" + ano));
+				try {
+					if (engine.eval(expressao6) != null) {
+						indicador.setValor6(Double.parseDouble(engine.eval(expressao6).toString()));
+					}
+				} catch (Exception e) {
+					System.out.println("erro na equação");
+
+				}
+				// JULHO
+				String expressao7 = montarExpressaoGrupoLancamentos(in.getFormulaGrupoLancamento(),
+						ConverteStringDate.retornaData("01/07/" + ano), ConverteStringDate.retornaData("31/07/" + ano));
+				try {
+					if (engine.eval(expressao7) != null) {
+						indicador.setValor7(Double.parseDouble(engine.eval(expressao7).toString()));
+					}
+				} catch (Exception e) {
+					System.out.println("erro na equação");
+
+				}
+				// AGOSTO
+				String expressao8 = montarExpressaoGrupoLancamentos(in.getFormulaGrupoLancamento(),
+						ConverteStringDate.retornaData("01/08/" + ano), ConverteStringDate.retornaData("31/08/" + ano));
+				try {
+					if (engine.eval(expressao8) != null) {
+						indicador.setValor8(Double.parseDouble(engine.eval(expressao8).toString()));
+					}
+				} catch (Exception e) {
+					System.out.println("erro na equação");
+
+				}
+				// SETEMBRO
+				String expressao9 = montarExpressaoGrupoLancamentos(in.getFormulaGrupoLancamento(),
+						ConverteStringDate.retornaData("01/09/" + ano), ConverteStringDate.retornaData("30/09/" + ano));
+				try {
+					if (engine.eval(expressao9) != null) {
+						indicador.setValor9(Double.parseDouble(engine.eval(expressao9).toString()));
+					}
+				} catch (Exception e) {
+					System.out.println("erro na equação");
+
+				}
+				// OUTUBRO
+				String expressao10 = montarExpressaoGrupoLancamentos(in.getFormulaGrupoLancamento(),
+						ConverteStringDate.retornaData("01/10/" + ano), ConverteStringDate.retornaData("31/10/" + ano));
+				try {
+					if (engine.eval(expressao10) != null) {
+						indicador.setValor10(Double.parseDouble(engine.eval(expressao10).toString()));
+					}
+				} catch (Exception e) {
+					System.out.println("erro na equação");
+
+				}
+				// NOVEMBRO
+				String expressao11 = montarExpressaoGrupoLancamentos(in.getFormulaGrupoLancamento(),
+						ConverteStringDate.retornaData("01/11/" + ano), ConverteStringDate.retornaData("30/11/" + ano));
+				try {
+					if (engine.eval(expressao11) != null) {
+						indicador.setValor11(Double.parseDouble(engine.eval(expressao11).toString()));
+					}
+				} catch (Exception e) {
+					System.out.println("erro na equação");
+
+				}
+				// DEZEMBRO
+				String expressao12 = montarExpressaoGrupoLancamentos(in.getFormulaGrupoLancamento(),
+						ConverteStringDate.retornaData("01/12/" + ano), ConverteStringDate.retornaData("31/12/" + ano));
+				try {
+					if (engine.eval(expressao12) != null) {
+						indicador.setValor12(Double.parseDouble(engine.eval(expressao12).toString()));
+					}
+				} catch (Exception e) {
+					System.out.println("erro na equação");
+
+				}
+				
+				// NOVEMBRO Anterior
+				String expressao11Anterior = montarExpressaoGrupoLancamentos(in.getFormulaGrupoLancamento(),
+						ConverteStringDate.retornaData("01/11/" + (ano-1)), ConverteStringDate.retornaData("30/11/" + (ano-1)));
+				try {
+					if (engine.eval(expressao11Anterior) != null) {
+						indicador.setValor11Anterior(Double.parseDouble(engine.eval(expressao11Anterior).toString()));
+					}
+				} catch (Exception e) {
+					System.out.println("erro na equação");
+
+				}
+				// DEZEMBRO Anterior
+				String expressao12Anterior = montarExpressaoGrupoLancamentos(in.getFormulaGrupoLancamento(),
+						ConverteStringDate.retornaData("01/12/" + (ano-1)), ConverteStringDate.retornaData("31/12/" + (ano-1)));
+				try {
+					if (engine.eval(expressao12Anterior) != null) {
+						indicador.setValor12Anterior(Double.parseDouble(engine.eval(expressao12Anterior).toString()));
+					}
+				} catch (Exception e) {
+					System.out.println("erro na equação");
+
+				}
+
+			}
+			// FIM DOS CÁLCULOS PARA OS MESES
+
 			indicador.setValorCalculoGrupoLancamento(in.getValorCalculoGrupoLancamento());
 			indicador.setValorFinal(in.getValorFinal());
+			
+			indicador.setMeta01(in.getMeta01());
+			indicador.setMeta02(in.getMeta02());
+			indicador.setMeta03(in.getMeta03());
+			indicador.setMeta04(in.getMeta04());
+			indicador.setMeta05(in.getMeta05());
+			indicador.setMeta06(in.getMeta06());
+			indicador.setMeta07(in.getMeta07());
+			indicador.setMeta08(in.getMeta08());
+			indicador.setMeta09(in.getMeta09());
+			indicador.setMeta10(in.getMeta10());
+			indicador.setMeta11(in.getMeta11());
+			indicador.setMeta12(in.getMeta12());
+			
 
 			lr.add(indicador);
 		}

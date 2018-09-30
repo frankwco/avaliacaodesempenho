@@ -46,16 +46,57 @@
 
 				<div class="col-lg-4 col-xs-4" style="filter: opacity(100%)">
 					<h2>O que pode ser feito para melhorar o Indicador??</h2>
-					<h:outputText escape="false" value="#{avaliacaoDetalhesMB.indicador.acoesMelhoria}" />
+					<h:outputText escape="false"
+						value="#{avaliacaoDetalhesMB.indicador.acoesMelhoria}" />
 				</div>
-				
+
 				<div class="col-lg-4 col-xs-4" style="filter: opacity(100%)">
 					<h2>Classificações do SMART</h2>
-					<h:outputText escape="false" value="#{avaliacaoDetalhesMB.verificarSmart()}" />
+					<h:outputText escape="false"
+						value="#{avaliacaoDetalhesMB.verificarSmart()}" />
 				</div>
-				
 
 
+
+			</div>
+
+			<div class="row">
+				<div class="col-lg-1 col-xs-1">
+					<center>Janeiro</center>
+				</div>
+				<div class="col-lg-1 col-xs-1">
+					<center>Fevereiro</center>
+				</div>
+				<div class="col-lg-1 col-xs-1">
+					<center>Março</center>
+				</div>
+				<div class="col-lg-1 col-xs-1">
+					<center>Abril</center>
+				</div>
+				<div class="col-lg-1 col-xs-1">
+					<center>Maio</center>
+				</div>
+				<div class="col-lg-1 col-xs-1">
+					<center>Junho</center>
+				</div>
+				<div class="col-lg-1 col-xs-1">
+					<center>Julho</center>
+				</div>
+				<div class="col-lg-1 col-xs-1">
+					<center>Agosto</center>
+				</div>
+				<div class="col-lg-1 col-xs-1">
+					<center>Setembro</center>
+				</div>
+				<div class="col-lg-1 col-xs-1">
+					<center>Outubro</center>
+				</div>
+				<div class="col-lg-1 col-xs-1">
+					<center>Novembro</center>
+				</div>
+				<div class="col-lg-1 col-xs-1">
+					<center>Dezembro</center>
+				</div>
 			</div>
 
 			<div class="row">
@@ -63,12 +104,12 @@
 				<div class="col-lg-1 col-xs-1">
 					<div class="small-box bg-green">
 						<div class="inner">
-							<h3 style="font-size: 14px">Mês 1</h3>
+							<center><small>Meta</small>							
+								<small>#{avaliacaoDetalhesMB.indicador.meta01}</small>
+							</center>
 						</div>
-						<!-- 						<div class="icon"> -->
-						<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
-						<!-- 						</div> -->
-						<p:commandLink value="90"
+
+						<p:commandLink value="90/#{avaliacaoDetalhesMB.indicador.meta01}"
 							style="font-size: 18px !important; color: black !important"
 							actionListener="#{testeMB.chamada()}" class="small-box-footer">
 							<i class="fa fa-edit"></i>
@@ -273,48 +314,58 @@
 			<hr />
 
 			<div class="row">
-			<h:form>
-				<p:tabView id="tabViewIndicador">
-					<p:tab title="Ocorrências Relacionadas ao Indicador">
-						<p:dataGrid var="ocorencia" value="#{ocorrenciaMB.listOcorrencia}"
-							columns="4" layout="grid" rows="6" paginator="true"
-							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-							rowsPerPageTemplate="12,16">
+				<h:form>
+					<p:tabView id="tabViewIndicador">
+						<p:tab title="Ocorrências Relacionadas ao Indicador">
+							<p:dataGrid var="ocorencia"
+								value="#{avaliacaoDetalhesMB.listaOcorrenciasPorIndicador}"
+								columns="4" layout="grid" rows="6" paginator="true"
+								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="12,16">
+								<p:panel style="text-align:center">
+									<h:panelGrid columns="1" style="width:100%">
+										<!-- 							<p:graphicImage name="demo/images/car/#{car.brand}.gif" /> -->
+										<h:outputText escape="false" value="#{testeMB.statusLaranja}" />
+										<h:outputText value="#{ocorencia.titulo}" />
 
-							<!-- 							<f:facet name="header"> -->
-							<!--             Ocorrências Relacionadas ao Indicador **** -->
-							<!--         </f:facet> -->
+										<p:commandLink oncomplete="PF('dlgOcorrencia').show()"
+											title="Ver Ocorrência" update=":frmModalSalvar"
+											actionListener="#{avaliacaoDetalhesMB.preencherOcorrencia(ocorencia)}">
+											<h:outputText styleClass="ui-icon ui-icon-search"
+												style="margin:0 auto;" />
 
-							<p:panel style="text-align:center">
-								<h:panelGrid columns="1" style="width:100%">
-									<!-- 							<p:graphicImage name="demo/images/car/#{car.brand}.gif" /> -->
-									<h:outputText escape="false" value="#{testeMB.statusLaranja}" />
-									<h:outputText value="#{ocorencia.titulo}" />
+										</p:commandLink>
+									</h:panelGrid>
+								</p:panel>
 
-									<p:commandLink oncomplete="PF('dlgOcorrencia').show()"
-										title="Ver Ocorrência" update=":frmModalSalvar" actionListener="#{avaliacaoDetalhesMB.preencherOcorrencia(ocorencia)}">
-										<h:outputText styleClass="ui-icon ui-icon-search"
-											style="margin:0 auto;" />
-										
-									</p:commandLink>
-								</h:panelGrid>
-							</p:panel>
+							</p:dataGrid>
 
-						</p:dataGrid>
+						</p:tab>
+						<p:tab title="Todas Ocorrências">
+							<p:dataGrid var="ocorencia"
+								value="#{avaliacaoDetalhesMB.listaTodasOcorrencias}" columns="4"
+								layout="grid" rows="6" paginator="true"
+								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="12,16">
+								<p:panel style="text-align:center">
+									<h:panelGrid columns="1" style="width:100%">
+										<!-- 							<p:graphicImage name="demo/images/car/#{car.brand}.gif" /> -->
+										<h:outputText escape="false" value="#{testeMB.statusLaranja}" />
+										<h:outputText value="#{ocorencia.titulo}" />
 
-					</p:tab>
-					<p:tab title="Todas Ocorrências">
-						<div class="ui-fluid">
+										<p:commandLink oncomplete="PF('dlgOcorrencia').show()"
+											title="Ver Ocorrência" update=":frmModalSalvar"
+											actionListener="#{avaliacaoDetalhesMB.preencherOcorrencia(ocorencia)}">
+											<h:outputText styleClass="ui-icon ui-icon-search"
+												style="margin:0 auto;" />
 
-							<div class="col-md-12">
-								<label>Quais ações podem ser tomadas para melhorar o
-									indicador??</label>
-								<p:editor value="#{indicadorMB.indicador.acoesMelhoria}"
-									width="600" />
-							</div>
-						</div>
-					</p:tab>
-				</p:tabView>
+										</p:commandLink>
+									</h:panelGrid>
+								</p:panel>
+
+							</p:dataGrid>
+						</p:tab>
+					</p:tabView>
 				</h:form>
 			</div>
 			<!-- FIM TITULO -->
@@ -327,13 +378,13 @@
 				<h:form id="frmModalSalvar">
 					<div class="ui-fluid">
 						<div class="col-md-12">
-							<label>Título</label><br/>
+							<label>Título</label><br />
 							<h:outputText escape="false"
 								value="#{avaliacaoDetalhesMB.elementosCores.statusCirculoPretoPequeno} #{avaliacaoDetalhesMB.ocorrenciaVerDetalhes.titulo}" />
 						</div>
 
 						<div class="col-md-12">
-							<label>Data</label><br/>
+							<label>Data</label><br />
 							<h:outputText escape="false"
 								value="#{avaliacaoDetalhesMB.elementosCores.statusCirculoPretoPequeno} #{avaliacaoDetalhesMB.ocorrenciaVerDetalhes.dataOcorrencia}">
 								<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
@@ -341,25 +392,25 @@
 						</div>
 
 						<div class="col-md-12">
-							<label>Atividade Logística</label><br/>
+							<label>Atividade Logística</label><br />
 							<h:outputText escape="false"
 								value="#{avaliacaoDetalhesMB.elementosCores.statusCirculoPretoPequeno} #{avaliacaoDetalhesMB.ocorrenciaVerDetalhes.atividade.descricao}" />
 						</div>
 
 						<div class="col-md-12">
-							<label>Indicador Relacionado </label><br/>
+							<label>Indicador Relacionado </label><br />
 							<h:outputText escape="false"
 								value="#{avaliacaoDetalhesMB.elementosCores.statusCirculoPretoPequeno} #{avaliacaoDetalhesMB.ocorrenciaVerDetalhes.indicadorRelacionado.descricao}" />
 						</div>
 
 						<div class="col-md-12">
-							<label>Descrição</label><br/>
+							<label>Descrição</label><br />
 							<h:outputText escape="true"
 								value="#{avaliacaoDetalhesMB.ocorrenciaVerDetalhes.descricao}" />
 						</div>
 
 						<div class="col-md-12">
-							<label>Gravidade</label><br/>
+							<label>Gravidade</label><br />
 							<h:outputText escape="false"
 								value="#{avaliacaoDetalhesMB.elementosCores.get(avaliacaoDetalhesMB.ocorrenciaVerDetalhes.gravidade)}" />
 						</div>

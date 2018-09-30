@@ -46,9 +46,26 @@ public class AvaliacaoDetalhesMB implements Serializable {
 	@Inject
 	private AtividadeService atividadeService; // inserir no banco
 
+	private List<Ocorrencia> listaTodasOcorrencias;
+
+	private List<Ocorrencia> listaOcorrenciasPorIndicador;
+
+	@Inject
+	private GenericDAO<Ocorrencia> daoOcorrencia; // faz as buscas
+
 	@PostConstruct
 	public void inicializar() {
 		createMeterGaugeModels();
+		listaTodasOcorrencias = daoOcorrencia.listaComStatus(Ocorrencia.class);
+		if (indicador != null) {
+			listaOcorrenciasPorIndicador = daoOcorrencia.listar(Ocorrencia.class, "indicador.id=" + indicador.getId());
+		}
+	}
+	
+	private void calcularValoresIndicador() {
+		if(indicador!=null) {
+			
+		}
 	}
 
 	public void preencherOcorrencia(Ocorrencia t) {
@@ -161,6 +178,22 @@ public class AvaliacaoDetalhesMB implements Serializable {
 
 	public void setIndicador(Indicador indicador) {
 		this.indicador = indicador;
+	}
+
+	public List<Ocorrencia> getListaTodasOcorrencias() {
+		return listaTodasOcorrencias;
+	}
+
+	public void setListaTodasOcorrencias(List<Ocorrencia> listaTodasOcorrencias) {
+		this.listaTodasOcorrencias = listaTodasOcorrencias;
+	}
+
+	public List<Ocorrencia> getListaOcorrenciasPorIndicador() {
+		return listaOcorrenciasPorIndicador;
+	}
+
+	public void setListaOcorrenciasPorIndicador(List<Ocorrencia> listaOcorrenciasPorIndicador) {
+		this.listaOcorrenciasPorIndicador = listaOcorrenciasPorIndicador;
 	}
 
 }

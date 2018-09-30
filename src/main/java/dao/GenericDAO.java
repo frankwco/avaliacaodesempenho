@@ -51,15 +51,15 @@ public class GenericDAO<T> implements Serializable{
 		return query.getResultList();
 	}
 	
-	public List<T> listarCodicaoLivre(Class classeEntidade, String condicao) {
-		Query query = null;
-		try {
-			query = manager.createQuery("from " + classeEntidade.getSimpleName() + " where " + condicao);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return query.getResultList();
-	}
+//	public List<T> listarCodicaoLivre(Class classeEntidade, String condicao) {
+//		Query query = null;
+//		try {
+//			query = manager.createQuery("from " + classeEntidade.getSimpleName() + " where " + condicao);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return query.getResultList();
+//	}
 	
 	
 	public List listarCadastro(Class classe, String condicao) {

@@ -25,7 +25,7 @@
 		</ui:define>
 
 		<ui:define name="conteudo">
-		#{avaliacaoDesempenhoEspecificosMB.init('Custo')}
+		#{avaliacaoMB.init('Custo')}
 			<!-- TITULO -->
 			<div class="row">
 				<div class="col-md-12">
@@ -130,7 +130,7 @@
 
 							<p:outputLabel value="Mês:" />
 
-							<p:selectOneMenu style="width:125px">
+							<p:selectOneMenu style="width:125px" value="#{avaliacaoMB.mes}">
 								<f:selectItem itemLabel="Janeiro" itemValue="1" />
 								<f:selectItem itemLabel="Fevereiro" itemValue="2" />
 								<f:selectItem itemLabel="Março" itemValue="3" />
@@ -147,7 +147,7 @@
 							</p:selectOneMenu>
 
 							<p:outputLabel value="&#160; &#160; &#160;Ano:" />
-							<p:selectOneMenu style="width:125px">
+							<p:selectOneMenu style="width:125px" value="#{avaliacaoMB.ano}">
 								<f:selectItem itemLabel="2017" itemValue="2017" />
 								<f:selectItem itemLabel="2018" itemValue="2018" />
 								<f:selectItem itemLabel="2019" itemValue="2019" />
@@ -157,15 +157,15 @@
 
 							<h:outputLabel value=" &#160; &#160; &#160;Processos:" />
 							<p:selectCheckboxMenu
-								value="#{avaliacaoDesempenhoEspecificosMB.processos}"
+								value="#{avaliacaoMB.processos}"
 								label="Processos" multiple="true" filter="true"
 								filterMatchMode="startsWith" panelStyle="width:250px">
 								<f:selectItems value="#{processoMB.listProcesso}" var="pro"
 									itemLabel="#{pro.descricao}" itemValue="#{pro.id}" />
 							</p:selectCheckboxMenu>
  							&#160; &#160; &#160;
-							<p:commandButton value="Buscar" update="grafico1"
-								actionListener="#{avaliacaoDesempenhoEspecificosMB.graficoCategoriaIndicadorData('Custo')}" />
+							<p:commandButton value="Buscar" update="grafico1, formTabelaIndicadores"
+								actionListener="#{avaliacaoMB.graficoCategoriaIndicadorDataProcesso('Custo')}" />
 						</h:panelGrid>
 
 					</div>
@@ -182,7 +182,7 @@
 					<h:form id="grafico1">
 
 						<p:chart type="bar"
-							model="#{avaliacaoDesempenhoEspecificosMB.barraCusto}"
+							model="#{avaliacaoMB.graficoBarraAvaliacaoGeral}"
 							style="height:300px;" />
 
 					</h:form>
@@ -193,8 +193,8 @@
 			<h2>Relação dos Indicadores de Custo</h2>
 			<hr />
 
-
-			<p:dataTable var="ind" value="#{indicadorMB.listIndicador}">
+<h:form id="formTabelaIndicadores">
+			<p:dataTable var="ind" value="#{avaliacaoMB.listaIndicadores}">
 				<f:facet name="header">
            Indicadores
         </f:facet>
@@ -222,15 +222,15 @@
 				</p:columnGroup>
 
 				<p:column>
-					<h:outputText value="#{ind.descricao}" />
+					<p:commandLink value="#{ind.descricao}" />
 				</p:column>
 
 				<p:column>
-					<h:outputText value="#{ind.meta01}" />
+					<h:outputText value="#{avaliacaoMB.getMeta2(ind)}" />
 				</p:column>
 
 				<p:column>
-					<h:outputText value="" />
+						<h:outputText value="#{avaliacaoMB.getRealizado2(ind)}" />
 				</p:column>
 
 				<p:column>
@@ -238,11 +238,11 @@
 				</p:column>
 
 				<p:column>
-					<h:outputText value="" />
+					<h:outputText value="#{avaliacaoMB.getMeta1(ind)}" />
 				</p:column>
 
 				<p:column>
-					<h:outputText value="" />
+						<h:outputText value="#{avaliacaoMB.getRealizado1(ind)}" />
 				</p:column>
 
 				<p:column>
@@ -250,11 +250,11 @@
 				</p:column>
 
 				<p:column>
-					<h:outputText value="" />
+					<h:outputText value="#{avaliacaoMB.getMeta(ind)}" />
 				</p:column>
 
 				<p:column>
-					<h:outputText value="" />
+					<h:outputText value="#{avaliacaoMB.getRealizado(ind)}" />
 				</p:column>
 
 				<p:column style="width:100px;">
@@ -263,7 +263,7 @@
 
 
 			</p:dataTable>
-
+</h:form>
 
 
 

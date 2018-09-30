@@ -51,6 +51,35 @@ public class Indicador implements Serializable {
 	private Double valorCalculoGrupoLancamento;
 	@Transient
 	private Double valorFinal;
+	@Transient
+	private Double valor1;
+	@Transient
+	private Double valor2;
+	@Transient
+	private Double valor3;
+	@Transient
+	private Double valor4;
+	@Transient
+	private Double valor5;
+	@Transient
+	private Double valor6;
+	@Transient
+	private Double valor7;
+	@Transient
+	private Double valor8;
+	@Transient
+	private Double valor9;
+	@Transient
+	private Double valor10;
+	@Transient
+	private Double valor11;
+	@Transient
+	private Double valor12;
+	@Transient
+	private Double valor12Anterior;
+	@Transient
+	private Double valor11Anterior;
+	
 
 	private String formulaGrupoLancamento = "";
 
@@ -220,6 +249,118 @@ public class Indicador implements Serializable {
 
 	public void setMeta12(Double meta12) {
 		this.meta12 = meta12;
+	}	
+
+	public Double getValor1() {
+		return valor1;
+	}
+
+	public void setValor1(Double valor1) {
+		this.valor1 = valor1;
+	}
+
+	public Double getValor2() {
+		return valor2;
+	}
+
+	public void setValor2(Double valor2) {
+		this.valor2 = valor2;
+	}
+
+	public Double getValor3() {
+		return valor3;
+	}
+
+	public void setValor3(Double valor3) {
+		this.valor3 = valor3;
+	}
+
+	public Double getValor4() {
+		return valor4;
+	}
+
+	public void setValor4(Double valor4) {
+		this.valor4 = valor4;
+	}
+
+	public Double getValor5() {
+		return valor5;
+	}
+
+	public void setValor5(Double valor5) {
+		this.valor5 = valor5;
+	}
+
+	public Double getValor6() {
+		return valor6;
+	}
+
+	public void setValor6(Double valor6) {
+		this.valor6 = valor6;
+	}
+
+	public Double getValor7() {
+		return valor7;
+	}
+
+	public void setValor7(Double valor7) {
+		this.valor7 = valor7;
+	}
+
+	public Double getValor8() {
+		return valor8;
+	}
+
+	public void setValor8(Double valor8) {
+		this.valor8 = valor8;
+	}
+
+	public Double getValor9() {
+		return valor9;
+	}
+
+	public void setValor9(Double valor9) {
+		this.valor9 = valor9;
+	}
+
+	public Double getValor10() {
+		return valor10;
+	}
+
+	public void setValor10(Double valor10) {
+		this.valor10 = valor10;
+	}
+
+	public Double getValor11() {
+		return valor11;
+	}
+
+	public void setValor11(Double valor11) {
+		this.valor11 = valor11;
+	}
+
+	public Double getValor12() {
+		return valor12;
+	}
+
+	public void setValor12(Double valor12) {
+		this.valor12 = valor12;
+	}
+		
+	public Double getValor12Anterior() {
+		return valor12Anterior;
+	}
+
+	public void setValor12Anterior(Double valor12Anterior) {
+		this.valor12Anterior = valor12Anterior;
+	}
+
+	public Double getValor11Anterior() {
+		return valor11Anterior;
+	}
+
+	public void setValor11Anterior(Double valor11Anterior) {
+		this.valor11Anterior = valor11Anterior;
 	}
 
 	public String getAbreviacao() {
