@@ -25,7 +25,7 @@
 		</ui:define>
 
 		<ui:define name="conteudo">
-		#{avaliacaoDesempenhoEspecificosMB.init('Custo')}
+		#{avaliacaoDetalhesMB.init(param.ind)}
 			<!-- TITULO -->
 			<div class="row">
 				<div class="col-md-12">
@@ -104,12 +104,12 @@
 				<div class="col-lg-1 col-xs-1">
 					<div class="small-box bg-green">
 						<div class="inner">
-							<center><small>Meta</small>							
-								<small>#{avaliacaoDetalhesMB.indicador.meta01}</small>
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta01}</small>
 							</center>
 						</div>
 
-						<p:commandLink value="90/#{avaliacaoDetalhesMB.indicador.meta01}"
+						<p:commandLink value="1.8"
 							style="font-size: 18px !important; color: black !important"
 							actionListener="#{testeMB.chamada()}" class="small-box-footer">
 							<i class="fa fa-edit"></i>
@@ -121,12 +121,12 @@
 				<div class="col-lg-1 col-xs-1">
 					<div class="small-box bg-green">
 						<div class="inner">
-							<h3 style="font-size: 14px">Mês 2</h3>
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta01}</small>
+							</center>
 						</div>
-						<!-- 						<div class="icon"> -->
-						<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
-						<!-- 						</div> -->
-						<p:commandLink value="90"
+
+						<p:commandLink value="1.8"
 							style="font-size: 18px !important; color: black !important"
 							actionListener="#{testeMB.chamada()}" class="small-box-footer">
 							<i class="fa fa-edit"></i>
@@ -138,29 +138,12 @@
 				<div class="col-lg-1 col-xs-1">
 					<div class="small-box bg-green">
 						<div class="inner">
-							<h3 style="font-size: 14px">Mês 3</h3>
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta02}</small>
+							</center>
 						</div>
-						<!-- 						<div class="icon"> -->
-						<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
-						<!-- 						</div> -->
-						<p:commandLink value="90"
-							style="font-size: 18px !important; color: black !important"
-							actionListener="#{testeMB.chamada()}" class="small-box-footer">
-							<i class="fa fa-edit"></i>
-						</p:commandLink>
 
-					</div>
-
-				</div>
-				<div class="col-lg-1 col-xs-1">
-					<div class="small-box bg-green">
-						<div class="inner">
-							<h3 style="font-size: 14px">Mês 4</h3>
-						</div>
-						<!-- 						<div class="icon"> -->
-						<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
-						<!-- 						</div> -->
-						<p:commandLink value="90"
+						<p:commandLink value="1.8"
 							style="font-size: 18px !important; color: black !important"
 							actionListener="#{testeMB.chamada()}" class="small-box-footer">
 							<i class="fa fa-edit"></i>
@@ -172,12 +155,12 @@
 				<div class="col-lg-1 col-xs-1">
 					<div class="small-box bg-green">
 						<div class="inner">
-							<h3 style="font-size: 14px">Mês 5</h3>
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta03}</small>
+							</center>
 						</div>
-						<!-- 						<div class="icon"> -->
-						<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
-						<!-- 						</div> -->
-						<p:commandLink value="90"
+
+						<p:commandLink value="1.8"
 							style="font-size: 18px !important; color: black !important"
 							actionListener="#{testeMB.chamada()}" class="small-box-footer">
 							<i class="fa fa-edit"></i>
@@ -189,12 +172,12 @@
 				<div class="col-lg-1 col-xs-1">
 					<div class="small-box bg-green">
 						<div class="inner">
-							<h3 style="font-size: 14px">Mês 6</h3>
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta04}</small>
+							</center>
 						</div>
-						<!-- 						<div class="icon"> -->
-						<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
-						<!-- 						</div> -->
-						<p:commandLink value="90"
+
+						<p:commandLink value="1.8"
 							style="font-size: 18px !important; color: black !important"
 							actionListener="#{testeMB.chamada()}" class="small-box-footer">
 							<i class="fa fa-edit"></i>
@@ -206,12 +189,81 @@
 				<div class="col-lg-1 col-xs-1">
 					<div class="small-box bg-green">
 						<div class="inner">
-							<h3 style="font-size: 14px">Mês 7</h3>
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta05}</small>
+							</center>
 						</div>
-						<!-- 						<div class="icon"> -->
-						<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
-						<!-- 						</div> -->
-						<p:commandLink value="90"
+
+						<p:commandLink value="1.8"
+							style="font-size: 18px !important; color: black !important"
+							actionListener="#{testeMB.chamada()}" class="small-box-footer">
+							<i class="fa fa-edit"></i>
+						</p:commandLink>
+
+					</div>
+				</div>
+
+				<div class="col-lg-1 col-xs-1">
+					<div class="small-box bg-yellow">
+						<div class="inner">
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta06}</small>
+							</center>
+						</div>
+
+						<p:commandLink value="2.04"
+							style="font-size: 18px !important; color: black !important"
+							actionListener="#{testeMB.chamada()}" class="small-box-footer">
+							<i class="fa fa-edit"></i>
+						</p:commandLink>
+
+					</div>
+				</div>
+
+				<div class="col-lg-1 col-xs-1">
+					<div class="small-box bg-yellow">
+						<div class="inner">
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta07}</small>
+							</center>
+						</div>
+
+						<p:commandLink value="2.04"
+							style="font-size: 18px !important; color: black !important"
+							actionListener="#{testeMB.chamada()}" class="small-box-footer">
+							<i class="fa fa-edit"></i>
+						</p:commandLink>
+
+					</div>
+				</div>
+
+				<div class="col-lg-1 col-xs-1">
+					<div class="small-box bg-yellow">
+						<div class="inner">
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta08}</small>
+							</center>
+						</div>
+
+						<p:commandLink value="2.04"
+							style="font-size: 18px !important; color: black !important"
+							actionListener="#{testeMB.chamada()}" class="small-box-footer">
+							<i class="fa fa-edit"></i>
+						</p:commandLink>
+
+					</div>
+				</div>
+
+
+				<div class="col-lg-1 col-xs-1">
+					<div class="small-box bg-green">
+						<div class="inner">
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta09}</small>
+							</center>
+						</div>
+
+						<p:commandLink value="1.8"
 							style="font-size: 18px !important; color: black !important"
 							actionListener="#{testeMB.chamada()}" class="small-box-footer">
 							<i class="fa fa-edit"></i>
@@ -223,12 +275,12 @@
 				<div class="col-lg-1 col-xs-1">
 					<div class="small-box bg-green">
 						<div class="inner">
-							<h3 style="font-size: 14px">Mês 8</h3>
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta10}</small>
+							</center>
 						</div>
-						<!-- 						<div class="icon"> -->
-						<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
-						<!-- 						</div> -->
-						<p:commandLink value="90"
+
+						<p:commandLink value="1.8"
 							style="font-size: 18px !important; color: black !important"
 							actionListener="#{testeMB.chamada()}" class="small-box-footer">
 							<i class="fa fa-edit"></i>
@@ -240,12 +292,12 @@
 				<div class="col-lg-1 col-xs-1">
 					<div class="small-box bg-green">
 						<div class="inner">
-							<h3 style="font-size: 14px">Mês 9</h3>
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta12}</small>
+							</center>
 						</div>
-						<!-- 						<div class="icon"> -->
-						<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
-						<!-- 						</div> -->
-						<p:commandLink value="90"
+
+						<p:commandLink value="1.8"
 							style="font-size: 18px !important; color: black !important"
 							actionListener="#{testeMB.chamada()}" class="small-box-footer">
 							<i class="fa fa-edit"></i>
@@ -254,58 +306,31 @@
 					</div>
 				</div>
 
-
-				<div class="col-lg-1 col-xs-1">
-					<div class="small-box bg-red">
-						<div class="inner">
-							<h3 style="font-size: 14px">Mês 10</h3>
-						</div>
-						<!-- 						<div class="icon"> -->
-						<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
-						<!-- 						</div> -->
-						<p:commandLink value="90"
-							style="font-size: 18px !important; color: black !important"
-							actionListener="#{testeMB.chamada()}" class="small-box-footer">
-							<i class="fa fa-edit"></i>
-						</p:commandLink>
-
-					</div>
-				</div>
-
-				<div class="col-lg-1 col-xs-1">
-					<div class="small-box bg-red">
-						<div class="inner">
-							<h3 style="font-size: 14px">Mês 11</h3>
-						</div>
-						<!-- 						<div class="icon"> -->
-						<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
-						<!-- 						</div> -->
-						<p:commandLink value="90"
-							style="font-size: 18px !important; color: black !important"
-							actionListener="#{testeMB.chamada()}" class="small-box-footer">
-							<i class="fa fa-edit"></i>
-						</p:commandLink>
-
-					</div>
-				</div>
-
-				<div class="col-lg-1 col-xs-1">
-					<div class="small-box bg-green">
-						<div class="inner">
-							<h3 style="font-size: 14px">Mês 12</h3>
-						</div>
-						<!-- 						<div class="icon"> -->
-						<!-- 							<i class="fa fa-star" aria-hidden="true"></i> -->
-						<!-- 						</div> -->
-						<p:commandLink value="90"
-							style="font-size: 18px !important; color: black !important"
-							actionListener="#{testeMB.chamada()}" class="small-box-footer">
-							<i class="fa fa-edit"></i>
-						</p:commandLink>
-
-					</div>
-				</div>
-
+			</div>
+			
+			<div class="row">
+				<h:panelGrid columns="11">
+				<h2>Análise Comparativa dos Indicadores de #{avaliacaoMB.categoria}&nbsp;&nbsp;&nbsp;</h2>
+					<h:outputText escape="false"
+						value="#{avaliacaoMB.elementosCores.get(1)}" />
+					<h:outputText value="&#160;&#160;100% da Meta&#160;&#160;&#160;" />
+					
+					<h:outputText escape="false"
+						value="#{avaliacaoMB.elementosCores.get(2)}" />
+					<h:outputText value="&#160;&#160;90 - 99,9% da Meta&#160;&#160;&#160;" />
+					
+					<h:outputText escape="false"
+						value="#{avaliacaoMB.elementosCores.get(3)}" />
+					<h:outputText value="&#160;&#160;80 - 89,9% da Meta&#160;&#160;&#160;" />
+					
+					<h:outputText escape="false"
+						value="#{avaliacaoMB.elementosCores.get(4)}" />
+					<h:outputText value="&#160;&#160;60 - 79,9% da Meta&#160;&#160;&#160;" />
+					
+					<h:outputText escape="false"
+						value="#{avaliacaoMB.elementosCores.get(5)}" />
+					<h:outputText value="&#160;&#160;&lsaquo;59,9% da Meta&#160;&#160;&#160;" />
+				</h:panelGrid>
 			</div>
 
 			<div class="row"></div>
@@ -342,6 +367,31 @@
 
 						</p:tab>
 						<p:tab title="Todas Ocorrências">
+							<p:dataGrid var="ocorencia"
+								value="#{avaliacaoDetalhesMB.listaTodasOcorrencias}" columns="4"
+								layout="grid" rows="6" paginator="true"
+								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="12,16">
+								<p:panel style="text-align:center">
+									<h:panelGrid columns="1" style="width:100%">
+										<!-- 							<p:graphicImage name="demo/images/car/#{car.brand}.gif" /> -->
+										<h:outputText escape="false" value="#{testeMB.statusLaranja}" />
+										<h:outputText value="#{ocorencia.titulo}" />
+
+										<p:commandLink oncomplete="PF('dlgOcorrencia').show()"
+											title="Ver Ocorrência" update=":frmModalSalvar"
+											actionListener="#{avaliacaoDetalhesMB.preencherOcorrencia(ocorencia)}">
+											<h:outputText styleClass="ui-icon ui-icon-search"
+												style="margin:0 auto;" />
+
+										</p:commandLink>
+									</h:panelGrid>
+								</p:panel>
+
+							</p:dataGrid>
+						</p:tab>
+						
+						<p:tab title="Registrar Informações Referentes a Avaliação">
 							<p:dataGrid var="ocorencia"
 								value="#{avaliacaoDetalhesMB.listaTodasOcorrencias}" columns="4"
 								layout="grid" rows="6" paginator="true"

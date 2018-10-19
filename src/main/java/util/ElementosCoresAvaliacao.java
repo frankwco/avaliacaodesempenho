@@ -6,7 +6,7 @@ public class ElementosCoresAvaliacao {
 	private String statusVerdeFraco = "<i class=\"fa fa-circle\" style=\"font-size:36px;color:#7CFC00\"></i>";
 	private String statusAmarelo = "<i class=\"fa fa-circle\" style=\"font-size:36px;color:yellow\"></i>";
 	private String statusLaranja = "<i class=\"fa fa-circle\" style=\"font-size:36px;color:orange\"></i>";
-	
+
 	private String statusCirculoPretoPequeno = "<i class=\"fa fa-circle\"></i>";
 
 	public String get(Integer gravidade) {
@@ -29,6 +29,26 @@ public class ElementosCoresAvaliacao {
 			return "";
 		}
 
+	}
+
+	public String retornaEstadoPorcentagem(Double meta, Double realizado) {
+		Double a= new Double(Double.NaN);
+		if(realizado.equals(a)) {
+			realizado = 0.;
+		}
+		//ISSO PARA VALORES QUE NÃO PODEM ULTRAPASSAR A META
+		Double resultado = meta / realizado * 100;
+		if (resultado < 60) {
+			return get(5);
+		} else if (resultado < 80) {
+			return get(4);
+		} else if (resultado < 90) {
+			return get(3);
+		} else if (resultado < 100) {
+			return get(2);
+		} else {
+			return get(1);
+		}
 	}
 
 	public String getStatusVermelho() {
@@ -78,7 +98,5 @@ public class ElementosCoresAvaliacao {
 	public void setStatusCirculoPretoPequeno(String statusCirculoPretoPequeno) {
 		this.statusCirculoPretoPequeno = statusCirculoPretoPequeno;
 	}
-	
-	
 
 }

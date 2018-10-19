@@ -42,6 +42,9 @@ public class AvaliacaoDetalhesMB implements Serializable {
 
 	@Inject
 	private GenericDAO<Atividade> daoProcesso; // faz as buscas
+	
+	@Inject
+	private GenericDAO<Indicador> daoIndicador; // faz as buscas
 
 	@Inject
 	private AtividadeService atividadeService; // inserir no banco
@@ -53,12 +56,22 @@ public class AvaliacaoDetalhesMB implements Serializable {
 	@Inject
 	private GenericDAO<Ocorrencia> daoOcorrencia; // faz as buscas
 
-	@PostConstruct
-	public void inicializar() {
+//	@PostConstruct
+//	public void inicializar() {
+//		createMeterGaugeModels();
+//		listaTodasOcorrencias = daoOcorrencia.listaComStatus(Ocorrencia.class);
+//		if (indicador != null) {
+//			listaOcorrenciasPorIndicador = daoOcorrencia.listar(Ocorrencia.class, "indicador.id=" + indicador.getId());
+//		}
+//	}
+	
+	public void init(Long id) {
+		indicador = daoIndicador.buscarPorId(Indicador.class, id);
+		System.out.println("Indicador "+indicador.getId());
 		createMeterGaugeModels();
 		listaTodasOcorrencias = daoOcorrencia.listaComStatus(Ocorrencia.class);
 		if (indicador != null) {
-			listaOcorrenciasPorIndicador = daoOcorrencia.listar(Ocorrencia.class, "indicador.id=" + indicador.getId());
+			listaOcorrenciasPorIndicador = daoOcorrencia.listar(Ocorrencia.class, "indicadorRelacionado.id=" + indicador.getId());
 		}
 	}
 	
@@ -116,18 +129,28 @@ public class AvaliacaoDetalhesMB implements Serializable {
 		if (indicador != null) {
 			if (!indicador.isAtingivel()) {
 				naoEe += " <li> Não é Atingível </li>";
+			}else {
+				naoEe += " <li> É Atingível </li>";
 			}
 			if (!indicador.isEspecifico()) {
 				naoEe += " <li> Não é Específico </li>";
+			}else {
+				naoEe += " <li> É Específico </li>";
 			}
 			if (!indicador.isMensuravel()) {
 				naoEe += " <li> Não é Mensurável </li>";
+			}else {
+				naoEe += " <li> É Mensurável </li>";
 			}
 			if (!indicador.isRelevante()) {
 				naoEe += " <li> Não é Relevante </li>";
+			}else {
+				naoEe += " <li> É Relevante </li>";
 			}
 			if (!indicador.isTemporizavel()) {
 				naoEe += " <li> Não e Temporizável </li>";
+			}else {
+				naoEe += " <li> É Temporizável </li>";
 			}
 			naoEe += " </ol>";
 			// naoEe = naoEe.trim().replace(" ", "<br/>");
