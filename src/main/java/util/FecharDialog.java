@@ -19,9 +19,13 @@ public class FecharDialog {
 	public static void fecharDialogSalario() {
 		RequestContext.getCurrentInstance().execute("PF('dlgSalario').hide();");
 	}
-		
+	
 	public static void fecharDialogPessoa() {
 		RequestContext.getCurrentInstance().execute("PF('dlgPessoa').hide();");
+	}
+	
+	public static void fecharDialogUsuario() {
+		RequestContext.getCurrentInstance().execute("PF('dlgUsuario').hide();");
 	}
 	
 	public static void fecharDialogProcesso() {

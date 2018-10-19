@@ -78,14 +78,14 @@
 
 				<div class="navbar-custom-menu">
 					<ul class="nav navbar-nav">
-						<li class="dropdown user user-menu"><a href="#"
+						<li class="dropdown user user-menu"><a href=""
 							class="dropdown-toggle" data-toggle="dropdown"> <span
 								class="hidden-xs"><i class="fa fa-user"
 									aria-hidden="true"></i> <h:outputText
-										value="#{usuarioSessaoMB.pessoa.usuario}" /> </span>
+										value="#{usuarioSessaoMB.usuario.email}" /> </span>
 
 						</a></li>
-						<li><a href="../../j_spring_security_logout"> <i
+						<li><a href="../j_spring_security_logout"> <i
 								class="fa fa-power-off" aria-hidden="true"></i> Sair
 						</a></li>
 
@@ -102,6 +102,9 @@
 					<!-- 					<li><a href="../tipo.jsf"><i -->
 					<!-- 							class="fa fa-user-secret" aria-hidden="true"></i> <span>Tipo -->
 					<!-- 								Servidor</span></a></li> -->
+					
+					<li><a href="usuario.jsf"><i
+							class="fa fa-user-secret" aria-hidden="true"></i> <span>Usuário</span></a></li>
 
 					<li><a href="categoriaIndicador.jsf"><i
 							class="fa fa-user-secret" aria-hidden="true"></i> <span>Categoria

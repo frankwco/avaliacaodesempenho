@@ -89,7 +89,7 @@ public class GenericDAO<T> implements Serializable{
 	public void updateSenha(String senha, String email) {
 		String sql = "";
 	  
-			sql = ("update Pessoa set senha = '" + senha + "' where usuario like '" + email + "'");
+			sql = ("update Usuario set senha = '" + senha + "' where email like '" + email + "'");
 			int update = manager.createQuery(sql).executeUpdate();
 	 
 	}
