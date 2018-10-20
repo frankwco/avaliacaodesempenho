@@ -1,11 +1,11 @@
 package util;
 
 public class ElementosCoresAvaliacao {
-	private String statusVermelho = "<i class=\"fa fa-circle\" style=\"font-size:36px;color:red\"></i>";
-	private String statusVerde = "<i class=\"fa fa-circle\" style=\"font-size:36px;color:green\"></i>";
+	private String statusVermelho = "<i class=\"fa fa-circle\" style=\"font-size:36px;color:#ff0000\"></i>";
+	private String statusVerde = "<i class=\"fa fa-circle\" style=\"font-size:36px;color:#00a000\"></i>";
 	private String statusVerdeFraco = "<i class=\"fa fa-circle\" style=\"font-size:36px;color:#7CFC00\"></i>";
-	private String statusAmarelo = "<i class=\"fa fa-circle\" style=\"font-size:36px;color:yellow\"></i>";
-	private String statusLaranja = "<i class=\"fa fa-circle\" style=\"font-size:36px;color:orange\"></i>";
+	private String statusAmarelo = "<i class=\"fa fa-circle\" style=\"font-size:36px;color:#FFF400\"></i>";
+	private String statusLaranja = "<i class=\"fa fa-circle\" style=\"font-size:36px;color:#ff8100\"></i>";
 
 	private String statusCirculoPretoPequeno = "<i class=\"fa fa-circle\"></i>";
 
@@ -31,24 +31,43 @@ public class ElementosCoresAvaliacao {
 
 	}
 
-	public String retornaEstadoPorcentagem(Double meta, Double realizado) {
-		Double a= new Double(Double.NaN);
-		if(realizado.equals(a)) {
+	public String retornaEstadoPorcentagem(Double meta, Double realizado, String maiorMenorQue) {
+		Double a = new Double(Double.NaN);
+		if (realizado.equals(a)) {
 			realizado = 0.;
 		}
-		//ISSO PARA VALORES QUE NÃO PODEM ULTRAPASSAR A META
-		Double resultado = meta / realizado * 100;
-		if (resultado < 60) {
-			return get(5);
-		} else if (resultado < 80) {
-			return get(4);
-		} else if (resultado < 90) {
-			return get(3);
-		} else if (resultado < 100) {
-			return get(2);
+		Double resultado = 0.;
+		// ISSO PARA VALORES QUE NÃO PODEM ULTRAPASSAR A META
+		//System.out.println("Maior Menor que: "+maiorMenorQue);
+		if (maiorMenorQue.equals("<=Meta")) {
+			resultado = (meta / realizado) * 100;
+			//System.out.println("REsultado: "+resultado);
+			if (resultado < 60) {
+				return get(5);
+			} else if (resultado < 80) {
+				return get(4);
+			} else if (resultado < 90) {
+				return get(3);
+			} else if (resultado < 100) {
+				return get(2);
+			} else {
+				return get(1);
+			}
 		} else {
-			return get(1);
+			resultado = (realizado / meta)*100;
+			if (resultado < 60) {
+				return get(5);
+			} else if (resultado < 80) {
+				return get(4);
+			} else if (resultado < 90) {
+				return get(3);
+			} else if (resultado < 100) {
+				return get(2);
+			} else {
+				return get(1);
+			}
 		}
+
 	}
 
 	public String getStatusVermelho() {

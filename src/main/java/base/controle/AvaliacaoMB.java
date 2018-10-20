@@ -294,7 +294,7 @@ public class AvaliacaoMB implements Serializable {
 		combinedModel = new BarChartModel();
 
 		String dataInicial = "01-" + mes + "-" + ano;
-		String dataFinal = "30-" + mes + "-" + ano;
+		String dataFinal = "31-" + mes + "-" + ano;
 
 		listaIndicadores = funcoesMatematicas.calcularIndicadoresPorCategoriaProcessosMesAno(mes, ano,
 				categoriaIndicador.getId(), processos);

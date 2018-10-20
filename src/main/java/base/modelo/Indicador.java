@@ -97,6 +97,7 @@ public class Indicador implements Serializable {
 	private Double meta10;
 	private Double meta11;
 	private Double meta12;
+	private String metaMaiorMenorQue="<=Meta";
 	
 	@Column(length=10000)
 	private String acoesMelhoria;
@@ -106,7 +107,20 @@ public class Indicador implements Serializable {
 	private boolean mensuravel;
 	private boolean atingivel;
 	private boolean relevante;
+	
+	
 		
+	public String getMetaMaiorMenorQue() {
+		if(metaMaiorMenorQue==null) {
+			metaMaiorMenorQue = "<=Meta";
+		}
+		return metaMaiorMenorQue;
+	}
+
+	public void setMetaMaiorMenorQue(String metaMaiorMenorQue) {
+		this.metaMaiorMenorQue = metaMaiorMenorQue;
+	}
+
 	public boolean isEspecifico() {
 		return especifico;
 	}

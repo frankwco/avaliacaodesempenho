@@ -178,6 +178,7 @@ public class FuncoesMatematicas implements Serializable {
 			indicador.setId(in.getId());
 			indicador.setObservacao("");
 			indicador.setDescricao(in.getDescricao());
+			indicador.setMetaMaiorMenorQue(in.getMetaMaiorMenorQue());
 
 			Double valor = 0.;
 			ScriptEngineManager mgr = new ScriptEngineManager();

@@ -131,101 +131,111 @@
 
 
 			<!-- DIALOG ESCOLHER INDICADOR -->
-			<p:dialog			
-				widgetVar="dlgDefinirIndicador" modal="true" responsive="true"
-				width="740" id="dlgDefinirIndicador"
-				closeOnEscape="true" height="700"
-				draggable="true" >
+			<p:dialog widgetVar="dlgDefinirIndicador" modal="true"
+				responsive="true" width="740" id="dlgDefinirIndicador"
+				closeOnEscape="true" height="700" draggable="true">
 				<f:facet name="header">
 					<h:outputText id="dialogHeader"
 						value="#{indicadorMB.indicador.categoriaIndicador.descricao} de
 							#{indicadorMB.indicador.processo.descricao}:
 								#{indicadorMB.indicador.descricao}" />
 				</f:facet>
-	
+
 				<h:form id="frmDlgDefinirIndicador">
 
 					<label>Metas dos Indicadores</label>
-					<p:commandLink style="color:#007bff; font-size:14px !important" value="       Mais Informações? Clique aqui"
+					<p:commandLink style="color:#007bff; font-size:14px !important"
+						value="       Mais Informações? Clique aqui"
 						onclick="PF('dlgSaibaMais').show()" />
-			
-							<h:panelGrid columns="6">
-								<h:outputText value=" Janeiro" />
-								<h:outputText value=" Fevereiro" />
-								<h:outputText value=" Março" />
-								<h:outputText value=" Abril" />
-								<h:outputText value=" Maio" />
-								<h:outputText value=" Junho" />
-								<p:inputText value="#{indicadorMB.indicador.meta01}" size="12" />
-								<p:inputText value="#{indicadorMB.indicador.meta02}" size="12" />
-								<p:inputText value="#{indicadorMB.indicador.meta03}" size="12" />
-								<p:inputText value="#{indicadorMB.indicador.meta04}" size="12" />
-								<p:inputText value="#{indicadorMB.indicador.meta05}" size="12" />
-								<p:inputText value="#{indicadorMB.indicador.meta06}" size="12" />
-								<h:outputText value=" Julho" />
-								<h:outputText value=" Agosto" />
-								<h:outputText value=" Setembro" />
-								<h:outputText value=" Outubro" />
-								<h:outputText value=" Novembro" />
-								<h:outputText value=" Dezembro" />
-								<p:inputText value="#{indicadorMB.indicador.meta07}" size="12" />
-								<p:inputText value="#{indicadorMB.indicador.meta08}" size="12" />
-								<p:inputText value="#{indicadorMB.indicador.meta09}" size="12" />
-								<p:inputText value="#{indicadorMB.indicador.meta10}" size="12" />
-								<p:inputText value="#{indicadorMB.indicador.meta11}" size="12" />
-								<p:inputText value="#{indicadorMB.indicador.meta12}" size="12" />
 
-							</h:panelGrid>
-				
-				<h2>Você julga que o indicador/meta é??</h2>
+					<h:panelGrid columns="2">
+						<label>Considerado Bom: </label>
+						<p:selectOneRadio
+							value="#{indicadorMB.indicador.metaMaiorMenorQue}">
+							<f:selectItem itemLabel="Menor/Igual Meta" itemValue="&lt;=Meta" />
+							<f:selectItem itemLabel="Maior/Igual Meta" itemValue=">=Meta" />
+						</p:selectOneRadio>
+					</h:panelGrid>
+
+
+					<h:panelGrid columns="6">
+						<h:outputText value=" Janeiro" />
+						<h:outputText value=" Fevereiro" />
+						<h:outputText value=" Março" />
+						<h:outputText value=" Abril" />
+						<h:outputText value=" Maio" />
+						<h:outputText value=" Junho" />
+						<p:inputText value="#{indicadorMB.indicador.meta01}" size="12" />
+						<p:inputText value="#{indicadorMB.indicador.meta02}" size="12" />
+						<p:inputText value="#{indicadorMB.indicador.meta03}" size="12" />
+						<p:inputText value="#{indicadorMB.indicador.meta04}" size="12" />
+						<p:inputText value="#{indicadorMB.indicador.meta05}" size="12" />
+						<p:inputText value="#{indicadorMB.indicador.meta06}" size="12" />
+						<h:outputText value=" Julho" />
+						<h:outputText value=" Agosto" />
+						<h:outputText value=" Setembro" />
+						<h:outputText value=" Outubro" />
+						<h:outputText value=" Novembro" />
+						<h:outputText value=" Dezembro" />
+						<p:inputText value="#{indicadorMB.indicador.meta07}" size="12" />
+						<p:inputText value="#{indicadorMB.indicador.meta08}" size="12" />
+						<p:inputText value="#{indicadorMB.indicador.meta09}" size="12" />
+						<p:inputText value="#{indicadorMB.indicador.meta10}" size="12" />
+						<p:inputText value="#{indicadorMB.indicador.meta11}" size="12" />
+						<p:inputText value="#{indicadorMB.indicador.meta12}" size="12" />
+
+					</h:panelGrid>
+
+					<h2>Você julga que o indicador/meta é??</h2>
 					<div class="ui-fluid">
 						<div class="col-md-12">
-								<h:panelGrid columns="5">
-									<h:graphicImage value="/resources/img/smart_2s.png" />
-									<h:graphicImage value="/resources/img/smart_2m.png" />
-									<h:graphicImage value="/resources/img/smart_2a.png" />
-									<h:graphicImage value="/resources/img/smart_2r.png" />
-									<h:graphicImage value="/resources/img/smart_2t.png" />
-			
-									<p:selectOneButton value="#{indicadorMB.indicador.especifico}">
-										<f:selectItem itemLabel="Sim" itemValue="true" />
-										<f:selectItem itemLabel="Não" itemValue="false" />
-									</p:selectOneButton>
+							<h:panelGrid columns="5">
+								<h:graphicImage value="/resources/img/smart_2s.png" />
+								<h:graphicImage value="/resources/img/smart_2m.png" />
+								<h:graphicImage value="/resources/img/smart_2a.png" />
+								<h:graphicImage value="/resources/img/smart_2r.png" />
+								<h:graphicImage value="/resources/img/smart_2t.png" />
 
-									<p:selectOneButton value="#{indicadorMB.indicador.mensuravel}">
-										<f:selectItem itemLabel="Sim" itemValue="true" />
-										<f:selectItem itemLabel="Não" itemValue="false" />
-									</p:selectOneButton>
+								<p:selectOneButton value="#{indicadorMB.indicador.especifico}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneButton>
 
-									<p:selectOneButton value="#{indicadorMB.indicador.atingivel}">
-										<f:selectItem itemLabel="Sim" itemValue="true" />
-										<f:selectItem itemLabel="Não" itemValue="false" />
-									</p:selectOneButton>
+								<p:selectOneButton value="#{indicadorMB.indicador.mensuravel}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneButton>
 
-									<p:selectOneButton value="#{indicadorMB.indicador.relevante}">
-										<f:selectItem itemLabel="Sim" itemValue="true" />
-										<f:selectItem itemLabel="Não" itemValue="false" />
-									</p:selectOneButton>
+								<p:selectOneButton value="#{indicadorMB.indicador.atingivel}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneButton>
 
-									<p:selectOneButton value="#{indicadorMB.indicador.temporizavel}">
-										<f:selectItem itemLabel="Sim" itemValue="true" />
-										<f:selectItem itemLabel="Não" itemValue="false" />
-									</p:selectOneButton>
+								<p:selectOneButton value="#{indicadorMB.indicador.relevante}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneButton>
 
-								</h:panelGrid>
-						</div></div>
-						
-				
-					
-							<label>Observações Pertinentes</label>
-							<p:editor value="#{indicadorMB.indicador.observacao}" width="650"
-								height="100" />
-						
-						<p:commandButton value="Finalizar" update="frmDlgIncluirIndicador"
-							actionListener="#{indicadorMB.verificarSmart()}" />
-						
+								<p:selectOneButton value="#{indicadorMB.indicador.temporizavel}">
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</p:selectOneButton>
 
-				
+							</h:panelGrid>
+						</div>
+					</div>
+
+
+					<br />
+					<label>Observações Pertinentes</label>
+					<p:editor value="#{indicadorMB.indicador.observacao}" width="650"
+						height="100" />
+
+					<p:commandButton value="Finalizar" update="frmDlgIncluirIndicador"
+						actionListener="#{indicadorMB.verificarSmart()}" />
+
+
+
 				</h:form>
 
 			</p:dialog>
@@ -262,7 +272,7 @@
 
 					</div>
 				</h:form>
-				
+
 			</p:dialog>
 			<!-- FIM DO DIALOG INCLUIR INDICADOR-->
 

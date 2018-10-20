@@ -246,7 +246,7 @@
 						</p:columnGroup>
 
 						<p:column>
-							<p:commandLink value="#{ind.descricao}"  action="#{avaliacaoMB.chamarDetalhes(ind)}"/>
+							<p:commandLink value="#{ind.descricao} - (Ideal: #{ind.metaMaiorMenorQue})"  action="#{avaliacaoMB.chamarDetalhes(ind)}"/>
 						</p:column>
 
 						<p:column>
@@ -262,7 +262,7 @@
 						<p:column>
 							<center>
 								<h:outputText escape="false"
-									value="#{avaliacaoMB.elementosCores.retornaEstadoPorcentagem(avaliacaoMB.getMeta2(ind), avaliacaoMB.getRealizado2(ind))}" />
+									value="#{avaliacaoMB.elementosCores.retornaEstadoPorcentagem(avaliacaoMB.getMeta2(ind), avaliacaoMB.getRealizado2(ind), ind.metaMaiorMenorQue)}" />
 							</center>
 						</p:column>
 
@@ -279,7 +279,7 @@
 						<p:column>
 							<center>
 								<h:outputText escape="false"
-									value="#{avaliacaoMB.elementosCores.retornaEstadoPorcentagem(avaliacaoMB.getMeta1(ind), avaliacaoMB.getRealizado1(ind))}" />
+									value="#{avaliacaoMB.elementosCores.retornaEstadoPorcentagem(avaliacaoMB.getMeta1(ind), avaliacaoMB.getRealizado1(ind), ind.metaMaiorMenorQue)}" />
 							</center>
 						</p:column>
 
@@ -296,7 +296,7 @@
 						<p:column style="width:100px;">
 							<center>
 								<h:outputText escape="false"
-									value="#{avaliacaoMB.elementosCores.retornaEstadoPorcentagem(avaliacaoMB.getMeta(ind), avaliacaoMB.getRealizado(ind))}" />
+									value="#{avaliacaoMB.elementosCores.retornaEstadoPorcentagem(avaliacaoMB.getMeta(ind), avaliacaoMB.getRealizado(ind), ind.metaMaiorMenorQue)}" />
 							</center>
 						</p:column>
 
