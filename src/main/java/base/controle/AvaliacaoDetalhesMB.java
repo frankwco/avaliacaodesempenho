@@ -1,13 +1,17 @@
 package base.controle;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.ItemSelectEvent;
@@ -18,6 +22,7 @@ import base.modelo.Atividade;
 import base.modelo.Indicador;
 import base.modelo.Ocorrencia;
 import base.service.AtividadeService;
+import base.service.IndicadorService;
 import util.ElementosCoresAvaliacao;
 import util.ExibirMensagem;
 import util.FecharDialog;
@@ -42,12 +47,15 @@ public class AvaliacaoDetalhesMB implements Serializable {
 
 	@Inject
 	private GenericDAO<Atividade> daoProcesso; // faz as buscas
-	
+
 	@Inject
 	private GenericDAO<Indicador> daoIndicador; // faz as buscas
 
 	@Inject
 	private AtividadeService atividadeService; // inserir no banco
+
+	@Inject
+	private IndicadorService indicadorService; // inserir no banco
 
 	private List<Ocorrencia> listaTodasOcorrencias;
 
@@ -55,6 +63,8 @@ public class AvaliacaoDetalhesMB implements Serializable {
 
 	@Inject
 	private GenericDAO<Ocorrencia> daoOcorrencia; // faz as buscas
+
+	private Double porcentagemDistanciaMeta = 0.;
 
 //	@PostConstruct
 //	public void inicializar() {
@@ -64,20 +74,40 @@ public class AvaliacaoDetalhesMB implements Serializable {
 //			listaOcorrenciasPorIndicador = daoOcorrencia.listar(Ocorrencia.class, "indicador.id=" + indicador.getId());
 //		}
 //	}
-	
+
 	public void init(Long id) {
-		indicador = daoIndicador.buscarPorId(Indicador.class, id);
-		System.out.println("Indicador "+indicador.getId());
+		// indicador = daoIndicador.buscarPorId(Indicador.class, id);
+		FacesContext fc = FacesContext.getCurrentInstance();
+		HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
+		indicador = (Indicador) session.getAttribute("INDICADOR");
+
+		System.out.println("Indicador " + indicador.getId());
 		createMeterGaugeModels();
 		listaTodasOcorrencias = daoOcorrencia.listaComStatus(Ocorrencia.class);
+
 		if (indicador != null) {
-			listaOcorrenciasPorIndicador = daoOcorrencia.listar(Ocorrencia.class, "indicadorRelacionado.id=" + indicador.getId());
+			listaOcorrenciasPorIndicador = daoOcorrencia.listar(Ocorrencia.class,
+					"indicadorRelacionado.id=" + indicador.getId());
+		}
+
+		porcentagemDistanciaMeta = elementosCores.retornaPorcentagem((Double) session.getAttribute("META"),
+				(Double) session.getAttribute("REALIZADO"), indicador.getMetaMaiorMenorQue());
+
+		createMeterGaugeModels();
+	}
+
+	public void salvarObservacaoAnalise() {
+		if (indicador != null && indicador.getId() != null) {
+			Indicador i = daoIndicador.buscarPorId(Indicador.class, indicador.getId());
+			i.setObservacoesAnalises(indicador.getObservacoesAnalises());
+			indicadorService.inserirAlterar(i);
+			ExibirMensagem.exibirMensagem(Mensagem.SUCESSO);
 		}
 	}
-	
+
 	private void calcularValoresIndicador() {
-		if(indicador!=null) {
-			
+		if (indicador != null) {
+
 		}
 	}
 
@@ -93,25 +123,31 @@ public class AvaliacaoDetalhesMB implements Serializable {
 	private MeterGaugeChartModel initMeterGaugeModel() {
 		List<Number> intervals = new ArrayList<Number>() {
 			{
-				add(20);
-				add(50);
-				add(120);
-				add(220);
+				add(59.9);
+				add(79.9);
+				add(89.9);
+				add(99.9);
+				add(102);
 			}
 		};
 
-		return new MeterGaugeChartModel(140, intervals);
+		return new MeterGaugeChartModel(porcentagemDistanciaMeta, intervals);
 	}
 
 	private void createMeterGaugeModels() {
+		Double p = porcentagemDistanciaMeta;
+		if (porcentagemDistanciaMeta > 100.) {
+			porcentagemDistanciaMeta = 101.;
+		}
+		DecimalFormat df = new DecimalFormat("#.00");
 
 		meterGaugeModel2 = initMeterGaugeModel();
-		meterGaugeModel2.setTitle("Custom Options");
-		meterGaugeModel2.setSeriesColors("66cc66,93b75f,E7E658,cc6666");
-		meterGaugeModel2.setGaugeLabel("km/h");
+		meterGaugeModel2.setTitle("Situação do Indicador no Mês");
+		meterGaugeModel2.setSeriesColors("ff0000,ff8100,FFF400,7CFC00,00a000");
+		meterGaugeModel2.setGaugeLabel("Cumprimento da Meta: " + df.format(p) + "%");
 		meterGaugeModel2.setGaugeLabelPosition("bottom");
 		meterGaugeModel2.setShowTickLabels(false);
-		meterGaugeModel2.setLabelHeightAdjust(110);
+		meterGaugeModel2.setLabelHeightAdjust(5);
 		meterGaugeModel2.setIntervalOuterRadius(100);
 	}
 
@@ -129,27 +165,27 @@ public class AvaliacaoDetalhesMB implements Serializable {
 		if (indicador != null) {
 			if (!indicador.isAtingivel()) {
 				naoEe += " <li> Não é Atingível </li>";
-			}else {
+			} else {
 				naoEe += " <li> É Atingível </li>";
 			}
 			if (!indicador.isEspecifico()) {
 				naoEe += " <li> Não é Específico </li>";
-			}else {
+			} else {
 				naoEe += " <li> É Específico </li>";
 			}
 			if (!indicador.isMensuravel()) {
 				naoEe += " <li> Não é Mensurável </li>";
-			}else {
+			} else {
 				naoEe += " <li> É Mensurável </li>";
 			}
 			if (!indicador.isRelevante()) {
 				naoEe += " <li> Não é Relevante </li>";
-			}else {
+			} else {
 				naoEe += " <li> É Relevante </li>";
 			}
 			if (!indicador.isTemporizavel()) {
 				naoEe += " <li> Não e Temporizável </li>";
-			}else {
+			} else {
 				naoEe += " <li> É Temporizável </li>";
 			}
 			naoEe += " </ol>";

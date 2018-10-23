@@ -108,8 +108,18 @@ public class Indicador implements Serializable {
 	private boolean atingivel;
 	private boolean relevante;
 	
+	private String observacoesAnalises;
+	
 	
 		
+	public String getObservacoesAnalises() {
+		return observacoesAnalises;
+	}
+
+	public void setObservacoesAnalises(String observacoesAnalises) {
+		this.observacoesAnalises = observacoesAnalises;
+	}
+
 	public String getMetaMaiorMenorQue() {
 		if(metaMaiorMenorQue==null) {
 			metaMaiorMenorQue = "<=Meta";

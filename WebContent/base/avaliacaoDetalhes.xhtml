@@ -26,12 +26,13 @@
 
 		<ui:define name="conteudo">
 		#{avaliacaoDetalhesMB.init(param.ind)}
+		<p:growl id="mensagem"/>
 			<!-- TITULO -->
 			<div class="row">
 				<div class="col-md-12">
 					<h1 class="page-header">
 						<i class="fa fa-chart-line" aria-hidden="true"></i> Análise
-						Detalhada do Indicador #{avaliacaoDetalhesMB.indicador.descricao}
+						Detalhada do Indicador <b>#{avaliacaoDetalhesMB.indicador.descricao}</b>
 					</h1>
 				</div>
 			</div>
@@ -39,7 +40,8 @@
 			<div class="row">
 
 				<div class="col-lg-4 col-xs-4" style="filter: opacity(100%)">
-					<p:chart type="metergauge" model="#{testeMB.meterGaugeModel2}"
+					<p:chart type="metergauge"
+						model="#{avaliacaoDetalhesMB.meterGaugeModel2}"
 						style="width:400px;height:250px" />
 
 				</div>
@@ -58,6 +60,14 @@
 
 
 
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12 col-xs-12">
+					<h2>
+						Resultado Ideal: <b>#{avaliacaoDetalhesMB.indicador.metaMaiorMenorQue}</b>
+					</h2>
+				</div>
 			</div>
 
 			<div class="row">
@@ -102,48 +112,35 @@
 			<div class="row">
 
 				<div class="col-lg-1 col-xs-1">
-					<div class="small-box bg-green">
+					<div
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta01, avaliacaoDetalhesMB.indicador.valor1, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}"
+						class="small-box ">
 						<div class="inner">
 							<center>
 								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta01}</small>
 							</center>
 						</div>
 
-						<p:commandLink value="1.8"
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor1}"
 							style="font-size: 18px !important; color: black !important"
 							actionListener="#{testeMB.chamada()}" class="small-box-footer">
 							<i class="fa fa-edit"></i>
+
 						</p:commandLink>
 
 					</div>
 				</div>
 
 				<div class="col-lg-1 col-xs-1">
-					<div class="small-box bg-green">
-						<div class="inner">
-							<center>
-								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta01}</small>
-							</center>
-						</div>
-
-						<p:commandLink value="1.8"
-							style="font-size: 18px !important; color: black !important"
-							actionListener="#{testeMB.chamada()}" class="small-box-footer">
-							<i class="fa fa-edit"></i>
-						</p:commandLink>
-
-					</div>
-				</div>
-
-				<div class="col-lg-1 col-xs-1">
-					<div class="small-box bg-green">
+					<div class="small-box "
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta02, avaliacaoDetalhesMB.indicador.valor2, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}">
 						<div class="inner">
 							<center>
 								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta02}</small>
 							</center>
 						</div>
 
-						<p:commandLink value="1.8"
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor2}"
 							style="font-size: 18px !important; color: black !important"
 							actionListener="#{testeMB.chamada()}" class="small-box-footer">
 							<i class="fa fa-edit"></i>
@@ -153,14 +150,15 @@
 				</div>
 
 				<div class="col-lg-1 col-xs-1">
-					<div class="small-box bg-green">
+					<div class="small-box"
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta03, avaliacaoDetalhesMB.indicador.valor3, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}">
 						<div class="inner">
 							<center>
 								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta03}</small>
 							</center>
 						</div>
 
-						<p:commandLink value="1.8"
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor3}"
 							style="font-size: 18px !important; color: black !important"
 							actionListener="#{testeMB.chamada()}" class="small-box-footer">
 							<i class="fa fa-edit"></i>
@@ -170,14 +168,15 @@
 				</div>
 
 				<div class="col-lg-1 col-xs-1">
-					<div class="small-box bg-green">
+					<div class="small-box"
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta04, avaliacaoDetalhesMB.indicador.valor4, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}">
 						<div class="inner">
 							<center>
 								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta04}</small>
 							</center>
 						</div>
 
-						<p:commandLink value="1.8"
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor4}"
 							style="font-size: 18px !important; color: black !important"
 							actionListener="#{testeMB.chamada()}" class="small-box-footer">
 							<i class="fa fa-edit"></i>
@@ -187,14 +186,15 @@
 				</div>
 
 				<div class="col-lg-1 col-xs-1">
-					<div class="small-box bg-green">
+					<div class="small-box"
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta05, avaliacaoDetalhesMB.indicador.valor5, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}">
 						<div class="inner">
 							<center>
 								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta05}</small>
 							</center>
 						</div>
 
-						<p:commandLink value="1.8"
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor5}"
 							style="font-size: 18px !important; color: black !important"
 							actionListener="#{testeMB.chamada()}" class="small-box-footer">
 							<i class="fa fa-edit"></i>
@@ -204,14 +204,15 @@
 				</div>
 
 				<div class="col-lg-1 col-xs-1">
-					<div class="small-box bg-yellow">
+					<div class="small-box"
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta06, avaliacaoDetalhesMB.indicador.valor6, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}">
 						<div class="inner">
 							<center>
 								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta06}</small>
 							</center>
 						</div>
 
-						<p:commandLink value="2.04"
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor6}"
 							style="font-size: 18px !important; color: black !important"
 							actionListener="#{testeMB.chamada()}" class="small-box-footer">
 							<i class="fa fa-edit"></i>
@@ -221,14 +222,15 @@
 				</div>
 
 				<div class="col-lg-1 col-xs-1">
-					<div class="small-box bg-yellow">
+					<div class="small-box"
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta07, avaliacaoDetalhesMB.indicador.valor7, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}">
 						<div class="inner">
 							<center>
 								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta07}</small>
 							</center>
 						</div>
 
-						<p:commandLink value="2.04"
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor7}"
 							style="font-size: 18px !important; color: black !important"
 							actionListener="#{testeMB.chamada()}" class="small-box-footer">
 							<i class="fa fa-edit"></i>
@@ -238,14 +240,15 @@
 				</div>
 
 				<div class="col-lg-1 col-xs-1">
-					<div class="small-box bg-yellow">
+					<div class="small-box"
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta08, avaliacaoDetalhesMB.indicador.valor8, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}">
 						<div class="inner">
 							<center>
 								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta08}</small>
 							</center>
 						</div>
 
-						<p:commandLink value="2.04"
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor8}"
 							style="font-size: 18px !important; color: black !important"
 							actionListener="#{testeMB.chamada()}" class="small-box-footer">
 							<i class="fa fa-edit"></i>
@@ -254,16 +257,16 @@
 					</div>
 				</div>
 
-
 				<div class="col-lg-1 col-xs-1">
-					<div class="small-box bg-green">
+					<div class="small-box"
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta09, avaliacaoDetalhesMB.indicador.valor9, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}">
 						<div class="inner">
 							<center>
 								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta09}</small>
 							</center>
 						</div>
 
-						<p:commandLink value="1.8"
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor9}"
 							style="font-size: 18px !important; color: black !important"
 							actionListener="#{testeMB.chamada()}" class="small-box-footer">
 							<i class="fa fa-edit"></i>
@@ -272,15 +275,17 @@
 					</div>
 				</div>
 
+
 				<div class="col-lg-1 col-xs-1">
-					<div class="small-box bg-green">
+					<div class="small-box"
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta10, avaliacaoDetalhesMB.indicador.valor10, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}">
 						<div class="inner">
 							<center>
 								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta10}</small>
 							</center>
 						</div>
 
-						<p:commandLink value="1.8"
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor10}"
 							style="font-size: 18px !important; color: black !important"
 							actionListener="#{testeMB.chamada()}" class="small-box-footer">
 							<i class="fa fa-edit"></i>
@@ -290,14 +295,33 @@
 				</div>
 
 				<div class="col-lg-1 col-xs-1">
-					<div class="small-box bg-green">
+					<div class="small-box"
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta11, avaliacaoDetalhesMB.indicador.valor11, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}">
+						<div class="inner">
+							<center>
+								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta11}</small>
+							</center>
+						</div>
+
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor11}"
+							style="font-size: 18px !important; color: black !important"
+							actionListener="#{testeMB.chamada()}" class="small-box-footer">
+							<i class="fa fa-edit"></i>
+						</p:commandLink>
+
+					</div>
+				</div>
+
+				<div class="col-lg-1 col-xs-1">
+					<div class="small-box"
+						style="background-color:#{avaliacaoMB.elementosCores.retornaEstadoPorcentagemCor(avaliacaoDetalhesMB.indicador.meta12, avaliacaoDetalhesMB.indicador.valor12, avaliacaoDetalhesMB.indicador.metaMaiorMenorQue)}">
 						<div class="inner">
 							<center>
 								<small>Meta:</small> <small>#{avaliacaoDetalhesMB.indicador.meta12}</small>
 							</center>
 						</div>
 
-						<p:commandLink value="1.8"
+						<p:commandLink value="#{avaliacaoDetalhesMB.indicador.valor12}"
 							style="font-size: 18px !important; color: black !important"
 							actionListener="#{testeMB.chamada()}" class="small-box-footer">
 							<i class="fa fa-edit"></i>
@@ -307,29 +331,34 @@
 				</div>
 
 			</div>
-			
+
 			<div class="row">
 				<h:panelGrid columns="11">
-				<h2>Análise Comparativa dos Indicadores de #{avaliacaoMB.categoria}&nbsp;&nbsp;&nbsp;</h2>
+					<h2>Análise Comparativa dos Indicadores de
+						#{avaliacaoMB.categoria}&nbsp;&nbsp;&nbsp;</h2>
 					<h:outputText escape="false"
 						value="#{avaliacaoMB.elementosCores.get(1)}" />
 					<h:outputText value="&#160;&#160;100% da Meta&#160;&#160;&#160;" />
-					
+
 					<h:outputText escape="false"
 						value="#{avaliacaoMB.elementosCores.get(2)}" />
-					<h:outputText value="&#160;&#160;90 - 99,9% da Meta&#160;&#160;&#160;" />
-					
+					<h:outputText
+						value="&#160;&#160;90 - 99,9% da Meta&#160;&#160;&#160;" />
+
 					<h:outputText escape="false"
 						value="#{avaliacaoMB.elementosCores.get(3)}" />
-					<h:outputText value="&#160;&#160;80 - 89,9% da Meta&#160;&#160;&#160;" />
-					
+					<h:outputText
+						value="&#160;&#160;80 - 89,9% da Meta&#160;&#160;&#160;" />
+
 					<h:outputText escape="false"
 						value="#{avaliacaoMB.elementosCores.get(4)}" />
-					<h:outputText value="&#160;&#160;60 - 79,9% da Meta&#160;&#160;&#160;" />
-					
+					<h:outputText
+						value="&#160;&#160;60 - 79,9% da Meta&#160;&#160;&#160;" />
+
 					<h:outputText escape="false"
 						value="#{avaliacaoMB.elementosCores.get(5)}" />
-					<h:outputText value="&#160;&#160;&lsaquo;59,9% da Meta&#160;&#160;&#160;" />
+					<h:outputText
+						value="&#160;&#160;&lsaquo;59,9% da Meta&#160;&#160;&#160;" />
 				</h:panelGrid>
 			</div>
 
@@ -390,30 +419,12 @@
 
 							</p:dataGrid>
 						</p:tab>
-						
+
 						<p:tab title="Registrar Informações Referentes a Avaliação">
-							<p:dataGrid var="ocorencia"
-								value="#{avaliacaoDetalhesMB.listaTodasOcorrencias}" columns="4"
-								layout="grid" rows="6" paginator="true"
-								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-								rowsPerPageTemplate="12,16">
-								<p:panel style="text-align:center">
-									<h:panelGrid columns="1" style="width:100%">
-										<!-- 							<p:graphicImage name="demo/images/car/#{car.brand}.gif" /> -->
-										<h:outputText escape="false" value="#{testeMB.statusLaranja}" />
-										<h:outputText value="#{ocorencia.titulo}" />
 
-										<p:commandLink oncomplete="PF('dlgOcorrencia').show()"
-											title="Ver Ocorrência" update=":frmModalSalvar"
-											actionListener="#{avaliacaoDetalhesMB.preencherOcorrencia(ocorencia)}">
-											<h:outputText styleClass="ui-icon ui-icon-search"
-												style="margin:0 auto;" />
-
-										</p:commandLink>
-									</h:panelGrid>
-								</p:panel>
-
-							</p:dataGrid>
+							<p:editor
+								value="#{avaliacaoDetalhesMB.indicador.observacoesAnalises}" />
+							<p:commandButton value="Salvar Observações" update="mensagem" actionListener="#{avaliacaoDetalhesMB.salvarObservacaoAnalise()}"/>
 						</p:tab>
 					</p:tabView>
 				</h:form>

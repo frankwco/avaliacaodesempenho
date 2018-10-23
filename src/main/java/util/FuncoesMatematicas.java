@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,7 +59,11 @@ public class FuncoesMatematicas implements Serializable {
 	private GrupoLancamento grupoLancamentoSelecionado;
 	private ItensLancamento itensLancamento;
 
+	DecimalFormat df = new DecimalFormat("#.00");
+
 	// private List<Indicador> listaIndicadores;
+
+	Double a = new Double(Double.NaN);
 
 	@Inject
 	private GenericDAO<Lancamento> daoLancamento; // faz as buscas
@@ -179,6 +184,16 @@ public class FuncoesMatematicas implements Serializable {
 			indicador.setObservacao("");
 			indicador.setDescricao(in.getDescricao());
 			indicador.setMetaMaiorMenorQue(in.getMetaMaiorMenorQue());
+			indicador.setAcoesMelhoria(in.getAcoesMelhoria());
+			indicador.setCategoriaIndicador(in.getCategoriaIndicador());
+			indicador.setFormulaIndicador(in.getFormulaIndicador());
+			indicador.setObservacoesAnalises(in.getObservacoesAnalises());
+
+			indicador.setJustificativa(in.getJustificativa());
+			indicador.setAtingivel(in.isAtingivel());
+			indicador.setEspecifico(in.isEspecifico());
+			indicador.setTemporizavel(in.isTemporizavel());
+			indicador.setRelevante(in.isRelevante());
 
 			Double valor = 0.;
 			ScriptEngineManager mgr = new ScriptEngineManager();
@@ -205,6 +220,12 @@ public class FuncoesMatematicas implements Serializable {
 				try {
 					if (engine.eval(expressao1) != null) {
 						indicador.setValor1(Double.parseDouble(engine.eval(expressao1).toString()));
+
+						if (indicador.getValor1().equals(a)) {
+							indicador.setValor1(0.0);
+						} else {
+							indicador.setValor1(Double.parseDouble(df.format(indicador.getValor1()).replace(",", ".")));
+						}
 					}
 				} catch (Exception e) {
 					System.out.println("erro na equação");
@@ -216,6 +237,12 @@ public class FuncoesMatematicas implements Serializable {
 				try {
 					if (engine.eval(expressao2) != null) {
 						indicador.setValor2(Double.parseDouble(engine.eval(expressao2).toString()));
+
+						if (indicador.getValor2().equals(a)) {
+							indicador.setValor2(0.0);
+						} else {
+							indicador.setValor2(Double.parseDouble(df.format(indicador.getValor2()).replace(",", ".")));
+						}
 					}
 				} catch (Exception e) {
 					System.out.println("erro na equação");
@@ -227,6 +254,12 @@ public class FuncoesMatematicas implements Serializable {
 				try {
 					if (engine.eval(expressao3) != null) {
 						indicador.setValor3(Double.parseDouble(engine.eval(expressao3).toString()));
+
+						if (indicador.getValor3().equals(a)) {
+							indicador.setValor3(0.0);
+						} else {
+							indicador.setValor3(Double.parseDouble(df.format(indicador.getValor3()).replace(",", ".")));
+						}
 					}
 				} catch (Exception e) {
 					System.out.println("erro na equação");
@@ -238,6 +271,12 @@ public class FuncoesMatematicas implements Serializable {
 				try {
 					if (engine.eval(expressao4) != null) {
 						indicador.setValor4(Double.parseDouble(engine.eval(expressao4).toString()));
+
+						if (indicador.getValor4().equals(a)) {
+							indicador.setValor4(0.0);
+						} else {
+							indicador.setValor4(Double.parseDouble(df.format(indicador.getValor4()).replace(",", ".")));
+						}
 					}
 				} catch (Exception e) {
 					System.out.println("erro na equação");
@@ -249,6 +288,12 @@ public class FuncoesMatematicas implements Serializable {
 				try {
 					if (engine.eval(expressao5) != null) {
 						indicador.setValor5(Double.parseDouble(engine.eval(expressao5).toString()));
+
+						if (indicador.getValor5().equals(a)) {
+							indicador.setValor5(0.0);
+						} else {
+							indicador.setValor5(Double.parseDouble(df.format(indicador.getValor5()).replace(",", ".")));
+						}
 					}
 				} catch (Exception e) {
 					System.out.println("erro na equação");
@@ -260,6 +305,12 @@ public class FuncoesMatematicas implements Serializable {
 				try {
 					if (engine.eval(expressao6) != null) {
 						indicador.setValor6(Double.parseDouble(engine.eval(expressao6).toString()));
+
+						if (indicador.getValor6().equals(a)) {
+							indicador.setValor6(0.0);
+						} else {
+							indicador.setValor6(Double.parseDouble(df.format(indicador.getValor6()).replace(",", ".")));
+						}
 					}
 				} catch (Exception e) {
 					System.out.println("erro na equação");
@@ -271,6 +322,12 @@ public class FuncoesMatematicas implements Serializable {
 				try {
 					if (engine.eval(expressao7) != null) {
 						indicador.setValor7(Double.parseDouble(engine.eval(expressao7).toString()));
+
+						if (indicador.getValor7().equals(a)) {
+							indicador.setValor7(0.0);
+						} else {
+							indicador.setValor7(Double.parseDouble(df.format(indicador.getValor7()).replace(",", ".")));
+						}
 					}
 				} catch (Exception e) {
 					System.out.println("erro na equação");
@@ -282,6 +339,12 @@ public class FuncoesMatematicas implements Serializable {
 				try {
 					if (engine.eval(expressao8) != null) {
 						indicador.setValor8(Double.parseDouble(engine.eval(expressao8).toString()));
+
+						if (indicador.getValor8().equals(a)) {
+							indicador.setValor8(0.0);
+						} else {
+							indicador.setValor8(Double.parseDouble(df.format(indicador.getValor8()).replace(",", ".")));
+						}
 					}
 				} catch (Exception e) {
 					System.out.println("erro na equação");
@@ -293,6 +356,12 @@ public class FuncoesMatematicas implements Serializable {
 				try {
 					if (engine.eval(expressao9) != null) {
 						indicador.setValor9(Double.parseDouble(engine.eval(expressao9).toString()));
+
+						if (indicador.getValor9().equals(a)) {
+							indicador.setValor9(0.0);
+						} else {
+							indicador.setValor9(Double.parseDouble(df.format(indicador.getValor9()).replace(",", ".")));
+						}
 					}
 				} catch (Exception e) {
 					System.out.println("erro na equação");
@@ -304,6 +373,12 @@ public class FuncoesMatematicas implements Serializable {
 				try {
 					if (engine.eval(expressao10) != null) {
 						indicador.setValor10(Double.parseDouble(engine.eval(expressao10).toString()));
+
+						if (indicador.getValor10().equals(a)) {
+							indicador.setValor10(0.0);
+						} else {
+							indicador.setValor10(Double.parseDouble(df.format(indicador.getValor10()).replace(",", ".")));
+						}
 					}
 				} catch (Exception e) {
 					System.out.println("erro na equação");
@@ -315,6 +390,12 @@ public class FuncoesMatematicas implements Serializable {
 				try {
 					if (engine.eval(expressao11) != null) {
 						indicador.setValor11(Double.parseDouble(engine.eval(expressao11).toString()));
+
+						if (indicador.getValor11().equals(a)) {
+							indicador.setValor11(0.0);
+						} else {
+							indicador.setValor11(Double.parseDouble(df.format(indicador.getValor11()).replace(",", ".")));
+						}
 					}
 				} catch (Exception e) {
 					System.out.println("erro na equação");
@@ -326,18 +407,31 @@ public class FuncoesMatematicas implements Serializable {
 				try {
 					if (engine.eval(expressao12) != null) {
 						indicador.setValor12(Double.parseDouble(engine.eval(expressao12).toString()));
+
+						if (indicador.getValor12().equals(a)) {
+							indicador.setValor12(0.0);
+						} else {
+							indicador.setValor12(Double.parseDouble(df.format(indicador.getValor12()).replace(",", ".")));
+						}
 					}
 				} catch (Exception e) {
 					System.out.println("erro na equação");
 
 				}
-				
+
 				// NOVEMBRO Anterior
 				String expressao11Anterior = montarExpressaoGrupoLancamentos(in.getFormulaGrupoLancamento(),
-						ConverteStringDate.retornaData("01/11/" + (ano-1)), ConverteStringDate.retornaData("30/11/" + (ano-1)));
+						ConverteStringDate.retornaData("01/11/" + (ano - 1)),
+						ConverteStringDate.retornaData("30/11/" + (ano - 1)));
 				try {
 					if (engine.eval(expressao11Anterior) != null) {
 						indicador.setValor11Anterior(Double.parseDouble(engine.eval(expressao11Anterior).toString()));
+
+						if (indicador.getValor11Anterior().equals(a)) {
+							indicador.setValor11Anterior(0.0);
+						} else {
+							indicador.setValor11Anterior(Double.parseDouble(df.format(indicador.getValor11Anterior()).replace(",", ".")));
+						}
 					}
 				} catch (Exception e) {
 					System.out.println("erro na equação");
@@ -345,10 +439,17 @@ public class FuncoesMatematicas implements Serializable {
 				}
 				// DEZEMBRO Anterior
 				String expressao12Anterior = montarExpressaoGrupoLancamentos(in.getFormulaGrupoLancamento(),
-						ConverteStringDate.retornaData("01/12/" + (ano-1)), ConverteStringDate.retornaData("31/12/" + (ano-1)));
+						ConverteStringDate.retornaData("01/12/" + (ano - 1)),
+						ConverteStringDate.retornaData("31/12/" + (ano - 1)));
 				try {
 					if (engine.eval(expressao12Anterior) != null) {
 						indicador.setValor12Anterior(Double.parseDouble(engine.eval(expressao12Anterior).toString()));
+
+						if (indicador.getValor12Anterior().equals(a)) {
+							indicador.setValor12Anterior(0.0);
+						} else {
+							indicador.setValor12Anterior(Double.parseDouble(df.format(indicador.getValor12Anterior()).replace(",", ".")));
+						}
 					}
 				} catch (Exception e) {
 					System.out.println("erro na equação");
@@ -360,7 +461,7 @@ public class FuncoesMatematicas implements Serializable {
 
 			indicador.setValorCalculoGrupoLancamento(in.getValorCalculoGrupoLancamento());
 			indicador.setValorFinal(in.getValorFinal());
-			
+
 			indicador.setMeta01(in.getMeta01());
 			indicador.setMeta02(in.getMeta02());
 			indicador.setMeta03(in.getMeta03());
@@ -373,7 +474,6 @@ public class FuncoesMatematicas implements Serializable {
 			indicador.setMeta10(in.getMeta10());
 			indicador.setMeta11(in.getMeta11());
 			indicador.setMeta12(in.getMeta12());
-			
 
 			lr.add(indicador);
 		}

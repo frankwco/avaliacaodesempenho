@@ -54,22 +54,23 @@ public class TesteMB implements Serializable {
 	private MeterGaugeChartModel initMeterGaugeModel() {
 		List<Number> intervals = new ArrayList<Number>() {
 			{
-				add(20);
-				add(50);
-				add(120);
-				add(220);
+				add(59.9);
+				add(79.9);
+				add(89.9);
+				add(99.9);
+				add(102);
 			}
 		};
 
-		return new MeterGaugeChartModel(140, intervals);
+		return new MeterGaugeChartModel(101, intervals);
 	}
 
 	private void createMeterGaugeModels() {
 
 		meterGaugeModel2 = initMeterGaugeModel();
-		meterGaugeModel2.setTitle("Custom Options");
-		meterGaugeModel2.setSeriesColors("66cc66,93b75f,E7E658,cc6666");
-		meterGaugeModel2.setGaugeLabel("km/h");
+		meterGaugeModel2.setTitle("Situação do Indicador no Mês");
+		meterGaugeModel2.setSeriesColors("ff0000,ff8100,FFF400,7CFC00,00a000");
+		meterGaugeModel2.setGaugeLabel("");
 		meterGaugeModel2.setGaugeLabelPosition("bottom");
 		meterGaugeModel2.setShowTickLabels(false);
 		meterGaugeModel2.setLabelHeightAdjust(110);

@@ -8,9 +8,12 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.ItemSelectEvent;
@@ -40,7 +43,8 @@ import util.FuncoesMatematicas;
 import util.Mensagem;
 import dao.GenericDAO;
 
-@ViewScoped
+//@ViewScoped
+@SessionScoped
 @Named("avaliacaoMB")
 public class AvaliacaoMB implements Serializable {
 
@@ -104,6 +108,12 @@ public class AvaliacaoMB implements Serializable {
 	
 	public String chamarDetalhes(Indicador ind) {
 		if(ind!=null) {
+			FacesContext fc = FacesContext.getCurrentInstance();
+			HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
+			session.setAttribute("INDICADOR", ind);
+			session.setAttribute("REALIZADO", getRealizado(ind));
+			session.setAttribute("META", getMeta(ind));
+			
 			return "avaliacaoDetalhes.jsf?faces-redirect=true&ind="+ind.getId();
 		}
 		return "";
@@ -313,8 +323,8 @@ public class AvaliacaoMB implements Serializable {
 			dados.set(dataInicial + " à " + dataFinal, i.getValorFinal());
 			model.addSeries(dados);
 
-			meta.set(i.getDescricao(), getMeta(i));
-			alcancado.set(i.getDescricao(), i.getValorFinal());
+			meta.set(i.getDescricao()+" - (Ideal: "+i.getMetaMaiorMenorQue()+")", getMeta(i));
+			alcancado.set(i.getDescricao()+" - (Ideal: "+i.getMetaMaiorMenorQue()+")", i.getValorFinal());
 			
 			
 			//girls.setLabel("Meta " + mes + "-" + ano);
