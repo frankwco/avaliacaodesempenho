@@ -276,12 +276,15 @@ public class AvaliacaoMB implements Serializable {
 		// graficoBarraAvaliacaoGeral.setShowPointLabels(true);
 		// barModel.setLegendPosition("e");
 		// barModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
+		
+		//graficoBarraAvaliacaoGeral.getAxis(AxisType.X).setTickAngle(-50);
 
 		Axis xAxis = graficoBarraAvaliacaoGeral.getAxis(AxisType.X);
 		xAxis.setLabel(" ");
 
 		Axis yAxis = graficoBarraAvaliacaoGeral.getAxis(AxisType.Y);
 		yAxis.setLabel("Valores");
+		
 		// yAxis.setMin(0);
 		// yAxis.setMax(200);
 
