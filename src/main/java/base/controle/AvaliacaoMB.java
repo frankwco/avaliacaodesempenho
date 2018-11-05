@@ -100,7 +100,7 @@ public class AvaliacaoMB implements Serializable {
 		Date dataIniciar = new Date();
 		GregorianCalendar dataCal = new GregorianCalendar();
 		dataCal.setTime(dataIniciar);
-		mes = dataCal.get(Calendar.MONTH) - 1;
+		mes = dataCal.get(Calendar.MONTH) + 1;
 		ano = dataCal.get(Calendar.YEAR);
 		System.out.println("MEs inicial: " + mes + " - " + ano);
 		graficoCategoriaIndicadorDataProcessoInit();
