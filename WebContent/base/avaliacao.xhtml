@@ -176,8 +176,7 @@
 				<div class="col-md-12">
 					<h:form id="grafico1">
 
-						<p:chart type="bar"
-							model="#{avaliacaoMB.combinedModel}"
+						<p:chart type="bar" model="#{avaliacaoMB.combinedModel}"
 							style="height:300px;" />
 
 					</h:form>
@@ -186,33 +185,38 @@
 			</div>
 			<!-- 			INDICADORES DE ****** -->
 			<hr />
-			
-			
+
+
 			<div class="row">
 				<h:panelGrid columns="11">
-				<h2>Análise Comparativa dos Indicadores de #{avaliacaoMB.categoria}&nbsp;&nbsp;&nbsp;</h2>
+					<h2>Análise Comparativa dos Indicadores de
+						#{avaliacaoMB.categoria}&nbsp;&nbsp;&nbsp;</h2>
 					<h:outputText escape="false"
 						value="#{avaliacaoMB.elementosCores.get(1)}" />
 					<h:outputText value="&#160;&#160;100% da Meta&#160;&#160;&#160;" />
-					
+
 					<h:outputText escape="false"
 						value="#{avaliacaoMB.elementosCores.get(2)}" />
-					<h:outputText value="&#160;&#160;90 - 99,9% da Meta&#160;&#160;&#160;" />
-					
+					<h:outputText
+						value="&#160;&#160;90 - 99,9% da Meta&#160;&#160;&#160;" />
+
 					<h:outputText escape="false"
 						value="#{avaliacaoMB.elementosCores.get(3)}" />
-					<h:outputText value="&#160;&#160;80 - 89,9% da Meta&#160;&#160;&#160;" />
-					
+					<h:outputText
+						value="&#160;&#160;80 - 89,9% da Meta&#160;&#160;&#160;" />
+
 					<h:outputText escape="false"
 						value="#{avaliacaoMB.elementosCores.get(4)}" />
-					<h:outputText value="&#160;&#160;60 - 79,9% da Meta&#160;&#160;&#160;" />
-					
+					<h:outputText
+						value="&#160;&#160;60 - 79,9% da Meta&#160;&#160;&#160;" />
+
 					<h:outputText escape="false"
 						value="#{avaliacaoMB.elementosCores.get(5)}" />
-					<h:outputText value="&#160;&#160;&lsaquo;59,9% da Meta&#160;&#160;&#160;" />
+					<h:outputText
+						value="&#160;&#160;&lsaquo;59,9% da Meta&#160;&#160;&#160;" />
 				</h:panelGrid>
 			</div>
-			
+
 			<div class="row">
 				<h:form id="formTabelaIndicadores">
 					<p:dataTable var="ind" value="#{avaliacaoMB.listaIndicadores}">
@@ -246,7 +250,9 @@
 						</p:columnGroup>
 
 						<p:column>
-							<p:commandLink value="#{ind.descricao} - (Ideal: #{ind.metaMaiorMenorQue})"  action="#{avaliacaoMB.chamarDetalhes(ind)}"/>
+							<p:commandLink
+								value="#{ind.abreviacao}: #{ind.descricao} - (Ideal: #{ind.metaMaiorMenorQue})"
+								action="#{avaliacaoMB.chamarDetalhes(ind)}" />
 						</p:column>
 
 						<p:column>
@@ -303,30 +309,71 @@
 
 					</p:dataTable>
 				</h:form>
+				<h:form>
+					<p:commandButton value="Verificar Variáveis de Cálculo"
+						update="frmDialogVariaveisCalculo"
+						actionListener="#{avaliacaoMB.preencherListaVariaveisCalculo()}"
+						oncomplete="PF('dlgVariaveisCalculo').show()" />
+				</h:form>
 			</div>
-<!-- 			<div class="row"> -->
-<!-- 				<h:panelGrid columns="10"> -->
-<!-- 					<h:outputText escape="false" -->
-<!-- 						value="{avaliacaoMB.elementosCores.get(1)}" /> -->
-<!-- 					<h:outputText value="&#160;&#160;100% da Meta&#160;&#160;&#160;" /> -->
-					
-<!-- 					<h:outputText escape="false" -->
-<!-- 						value="{avaliacaoMB.elementosCores.get(2)}" /> -->
-<!-- 					<h:outputText value="&#160;&#160;90 - 99,9% da Meta&#160;&#160;&#160;" /> -->
-					
-<!-- 					<h:outputText escape="false" -->
-<!-- 						value="{avaliacaoMB.elementosCores.get(3)}" /> -->
-<!-- 					<h:outputText value="&#160;&#160;80 - 89,9% da Meta&#160;&#160;&#160;" /> -->
-					
-<!-- 					<h:outputText escape="false" -->
-<!-- 						value="{avaliacaoMB.elementosCores.get(4)}" /> -->
-<!-- 					<h:outputText value="&#160;&#160;60 - 79,9% da Meta&#160;&#160;&#160;" /> -->
-					
-<!-- 					<h:outputText escape="false" -->
-<!-- 						value="{avaliacaoMB.elementosCores.get(5)}" /> -->
-<!-- 					<h:outputText value="&#160;&#160;&lsaquo;59,9% da Meta&#160;&#160;&#160;" /> -->
-<!-- 				</h:panelGrid> -->
-<!-- 			</div> -->
+
+			<p:dialog header="Variáveis de Cálculo"
+				widgetVar="dlgVariaveisCalculo" modal="true" responsive="true"
+				width="60%" closable="true" closeOnEscape="true" resizable="false"
+				draggable="false">
+				<h:form id="frmDialogVariaveisCalculo">
+					<p:dataTable value="#{avaliacaoMB.variaveisCalculo}"
+						resizableColumns="true" reflow="true" var="list" rows="20"
+						paginator="true" paginatorPosition="bottom"
+						emptyMessage="Nada para exibir"
+						rowsPerPageTemplate="5,10,15,30,50,100">
+
+						<p:column headerText="Descrição">
+							<h:outputText value="#{list.descricao}" />
+						</p:column>
+						<p:column headerText="Mês #{avaliacaoMB.mes-2}/#{avaliacaoMB.ano}">
+							<h:outputText value="#{list.mesMenosDois}">
+<!-- 								<f:convertNumber pattern="¤ #,##0.00" currencySymbol="R$" /> -->
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Mês #{avaliacaoMB.mes-1}/#{avaliacaoMB.ano}">
+							<h:outputText value="#{list.mesMenosUm}">
+<!-- 								<f:convertNumber pattern="¤ #,##0.00" currencySymbol="R$" /> -->
+							</h:outputText>
+						</p:column>
+						<p:column
+							headerText="Mês #{avaliacaoMB.mes}/#{avaliacaoMB.ano} - Pesquisado">
+							<h:outputText value="#{list.mesAtual}">
+<!-- 								<f:convertNumber pattern="¤ #,##0.00" currencySymbol="R$" /> -->
+							</h:outputText>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</p:dialog>
+
+			<!-- 			<div class="row"> -->
+			<!-- 				<h:panelGrid columns="10"> -->
+			<!-- 					<h:outputText escape="false" -->
+			<!-- 						value="{avaliacaoMB.elementosCores.get(1)}" /> -->
+			<!-- 					<h:outputText value="&#160;&#160;100% da Meta&#160;&#160;&#160;" /> -->
+
+			<!-- 					<h:outputText escape="false" -->
+			<!-- 						value="{avaliacaoMB.elementosCores.get(2)}" /> -->
+			<!-- 					<h:outputText value="&#160;&#160;90 - 99,9% da Meta&#160;&#160;&#160;" /> -->
+
+			<!-- 					<h:outputText escape="false" -->
+			<!-- 						value="{avaliacaoMB.elementosCores.get(3)}" /> -->
+			<!-- 					<h:outputText value="&#160;&#160;80 - 89,9% da Meta&#160;&#160;&#160;" /> -->
+
+			<!-- 					<h:outputText escape="false" -->
+			<!-- 						value="{avaliacaoMB.elementosCores.get(4)}" /> -->
+			<!-- 					<h:outputText value="&#160;&#160;60 - 79,9% da Meta&#160;&#160;&#160;" /> -->
+
+			<!-- 					<h:outputText escape="false" -->
+			<!-- 						value="{avaliacaoMB.elementosCores.get(5)}" /> -->
+			<!-- 					<h:outputText value="&#160;&#160;&lsaquo;59,9% da Meta&#160;&#160;&#160;" /> -->
+			<!-- 				</h:panelGrid> -->
+			<!-- 			</div> -->
 
 
 			<!-- FIM TITULO -->

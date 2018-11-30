@@ -390,21 +390,21 @@ public class Indicador implements Serializable {
 	public String getAbreviacao() {
 		//System.out.println("Abre: "+abreviacao);
 		//System.out.println("Descricao: "+descricao);
-		if (abreviacao == null) {
+		//if (abreviacao == null) {
 			abreviacao="";
 			if (descricao != null) {
 				String[] palavra = descricao.split(" ");
 				for (String p : palavra) {
 					///System.out.println("Tamanho da palavra: "+p);
-					if (p.length() > 0) {
+					if (p.length() > 2 && !p.equalsIgnoreCase("por") && !p.equalsIgnoreCase("com") ) {
 						abreviacao += p.charAt(0);
 					}
 				}
 			} else {
 				abreviacao = ".";
 			}
-		}
-		return abreviacao;
+		//}
+		return abreviacao.toUpperCase();
 	}
 
 	public void setAbreviacao(String abreviacao) {

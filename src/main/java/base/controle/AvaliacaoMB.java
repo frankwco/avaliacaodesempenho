@@ -30,6 +30,7 @@ import base.modelo.Pessoa;
 import base.modelo.Processo;
 import base.modelo.Atividade;
 import base.modelo.CategoriaIndicador;
+import base.modelo.GrupoLancamento;
 import base.modelo.Indicador;
 import base.modelo.ItensLancamento;
 import base.modelo.Lancamento;
@@ -65,11 +66,15 @@ public class AvaliacaoMB implements Serializable {
 	Double a = new Double(Double.NaN);
 
 	private List<Indicador> listaIndicadores;
+	private List<GrupoLancamento> variaveisCalculo;
 
 	ElementosCoresAvaliacao elementosCores = new ElementosCoresAvaliacao();
 
 	@Inject
 	private GenericDAO<Lancamento> daoLancamento; // faz as buscas
+
+	@Inject
+	private GenericDAO<GrupoLancamento> daoGrupoLancamentos; // faz as buscas
 
 	@Inject
 	private GenericDAO<CategoriaIndicador> daoCategoriaIndicadores; // faz as
@@ -96,7 +101,7 @@ public class AvaliacaoMB implements Serializable {
 //	}
 
 	public void init(String categoria) {
-		//createCombinedModel();
+		// createCombinedModel();
 		Date dataIniciar = new Date();
 		GregorianCalendar dataCal = new GregorianCalendar();
 		dataCal.setTime(dataIniciar);
@@ -105,16 +110,61 @@ public class AvaliacaoMB implements Serializable {
 		System.out.println("MEs inicial: " + mes + " - " + ano);
 		graficoCategoriaIndicadorDataProcessoInit();
 	}
-	
+
+	public void preencherListaVariaveisCalculo() {
+		System.out.println("Variáveis de Cálcul2");
+		if (mes != null && mes > 0) {
+			System.out.println("Variáveis de Cálculo");
+			variaveisCalculo = new ArrayList<>();
+			List<GrupoLancamento> lg = daoGrupoLancamentos.listaComStatus(GrupoLancamento.class);
+			for (GrupoLancamento g : lg) {
+				Double atual=0.;
+				Double menos1=0.;
+				Double menos2=0.;
+				List<ItensLancamento> lilAtual = daoItensLancamento.listar(ItensLancamento.class,
+						"grupoLancamento.id=" + g.getId() + " and dataLancamento BETWEEN '" + ano + "-" + mes
+								+ "-01' and '" + ano + "-" + mes + "-31'");
+//				List<ItensLancamento> lilAtual = daoItensLancamento.listar(ItensLancamento.class,
+//				"grupoLancamento.id=" + g.getId() + " and dataLancamento BETWEEN 2018-10-01 and 2018-10-31");
+				System.out.println("TAmanho: "+lilAtual.size());
+				
+				for (ItensLancamento itens : lilAtual) {
+					atual+=itens.getValor();
+				}
+				
+				List<ItensLancamento> lil1 = daoItensLancamento.listar(ItensLancamento.class,
+						"grupoLancamento.id=" + g.getId() + " and dataLancamento BETWEEN '" + ano + "-" + (mes-1)
+								+ "-01' and '" + ano + "-" + (mes-1) + "-31'");			
+				for (ItensLancamento itens : lil1) {
+					menos1+=itens.getValor();
+				}
+				
+				List<ItensLancamento> lil2 = daoItensLancamento.listar(ItensLancamento.class,
+						"grupoLancamento.id=" + g.getId() + " and dataLancamento BETWEEN '" + ano + "-" + (mes-2)
+								+ "-01' and '" + ano + "-" + (mes-2) + "-31'");			
+				for (ItensLancamento itens : lil2) {
+					menos2+=itens.getValor();
+				}
+				
+				GrupoLancamento gru= new GrupoLancamento();
+				gru.setDescricao(g.getDescricao());
+				gru.setMesAtual(atual);
+				gru.setMesMenosUm(menos1);
+				gru.setMesMenosDois(menos2);
+				variaveisCalculo.add(gru);
+			}
+		}
+	}
+
 	public String chamarDetalhes(Indicador ind) {
-		if(ind!=null) {
+		if (ind != null) {
 			FacesContext fc = FacesContext.getCurrentInstance();
 			HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
 			session.setAttribute("INDICADOR", ind);
 			session.setAttribute("REALIZADO", getRealizado(ind));
 			session.setAttribute("META", getMeta(ind));
-			
-			return "avaliacaoDetalhes.jsf?faces-redirect=true&ind="+ind.getId();
+
+			return "avaliacaoDetalhes.jsf?faces-redirect=true&ind=" + ind.getId();
 		}
 		return "";
 	}
@@ -134,11 +184,11 @@ public class AvaliacaoMB implements Serializable {
 		boys.set("indicador 4", 123);
 		boys.set("indicador 5", 123);
 		boys.set("indicador 6", 123);
-		
+
 //		BarChartSeries boys2 = new BarChartSeries();
 //		boys2.setLabel("Boys meta");
 //		boys2.set("1", 120);
-		
+
 		BarChartSeries boys3 = new BarChartSeries();
 		boys3.setLabel("Meta");
 		boys3.set("indicador 1", 78);
@@ -147,10 +197,6 @@ public class AvaliacaoMB implements Serializable {
 		boys3.set("indicador 4", 162);
 		boys3.set("indicador 5", 162);
 		boys3.set("indicador 6", 162);
-		
-
-		
-		
 
 //
 //		LineChartSeries girls = new LineChartSeries();
@@ -165,15 +211,12 @@ public class AvaliacaoMB implements Serializable {
 //		girls2.set("3", 52);
 //		girls2.set("4", 60);
 
-
 		combinedModel.addSeries(boys);
 //		combinedModel.addSeries(girls);
 //		combinedModel.addSeries(boys2);
 //		combinedModel.addSeries(girls2);
 		combinedModel.addSeries(boys3);
 //		combinedModel.addSeries(boys4);
-		
-
 
 		combinedModel.setTitle("Bar and Line");
 		combinedModel.setLegendPosition("ne");
@@ -276,19 +319,19 @@ public class AvaliacaoMB implements Serializable {
 		// graficoBarraAvaliacaoGeral.setShowPointLabels(true);
 		// barModel.setLegendPosition("e");
 		// barModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
-		
-		//graficoBarraAvaliacaoGeral.getAxis(AxisType.X).setTickAngle(-50);
+
+		// graficoBarraAvaliacaoGeral.getAxis(AxisType.X).setTickAngle(-50);
 
 		Axis xAxis = graficoBarraAvaliacaoGeral.getAxis(AxisType.X);
 		xAxis.setLabel(" ");
 
 		Axis yAxis = graficoBarraAvaliacaoGeral.getAxis(AxisType.Y);
 		yAxis.setLabel("Valores");
-		
+
 		// yAxis.setMin(0);
 		// yAxis.setMax(200);
 
-		combinedModel.setTitle("Visão Geral dos Indicadores de "+categoria);
+		combinedModel.setTitle("Visão Geral dos Indicadores de " + categoria);
 		combinedModel.setAnimate(true);
 		combinedModel.setLegendPosition("ne");
 		combinedModel.setMouseoverHighlight(false);
@@ -312,32 +355,29 @@ public class AvaliacaoMB implements Serializable {
 		listaIndicadores = funcoesMatematicas.calcularIndicadoresPorCategoriaProcessosMesAno(mes, ano,
 				categoriaIndicador.getId(), processos);
 		System.out.println("QUantidade de Itens: " + listaIndicadores.size());
-		
+
 		BarChartSeries meta = new BarChartSeries();
 		meta.setLabel("Meta");
 		BarChartSeries alcancado = new BarChartSeries();
 		alcancado.setLabel("Realizado");
-		
+
 		LineChartSeries girls = new LineChartSeries();
-		for (int x=0;x< listaIndicadores.size();x++) {
+		for (int x = 0; x < listaIndicadores.size(); x++) {
 			Indicador i = listaIndicadores.get(x);
 			ChartSeries dados = new ChartSeries();
 			dados.setLabel(i.getDescricao());
 			dados.set(dataInicial + " à " + dataFinal, i.getValorFinal());
 			model.addSeries(dados);
 
-			meta.set(i.getDescricao()+" - (Ideal: "+i.getMetaMaiorMenorQue()+")", getMeta(i));
-			alcancado.set(i.getDescricao()+" - (Ideal: "+i.getMetaMaiorMenorQue()+")", i.getValorFinal());
-			
-			
-			//girls.setLabel("Meta " + mes + "-" + ano);
-			//girls.set(x, getMeta(i));
+			meta.set(i.getAbreviacao() + " - (Ideal: " + i.getMetaMaiorMenorQue() + ")", getMeta(i));
+			alcancado.set(i.getAbreviacao() + " - (Ideal: " + i.getMetaMaiorMenorQue() + ")", i.getValorFinal());
 
-			
+			// girls.setLabel("Meta " + mes + "-" + ano);
+			// girls.set(x, getMeta(i));
+
 		}
 		combinedModel.addSeries(meta);
 		combinedModel.addSeries(alcancado);
-		
 
 		return model;
 
@@ -657,7 +697,13 @@ public class AvaliacaoMB implements Serializable {
 	public void setCategoria(String categoria) {
 		this.categoria = categoria;
 	}
-	
-	
+
+	public List<GrupoLancamento> getVariaveisCalculo() {
+		return variaveisCalculo;
+	}
+
+	public void setVariaveisCalculo(List<GrupoLancamento> variaveisCalculo) {
+		this.variaveisCalculo = variaveisCalculo;
+	}
 
 }

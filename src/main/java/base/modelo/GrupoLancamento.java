@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "tipolancamento")
@@ -23,12 +24,41 @@ public class GrupoLancamento implements Serializable {
 	private Long id;
 
 	private String descricao;
-	
 
 	private Boolean status;
 
-	
 	private String observacao;
+
+	@Transient
+	private Double mesAtual;
+	@Transient
+	private Double mesMenosUm;
+	@Transient
+	private Double mesMenosDois;
+
+	public Double getMesAtual() {
+		return mesAtual;
+	}
+
+	public void setMesAtual(Double mesAtual) {
+		this.mesAtual = mesAtual;
+	}
+
+	public Double getMesMenosUm() {
+		return mesMenosUm;
+	}
+
+	public void setMesMenosUm(Double mesMenosUm) {
+		this.mesMenosUm = mesMenosUm;
+	}
+
+	public Double getMesMenosDois() {
+		return mesMenosDois;
+	}
+
+	public void setMesMenosDois(Double mesMenosDois) {
+		this.mesMenosDois = mesMenosDois;
+	}
 
 	public Long getId() {
 		return id;
@@ -89,9 +119,7 @@ public class GrupoLancamento implements Serializable {
 
 	@Override
 	public String toString() {
-		return ""+id;
+		return "" + id;
 	}
-	
-	
 
 }
