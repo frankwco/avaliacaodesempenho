@@ -9,9 +9,10 @@ public class CriptografiaSenha {
 		return hashedPassword;
 	}
 
-	public static boolean decptrografar(String senha, String rash) {
+	public static boolean decript(String senha, String hash) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		if (passwordEncoder.matches(senha, rash)) {
+		
+		if (passwordEncoder.matches(senha, hash)) {
 			System.out.println("true");
 			return true;
 		} else {

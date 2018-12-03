@@ -74,7 +74,7 @@ public class Indicador implements Serializable {
 	@Transient
 	private Double valor11;
 	@Transient
-	private Double valor12;
+	private Double valor12=0.;
 	@Transient
 	private Double valor12Anterior;
 	@Transient

@@ -72,6 +72,9 @@ public class AvaliacaoMB implements Serializable {
 
 	@Inject
 	private GenericDAO<Lancamento> daoLancamento; // faz as buscas
+	
+	@Inject
+	private GenericDAO<Processo> daoProcesso; // faz as buscas
 
 	@Inject
 	private GenericDAO<GrupoLancamento> daoGrupoLancamentos; // faz as buscas
@@ -91,6 +94,9 @@ public class AvaliacaoMB implements Serializable {
 	private String opacidadeProdutividade = "50";
 	private String opacidadeTempo = "50";
 
+	private Double custoTotalTelaInicio = 0.;
+	private Double porcentagemFaturamentoTelaInicial = 0.;
+
 	String categoria = "Custo";
 
 //	@PostConstruct
@@ -100,57 +106,104 @@ public class AvaliacaoMB implements Serializable {
 //		graficoCategoriaIndicadorDataProcessoComparativo("Custo");
 //	}
 
-	public void init(String categoria) {
+	public void buscarValoresTelaInicio(int mes) {
+		System.out.println("QUal mês "+mes);
+		custoTotalTelaInicio=0.;
+		porcentagemFaturamentoTelaInicial=0.;
+		preencherListaVariaveisCalculo();
+		for (GrupoLancamento g : variaveisCalculo) {
+			if (g.getDescricao().equalsIgnoreCase("custos final com terceiros e demais despesas")) {
+				if (mes == 0) {
+					custoTotalTelaInicio = g.getMesAtual();
+				} else if (mes == 1) {
+					custoTotalTelaInicio = g.getMesMenosUm();
+				} else if (mes == 2) {
+					custoTotalTelaInicio = g.getMesMenosDois();
+				}
+
+			}
+		}
+		
+//		String[] process = processos.split(";");
+		List<Processo> process = daoProcesso.listaComStatus(Processo.class);
+		Long[] listaProcessos = new Long[process.size()];
+
+		for (int x = 0; x < process.size(); x++) {
+			listaProcessos[x] = process.get(x).getId();
+		}
+
+		List<CategoriaIndicador> listIndic = daoCategoriaIndicadores.listar(CategoriaIndicador.class,
+				"descricao='Custo'");
+		CategoriaIndicador categoriaIndicador = listIndic.get(0);
+		List<Indicador> li = funcoesMatematicas.calcularIndicadoresPorCategoriaProcessosMesAno(this.mes-mes,
+				ano, categoriaIndicador.getId(), listaProcessos);
+
+		List<Indicador> liRetorno = new ArrayList<>();
+		Long ind = 9L; // ID do indicador
+		for (Indicador i : li) {
+			if (ind.equals(i.getId())) {
+				liRetorno.add(i);
+			}
+		}
+		porcentagemFaturamentoTelaInicial = liRetorno.get(0).getValorFinal();
+
+	
+		
+		init("Custo", mes);
+	}
+
+	public void init(String categoria, int menosMes) {
 		// createCombinedModel();
 		Date dataIniciar = new Date();
 		GregorianCalendar dataCal = new GregorianCalendar();
 		dataCal.setTime(dataIniciar);
-		mes = dataCal.get(Calendar.MONTH) + 1;
+		mes = ((dataCal.get(Calendar.MONTH) + 1)-menosMes);
 		ano = dataCal.get(Calendar.YEAR);
 		System.out.println("MEs inicial: " + mes + " - " + ano);
 		graficoCategoriaIndicadorDataProcessoInit();
 	}
 
 	public void preencherListaVariaveisCalculo() {
-		System.out.println("Variáveis de Cálcul2");
+//		System.out.println("Variáveis de Cálcul2");
 		if (mes != null && mes > 0) {
 			System.out.println("Variáveis de Cálculo");
 			variaveisCalculo = new ArrayList<>();
 			List<GrupoLancamento> lg = daoGrupoLancamentos.listaComStatus(GrupoLancamento.class);
 			for (GrupoLancamento g : lg) {
-				Double atual=0.;
-				Double menos1=0.;
-				Double menos2=0.;
+				Double atual = 0.;
+				Double menos1 = 0.;
+				Double menos2 = 0.;
 				List<ItensLancamento> lilAtual = daoItensLancamento.listar(ItensLancamento.class,
 						"grupoLancamento.id=" + g.getId() + " and dataLancamento BETWEEN '" + ano + "-" + mes
 								+ "-01' and '" + ano + "-" + mes + "-31'");
 //				List<ItensLancamento> lilAtual = daoItensLancamento.listar(ItensLancamento.class,
 //				"grupoLancamento.id=" + g.getId() + " and dataLancamento BETWEEN 2018-10-01 and 2018-10-31");
-				System.out.println("TAmanho: "+lilAtual.size());
-				
+//				System.out.println("TAmanho: "+lilAtual.size());
+
 				for (ItensLancamento itens : lilAtual) {
-					atual+=itens.getValor();
+					atual += itens.getValor();
 				}
-				
+
 				List<ItensLancamento> lil1 = daoItensLancamento.listar(ItensLancamento.class,
-						"grupoLancamento.id=" + g.getId() + " and dataLancamento BETWEEN '" + ano + "-" + (mes-1)
-								+ "-01' and '" + ano + "-" + (mes-1) + "-31'");			
+						"grupoLancamento.id=" + g.getId() + " and dataLancamento BETWEEN '" + ano + "-" + (mes - 1)
+								+ "-01' and '" + ano + "-" + (mes - 1) + "-31'");
 				for (ItensLancamento itens : lil1) {
-					menos1+=itens.getValor();
+					menos1 += itens.getValor();
 				}
-				
+
 				List<ItensLancamento> lil2 = daoItensLancamento.listar(ItensLancamento.class,
-						"grupoLancamento.id=" + g.getId() + " and dataLancamento BETWEEN '" + ano + "-" + (mes-2)
-								+ "-01' and '" + ano + "-" + (mes-2) + "-31'");			
+						"grupoLancamento.id=" + g.getId() + " and dataLancamento BETWEEN '" + ano + "-" + (mes - 2)
+								+ "-01' and '" + ano + "-" + (mes - 2) + "-31'");
 				for (ItensLancamento itens : lil2) {
-					menos2+=itens.getValor();
+					menos2 += itens.getValor();
 				}
-				
-				GrupoLancamento gru= new GrupoLancamento();
+
+				GrupoLancamento gru = new GrupoLancamento();
 				gru.setDescricao(g.getDescricao());
 				gru.setMesAtual(atual);
 				gru.setMesMenosUm(menos1);
 				gru.setMesMenosDois(menos2);
+
 				variaveisCalculo.add(gru);
 			}
 		}
@@ -331,7 +384,7 @@ public class AvaliacaoMB implements Serializable {
 		// yAxis.setMin(0);
 		// yAxis.setMax(200);
 
-		combinedModel.setTitle("Visão Geral dos Indicadores de " + categoria);
+		combinedModel.setTitle("Visão Geral dos Indicadores de " + categoria+" - "+mes+"/"+ano);
 		combinedModel.setAnimate(true);
 		combinedModel.setLegendPosition("ne");
 		combinedModel.setMouseoverHighlight(false);
@@ -354,7 +407,7 @@ public class AvaliacaoMB implements Serializable {
 
 		listaIndicadores = funcoesMatematicas.calcularIndicadoresPorCategoriaProcessosMesAno(mes, ano,
 				categoriaIndicador.getId(), processos);
-		System.out.println("QUantidade de Itens: " + listaIndicadores.size());
+//		System.out.println("QUantidade de Itens: " + listaIndicadores.size());
 
 		BarChartSeries meta = new BarChartSeries();
 		meta.setLabel("Meta");
@@ -705,5 +758,22 @@ public class AvaliacaoMB implements Serializable {
 	public void setVariaveisCalculo(List<GrupoLancamento> variaveisCalculo) {
 		this.variaveisCalculo = variaveisCalculo;
 	}
+
+	public Double getCustoTotalTelaInicio() {
+		return custoTotalTelaInicio;
+	}
+
+	public void setCustoTotalTelaInicio(Double custoTotalTelaInicio) {
+		this.custoTotalTelaInicio = custoTotalTelaInicio;
+	}
+
+	public Double getPorcentagemFaturamentoTelaInicial() {
+		return porcentagemFaturamentoTelaInicial;
+	}
+
+	public void setPorcentagemFaturamentoTelaInicial(Double porcentagemFaturamentoTelaInicial) {
+		this.porcentagemFaturamentoTelaInicial = porcentagemFaturamentoTelaInicial;
+	}
+	
 
 }

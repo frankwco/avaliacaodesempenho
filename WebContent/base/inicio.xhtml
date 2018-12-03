@@ -30,7 +30,7 @@
 		</ui:define>
 
 		<ui:define name="conteudo">
-		#{avaliacaoMB.init('Custo')}
+		#{avaliacaoMB.init('Custo',0)}
 		
 			<!-- TITULO -->
 			<!-- 	<div class="row"> -->
@@ -65,9 +65,9 @@
 			</h1>
 			<p:panelGrid rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
 			<ol class="breadcrumb">
-				<li><a href="#"><i class="fa fa-dashboard"></i>07/2018</a></li>
-				<li><a href="#"><i class="fa fa-dashboard"></i>08/2018</a></li>
-				<li class="active"><a href="#"><i class="fa fa-dashboard"></i>08/2018</a></li>
+				<li><p:commandLink update="custoTotal, porcentagemFaturamento, grafico2, mostrarAno, mostrarMes" actionListener="#{avaliacaoMB.buscarValoresTelaInicio(2)}" value="Mês #{avaliacaoMB.mes-2}/#{avaliacaoMB.ano}"/></li>
+				<li><p:commandLink update="custoTotal, porcentagemFaturamento, grafico2, mostrarAno, mostrarMes" actionListener="#{avaliacaoMB.buscarValoresTelaInicio(1)}" value="Mês #{avaliacaoMB.mes-1}/#{avaliacaoMB.ano}"/></li>
+				<li><p:commandLink update="custoTotal, porcentagemFaturamento, grafico2, mostrarAno, mostrarMes" actionListener="#{avaliacaoMB.buscarValoresTelaInicio(0)}" value="Mês #{avaliacaoMB.mes}/#{avaliacaoMB.ano}"/></li>
 			</ol>
 			</p:panelGrid>
 			</section>
@@ -77,16 +77,16 @@
 			<section class="content"> <!-- Info boxes -->
 			<div class="row">
 				<div class="col-md-4 col-sm-6 col-xs-12">
-				<p:panelGrid rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
+				<p:panelGrid id="panelDadosPrincipal" rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
 					<div class="info-box">
 						<span class="info-box-icon bg-aqua"><i class="fa fa-dollar"></i></span>
 
 						<div class="info-box-content">
 
-							<span class="description-percentage text-red"><i
-								class="fa fa-caret-up"></i> 17% </span>
-							<h5 class="description-header">150000,00</h5>
-							<span class="description-text">Custo total - 08/2018</span>
+<!-- 							<span class="description-percentage text-red"><i -->
+<!-- 								class="fa fa-caret-up"></i> 17% </span> -->
+							<h5 class="description-header"><h:outputText id="custoTotal" value="#{avaliacaoMB.custoTotalTelaInicio}" /></h5>
+							<span class="description-text">Custo total - <h:outputText id="mostrarMes" value="#{avaliacaoMB.mes}/#{avaliacaoMB.ano}" /> </span>
 
 							<!--               <span class="info-box-text">Custo total - 09/2018</span> -->
 							<!--               <span class="info-box-number">150000,00<small></small></span> -->
@@ -106,12 +106,12 @@
 
 						<div class="info-box-content">
 
-							<span class="description-percentage text-red"><i
-								class="fa fa-caret-up"></i> 3%</span>
+<!-- 							<span class="description-percentage text-red"><i -->
+<!-- 								class="fa fa-caret-up"></i> 3%</span> -->
 							<h5 class="description-header">
-								12,5 <small>%</small>
+								<h:outputText id="porcentagemFaturamento" value="#{avaliacaoMB.porcentagemFaturamentoTelaInicial}" /> <small>%</small>
 							</h5>
-							<span class="description-text">% do faturamento - 08/2018</span>
+							<span class="description-text">% do faturamento - <h:outputText id="mostrarAno" value="#{avaliacaoMB.mes}/#{avaliacaoMB.ano}" /></span>
 
 
 							<!-- 							<span class="info-box-text">Custo por entrega - 09/2018</span> <span -->
@@ -130,7 +130,7 @@
 				<div class="clearfix visible-sm-block"></div>
 
 				<div class="col-md-4 col-sm-6 col-xs-12">
-				<p:panelGrid rendered="#{usuarioSessaoMB.usuario.permissao=='responsavel'}">
+				<p:panelGrid rendered="#{usuarioSessaoMB.usuario.permissao=='não renderizar'}">
 					<div class="info-box">
 						<span class="info-box-icon bg-green"><i
 							class="fa fa-calendar-times-o"></i></span>

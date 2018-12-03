@@ -64,7 +64,9 @@ public class FuncoesMatematicas implements Serializable {
 	// private List<Indicador> listaIndicadores;
 
 	Double a = new Double(Double.NaN);
-
+	Double positiveInf = new Double(Double.POSITIVE_INFINITY);
+	Double negativeInf = new Double(Double.NEGATIVE_INFINITY);
+	
 	@Inject
 	private GenericDAO<Lancamento> daoLancamento; // faz as buscas
 
@@ -221,7 +223,7 @@ public class FuncoesMatematicas implements Serializable {
 					if (engine.eval(expressao1) != null) {
 						indicador.setValor1(Double.parseDouble(engine.eval(expressao1).toString()));
 
-						if (indicador.getValor1().equals(a)) {
+						if (indicador.getValor1().equals(a)|| indicador.getValor1().equals(positiveInf) || indicador.getValor1().equals(negativeInf)) {
 							indicador.setValor1(0.0);
 						} else {
 							indicador.setValor1(Double.parseDouble(df.format(indicador.getValor1()).replace(",", ".")));
@@ -238,7 +240,7 @@ public class FuncoesMatematicas implements Serializable {
 					if (engine.eval(expressao2) != null) {
 						indicador.setValor2(Double.parseDouble(engine.eval(expressao2).toString()));
 
-						if (indicador.getValor2().equals(a)) {
+						if (indicador.getValor2().equals(a)|| indicador.getValor2().equals(positiveInf) || indicador.getValor2().equals(negativeInf)) {
 							indicador.setValor2(0.0);
 						} else {
 							indicador.setValor2(Double.parseDouble(df.format(indicador.getValor2()).replace(",", ".")));
@@ -255,7 +257,7 @@ public class FuncoesMatematicas implements Serializable {
 					if (engine.eval(expressao3) != null) {
 						indicador.setValor3(Double.parseDouble(engine.eval(expressao3).toString()));
 
-						if (indicador.getValor3().equals(a)) {
+						if (indicador.getValor3().equals(a)|| indicador.getValor3().equals(positiveInf) || indicador.getValor3().equals(negativeInf)) {
 							indicador.setValor3(0.0);
 						} else {
 							indicador.setValor3(Double.parseDouble(df.format(indicador.getValor3()).replace(",", ".")));
@@ -272,7 +274,7 @@ public class FuncoesMatematicas implements Serializable {
 					if (engine.eval(expressao4) != null) {
 						indicador.setValor4(Double.parseDouble(engine.eval(expressao4).toString()));
 
-						if (indicador.getValor4().equals(a)) {
+						if (indicador.getValor4().equals(a)|| indicador.getValor4().equals(positiveInf) || indicador.getValor4().equals(negativeInf)) {
 							indicador.setValor4(0.0);
 						} else {
 							indicador.setValor4(Double.parseDouble(df.format(indicador.getValor4()).replace(",", ".")));
@@ -289,7 +291,7 @@ public class FuncoesMatematicas implements Serializable {
 					if (engine.eval(expressao5) != null) {
 						indicador.setValor5(Double.parseDouble(engine.eval(expressao5).toString()));
 
-						if (indicador.getValor5().equals(a)) {
+						if (indicador.getValor5().equals(a)|| indicador.getValor5().equals(positiveInf) || indicador.getValor5().equals(negativeInf)) {
 							indicador.setValor5(0.0);
 						} else {
 							indicador.setValor5(Double.parseDouble(df.format(indicador.getValor5()).replace(",", ".")));
@@ -306,7 +308,7 @@ public class FuncoesMatematicas implements Serializable {
 					if (engine.eval(expressao6) != null) {
 						indicador.setValor6(Double.parseDouble(engine.eval(expressao6).toString()));
 
-						if (indicador.getValor6().equals(a)) {
+						if (indicador.getValor6().equals(a)|| indicador.getValor6().equals(positiveInf) || indicador.getValor6().equals(negativeInf)) {
 							indicador.setValor6(0.0);
 						} else {
 							indicador.setValor6(Double.parseDouble(df.format(indicador.getValor6()).replace(",", ".")));
@@ -323,7 +325,7 @@ public class FuncoesMatematicas implements Serializable {
 					if (engine.eval(expressao7) != null) {
 						indicador.setValor7(Double.parseDouble(engine.eval(expressao7).toString()));
 
-						if (indicador.getValor7().equals(a)) {
+						if (indicador.getValor7().equals(a)|| indicador.getValor7().equals(positiveInf) || indicador.getValor7().equals(negativeInf)) {
 							indicador.setValor7(0.0);
 						} else {
 							indicador.setValor7(Double.parseDouble(df.format(indicador.getValor7()).replace(",", ".")));
@@ -340,7 +342,7 @@ public class FuncoesMatematicas implements Serializable {
 					if (engine.eval(expressao8) != null) {
 						indicador.setValor8(Double.parseDouble(engine.eval(expressao8).toString()));
 
-						if (indicador.getValor8().equals(a)) {
+						if (indicador.getValor8().equals(a)|| indicador.getValor8().equals(positiveInf) || indicador.getValor8().equals(negativeInf)) {
 							indicador.setValor8(0.0);
 						} else {
 							indicador.setValor8(Double.parseDouble(df.format(indicador.getValor8()).replace(",", ".")));
@@ -357,7 +359,7 @@ public class FuncoesMatematicas implements Serializable {
 					if (engine.eval(expressao9) != null) {
 						indicador.setValor9(Double.parseDouble(engine.eval(expressao9).toString()));
 
-						if (indicador.getValor9().equals(a)) {
+						if (indicador.getValor9().equals(a)|| indicador.getValor9().equals(positiveInf) || indicador.getValor9().equals(negativeInf)) {
 							indicador.setValor9(0.0);
 						} else {
 							indicador.setValor9(Double.parseDouble(df.format(indicador.getValor9()).replace(",", ".")));
@@ -374,7 +376,7 @@ public class FuncoesMatematicas implements Serializable {
 					if (engine.eval(expressao10) != null) {
 						indicador.setValor10(Double.parseDouble(engine.eval(expressao10).toString()));
 
-						if (indicador.getValor10().equals(a)) {
+						if (indicador.getValor10().equals(a)|| indicador.getValor10().equals(positiveInf) || indicador.getValor10().equals(negativeInf)) {
 							indicador.setValor10(0.0);
 						} else {
 							indicador.setValor10(Double.parseDouble(df.format(indicador.getValor10()).replace(",", ".")));
@@ -391,7 +393,7 @@ public class FuncoesMatematicas implements Serializable {
 					if (engine.eval(expressao11) != null) {
 						indicador.setValor11(Double.parseDouble(engine.eval(expressao11).toString()));
 
-						if (indicador.getValor11().equals(a)) {
+						if (indicador.getValor11().equals(a)|| indicador.getValor11().equals(positiveInf) || indicador.getValor11().equals(negativeInf)) {
 							indicador.setValor11(0.0);
 						} else {
 							indicador.setValor11(Double.parseDouble(df.format(indicador.getValor11()).replace(",", ".")));
@@ -408,12 +410,13 @@ public class FuncoesMatematicas implements Serializable {
 					if (engine.eval(expressao12) != null) {
 						indicador.setValor12(Double.parseDouble(engine.eval(expressao12).toString()));
 
-						if (indicador.getValor12().equals(a)) {
+						if (indicador.getValor12().equals(a) || indicador.getValor12().equals(positiveInf) || indicador.getValor12().equals(negativeInf)) {
 							indicador.setValor12(0.0);
 						} else {
 							indicador.setValor12(Double.parseDouble(df.format(indicador.getValor12()).replace(",", ".")));
 						}
 					}
+					System.out.println("QUal é do valor 12? "+indicador.getValor12());
 				} catch (Exception e) {
 					System.out.println("erro na equação");
 
@@ -427,7 +430,7 @@ public class FuncoesMatematicas implements Serializable {
 					if (engine.eval(expressao11Anterior) != null) {
 						indicador.setValor11Anterior(Double.parseDouble(engine.eval(expressao11Anterior).toString()));
 
-						if (indicador.getValor11Anterior().equals(a)) {
+						if (indicador.getValor11Anterior().equals(a)|| indicador.getValor11Anterior().equals(positiveInf) || indicador.getValor11Anterior().equals(negativeInf)) {
 							indicador.setValor11Anterior(0.0);
 						} else {
 							indicador.setValor11Anterior(Double.parseDouble(df.format(indicador.getValor11Anterior()).replace(",", ".")));
@@ -445,7 +448,7 @@ public class FuncoesMatematicas implements Serializable {
 					if (engine.eval(expressao12Anterior) != null) {
 						indicador.setValor12Anterior(Double.parseDouble(engine.eval(expressao12Anterior).toString()));
 
-						if (indicador.getValor12Anterior().equals(a)) {
+						if (indicador.getValor12Anterior().equals(a)|| indicador.getValor12Anterior().equals(positiveInf) || indicador.getValor12Anterior().equals(negativeInf)) {
 							indicador.setValor12Anterior(0.0);
 						} else {
 							indicador.setValor12Anterior(Double.parseDouble(df.format(indicador.getValor12Anterior()).replace(",", ".")));

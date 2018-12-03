@@ -113,5 +113,10 @@ public class Atividade implements Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Atividade [id=" + id + ", descricao=" + descricao + "]";
+	}
+
 
 }

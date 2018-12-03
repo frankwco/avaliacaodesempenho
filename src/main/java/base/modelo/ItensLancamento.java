@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "itenslancamento")
@@ -29,7 +30,7 @@ public class ItensLancamento implements Serializable {
 
 	private String descricao;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataLancamento = new Date();
 	private Double valor = 0.;
 
@@ -40,6 +41,9 @@ public class ItensLancamento implements Serializable {
 	private Boolean status;
 
 	private String observacao;
+	
+	@Transient
+	private Atividade atividade;
 
 	@ManyToOne
 	@JoinColumn(name = "idIndicador")
@@ -48,6 +52,16 @@ public class ItensLancamento implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idGrupoLancamento")
 	private GrupoLancamento grupoLancamento;
+	
+	
+
+	public Atividade getAtividade() {
+		return atividade;
+	}
+
+	public void setAtividade(Atividade atividade) {
+		this.atividade = atividade;
+	}
 
 	public GrupoLancamento getGrupoLancamento() {
 		return grupoLancamento;

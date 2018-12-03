@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "ocorrencia")
@@ -47,8 +48,8 @@ public class Ocorrencia implements Serializable {
 	
 	@ManyToOne
 	private Atividade atividade;
-	
-		
+
+
 	public Date getDataOcorrencia() {
 		return dataOcorrencia;
 	}
